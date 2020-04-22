@@ -22,7 +22,6 @@ const singleRule: React.FunctionComponent<SingleRuleProps> = ({rule, price}) => 
 )
 
 const Segment: React.FunctionComponent<Props> = ({segment}) => {
-    console.log(segment)
     return (
     <div className="flex gap text-sm border border-gray-400 rounded m-1 px-1 odd:bg-gray-100">
         <div className="w-2/12 h-full">
