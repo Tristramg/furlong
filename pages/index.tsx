@@ -22,7 +22,7 @@ const Home = ({ userAgent }) => <div>
     <div>Total</div>
   </div>
   <div>
-    {vj.segments.map(segment => <Segment segment={segment}></Segment>)}
+    {vj.segments.map((segment, index) => <Segment key={index} segment={segment}></Segment>)}
   </div>
   <div className="flex gap font-bold border border-gray-400 rounded m-1 px-1">
     <div className="w-2/12">Totaux</div>
