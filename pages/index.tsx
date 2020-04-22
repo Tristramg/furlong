@@ -1,13 +1,12 @@
 import Segment from '../components/segment';
 import nord_east from '../lines/nord_east';
-import rules from '../data/belgium'
 import * as Trains from '../data/trains'
 import {vehicleJourney, fmt} from '../lib/helpers';
 
 const vj = vehicleJourney(nord_east.segments, Trains.talgo230)
 
-const Home = ({ userAgent }) => <div>
-  <h1 className="text-m">{nord_east.label}</h1>
+const Home = ({ userAgent }) => <div className="p-12">
+  <h1 className="text-lg">{nord_east.label}</h1>
   <div className="flex gap font-bold border border-gray-400 rounded m-1 px-1">
     <div className="w-2/12">Segment</div>
     <div className="w-1/12 text-right">Distance</div>
