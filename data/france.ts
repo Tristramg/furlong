@@ -88,14 +88,15 @@ function market(train: Train, country: Country) {
 }
 
 function rules(segment: Segment, train: Train): Rule[] {
-    return [
-        {
-            per_ton_and_km: 0,
-            per_km: 0,
-            per_kWh: 0.017,
-            label: "Utilisation caténaire"
-        }
-    ]
+    if(!train.highSpeed) {
+        let rules = classicTrain;
+        rules.push(market(train, Country.BE))
+        return rules;
+    } else {
+        let rules = highSpeedTrain;
+        rules.push(market(train, Country.BE))
+        return rules;
+    }
 }
 
 export default rules;
