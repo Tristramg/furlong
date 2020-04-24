@@ -1,4 +1,5 @@
-import { Country } from "../data/countries";
+import { Country, rules } from "../data/countries";
+import _ from 'lodash'
 
 interface Rule {
     per_ton_and_km: number;
@@ -7,18 +8,6 @@ interface Rule {
     label: string;
 };
 
-interface Segment {
-    distance: number;
-    from: string;
-    to: string;
-    label: string;
-    country: Country;
-};
-
-interface SegmentTrainParams {
-    weight: number;
-    energy: number;
-}
 
 interface Train {
     label: string;
@@ -28,26 +17,61 @@ interface Train {
     cars: number;
 }
 
-interface Line {
-    label: string;
-    highSpeed: boolean;
-    gaugeChange: boolean;
-    segments: Segment[];
-}
-
-interface TrainSegment extends Segment {
-    segment: Segment;
-    price: number;
-    rules: Rule[];
-    weight: number;
-    energy: number;
-}
-
 interface VehicleJourney {
-    segments: TrainSegment[];
+    label: string,
+    edges: TrainEdge[];
     price: number;
     distance: number;
     energy: number;
 }
 
-export type {Rule, Segment, SegmentTrainParams, Train, Line, TrainSegment, VehicleJourney}
+class Node {
+    label: string;
+    country: Country;
+
+    constructor(label: string, country: Country) {
+        this.label = label;
+        this.country = country;
+    }
+}
+
+class TrainNode {
+    node: Node;
+    // Time is represented in minutes since midday
+    time: number;
+    price: number;
+    commercialStop: boolean;
+}
+
+class Edge {
+    start: Node;
+    end: Node;
+    label: string;
+    distance: number;
+    country: Country;
+}
+
+class TrainEdge {
+    edge: Edge;
+    weight: number;
+    energy: number;
+    price: number;
+    rules: Rule[];
+
+    constructor(edge: Edge, train: Train) {
+        this.edge = edge;
+        this.weight = train.weight;
+        this.energy = edge.distance * 10;
+        this.rules = rules(edge, train);
+        this.price = _(this.rules).map(r => this.singlePrice(r)).sum()
+    }
+
+    singlePrice(rule: Rule): number {
+        return this.weight * this.edge.distance * rule.per_ton_and_km +
+               this.edge.distance * rule.per_km +
+               this.energy * rule.per_kWh
+    }
+}
+
+export type {Rule, Train, VehicleJourney, Edge}
+export { TrainEdge, Node }

@@ -1,4 +1,4 @@
-import {Segment, Rule, Train} from '../lib/types';
+import {Edge, Rule, Train} from '../lib/types';
 const cout_direct_unitaire = 1.7045567852248
 
 enum LineDensity {
@@ -80,8 +80,8 @@ const Lines = {
     '3': LineDensity.VERY_LOW,
 }
 
-function rules(segment: Segment, train: Train): Rule[] {
-    const density = train.highSpeed ? LineDensity.HIGH_SPEED_TRAIN : Lines[segment.label];
+function rules(edge: Edge, train: Train): Rule[] {
+    const density = train.highSpeed ? LineDensity.HIGH_SPEED_TRAIN : Lines[edge.label];
     const period = Period.OFF_PEAK;
     const coeff =  coeffs[period][density];
 

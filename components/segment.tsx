@@ -1,13 +1,13 @@
 import * as React from 'react'
-import * as Types from '../lib/types';
-import {grey, fmt, singlePrice, segmentPrice} from '../lib/helpers';
+import { TrainEdge, Rule } from '../lib/types';
+import {grey, fmt} from '../lib/helpers';
 
 type Props = {
-    segment: Types.TrainSegment,
+    edge: TrainEdge,
 }
 
 type SingleRuleProps = {
-    rule: Types.Rule,
+    rule: Rule,
     price: number,
 }
 
@@ -21,18 +21,18 @@ const singleRule: React.FunctionComponent<SingleRuleProps> = ({rule, price}) => 
     </div>
 )
 
-const Segment: React.FunctionComponent<Props> = ({segment}) => {
+const Segment: React.FunctionComponent<Props> = ({edge}) => {
     return (
     <div className="flex gap text-sm border border-gray-400 rounded m-1 px-1 odd:bg-gray-100">
         <div className="w-2/12 h-full">
-            <div className="text-base">{segment.from}</div>
-            <div className="text-xs text-right">{segment.label}</div>
-            <div className="text-base">{segment.to}</div>
+            <div className="text-base">{edge.edge.start.label}</div>
+            <div className="text-xs text-right">{edge.edge.label}</div>
+            <div className="text-base">{edge.edge.end.label}</div>
         </div>
-        <div className="w-1/12 h-full text-right align-middle m-auto">{segment.distance} km</div>
-        <div className="w-1/12 h-full text-right align-middle m-auto">{segment.energy} kWh</div>
-        <div className="w-8/12 mx-6">{segment.rules.map(rule => singleRule({rule, price: singlePrice(rule, segment) }))}</div>
-        <div className="align-middle m-auto">{fmt(segmentPrice(segment))} €</div>
+        <div className="w-1/12 h-full text-right align-middle m-auto">{edge.edge.distance} km</div>
+        <div className="w-1/12 h-full text-right align-middle m-auto">{edge.energy} kWh</div>
+        <div className="w-8/12 mx-6">{edge.rules.map(rule => singleRule({rule, price: edge.singlePrice(rule) }))}</div>
+        <div className="align-middle m-auto">{fmt(edge.price)} €</div>
     </div>
 )}
 

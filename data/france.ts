@@ -1,4 +1,4 @@
-import { Rule, Segment, Train } from '../lib/types'
+import { Rule, Edge, Train } from '../lib/types'
 import { Country } from './countries';
 
 const classicTrain = [
@@ -61,13 +61,13 @@ const parisLyonExtra = {
     per_kWh: 0,
     label: 'Supplément Paris–Lyon (déploiement signalisation ERTMS)'
 }
-
+/*
 const highSpeedMarket = {
-    "[Country.BE]": [20.83, 23.23],
-    "[Country.DE]": [14.98, 16.69],
-    "[Country.ES]": [14.68, 16.36],
-    "[Country.IT]": [19.16, 21.35]
-}
+    [Country.BE]: [20.83, 23.23],
+    [Country.DE]: [14.98, 16.69],
+    [Country.ES]: [14.68, 16.36],
+    [Country.IT]: [19.16, 21.35]
+}*/
 
 function market(train: Train, country: Country) {
     if (!train.highSpeed) {
@@ -80,23 +80,17 @@ function market(train: Train, country: Country) {
     } else if(country == Country.BE) {
         return {
             per_ton_and_km: 0,
-            per_km: 0,
+            per_km: 20.83,
             per_kWh: 0,
-            label: 'Redevance marché train de nuit'
+            label: 'Redevance marché grande vitesse vers Belgique'
         }
     }
 }
 
-function rules(segment: Segment, train: Train): Rule[] {
-    if(!train.highSpeed) {
-        let rules = classicTrain;
-        rules.push(market(train, Country.BE))
-        return rules;
-    } else {
-        let rules = highSpeedTrain;
-        rules.push(market(train, Country.BE))
-        return rules;
-    }
+function rules(edge: Edge, train: Train): Rule[] {
+    let rules = train.highSpeed? highSpeedTrain : classicTrain;
+    rules.push(market(train, edge.country))
+    return rules
 }
 
 export default rules;

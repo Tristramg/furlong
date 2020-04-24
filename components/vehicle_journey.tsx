@@ -17,7 +17,7 @@ const VehicleJourney = ({ vj }) => <div className="p-12">
   <div>Total</div>
 </div>
 <div>
-  {vj.segments.map((segment, index) => <Segment key={index} segment={segment}></Segment>)}
+  {vj.edges.map((edge, index) => <Segment key={index} edge={edge}></Segment>)}
 </div>
 <div className="flex gap font-bold border border-gray-400 rounded m-1 px-1">
   <div className="w-2/12">Totaux</div>

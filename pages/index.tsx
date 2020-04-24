@@ -3,13 +3,7 @@ import * as Trains from '../data/trains'
 import {vehicleJourney, fmt} from '../lib/helpers';
 import VehicleJourney from '../components/vehicle_journey';
 
-const vj = vehicleJourney(nord_east.segments, Trains.talgo230)
-
-const Home = ({ userAgent }) => <VehicleJourney vj={vj}></VehicleJourney>;
-
-Home.getInitialProps = async ({ req }) => {
-  const userAgent = req ? req.headers['user-agent'] : navigator.userAgent;
-  return { userAgent };
-};
+const vj = vehicleJourney(nord_east.label, nord_east.segments, Trains.talgo230)
+const Home = () => <VehicleJourney vj={vj}></VehicleJourney>;
 
 export default Home;
