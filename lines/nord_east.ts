@@ -6,6 +6,7 @@ import _ from 'lodash'
 const nodes = new Map<string, Node>();
 ['Paris Garde du Nord', 'Frontière FR-BE'].forEach(label => nodes.set(label, new Node(label, Country.FR)));
 ['Hal', 'Bruxelles Midi', 'Bruxelles Nord', 'Leuven', 'Liège', 'Frontière BE-DE'].forEach(label => nodes.set(label, new Node(label, Country.BE)));
+['Hamburg', 'Berlin'].forEach(label => nodes.set(label, new Node(label, Country.DE)))
 
 const edges: Edge[] = [
   {
@@ -56,6 +57,20 @@ const edges: Edge[] = [
     end: nodes.get('Frontière BE-DE'),
     label: "3",
     country: Country.BE,
+  },
+  {
+    distance: 477,
+    start: nodes.get('Frontière BE-DE'),
+    end: nodes.get('Hamburg'),
+    label: '',
+    country: Country.DE,
+  },
+  {
+    distance: 286,
+    start: nodes.get('Hamburg'),
+    end: nodes.get('Berlin'),
+    label: '',
+    country: Country.DE,
   },
 ]
 

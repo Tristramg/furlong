@@ -1,5 +1,6 @@
 import belgium from './belgium'
 import france from './france'
+import germany from './germany'
 import { Rule, Edge, Train } from '../lib/types'
 
 enum Country {
@@ -14,6 +15,7 @@ enum Country {
 const countryRule = {
     [Country.BE]: belgium,
     [Country.FR]: france,
+    [Country.DE]: germany,
 }
 
 function rules(edge: Edge, train: Train): Rule[] {
