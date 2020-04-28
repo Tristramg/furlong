@@ -49,6 +49,8 @@ class Edge {
     label: string;
     distance: number;
     country: Country;
+    departure_time: number;
+    arrival_time: number;
 }
 
 class TrainEdge {

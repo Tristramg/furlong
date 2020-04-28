@@ -1,6 +1,7 @@
 
 import { Country } from '../data/countries'
 import { Node, Edge } from '../lib/types'
+import { h } from '../lib/helpers'
 import _ from 'lodash'
 
 const nodes = new Map<string, Node>();
@@ -15,6 +16,8 @@ const edges: Edge[] = [
     label: '',
     distance: 231,
     country: Country.FR,
+    departure_time:  h(20, 0),
+    arrival_time: h(22, 30),
   },
   {
     distance: 66,
@@ -22,6 +25,8 @@ const edges: Edge[] = [
     end: nodes.get('Hal'),
     label: "96",
     country: Country.BE,
+    departure_time:  h(22, 30),
+    arrival_time: h(23, 0),
   },
   {
     distance: 13,
@@ -29,6 +34,8 @@ const edges: Edge[] = [
     end: nodes.get('Bruxelles Midi'),
     label: "96",
     country: Country.BE,
+    departure_time:  h(23, 0),
+    arrival_time: h(23, 30),
   },
   {
     distance: 4,
@@ -36,6 +43,8 @@ const edges: Edge[] = [
     end: nodes.get('Bruxelles Nord'),
     label: "Jonction Nord-Midi",
     country: Country.BE,
+    departure_time:  h(23, 30),
+    arrival_time: h(23, 40),
   },
   {
     distance: 30,
@@ -43,6 +52,8 @@ const edges: Edge[] = [
     end: nodes.get('Leuven'),
     label: "36",
     country: Country.BE,
+    departure_time:  h(23, 40),
+    arrival_time: h(1, 0),
   },
   {
     distance: 70,
@@ -50,6 +61,8 @@ const edges: Edge[] = [
     end: nodes.get('Liège'),
     label: "36",
     country: Country.BE,
+    departure_time:  h(1, 0),
+    arrival_time: h(1, 30),
   },
   {
     distance: 42,
@@ -57,6 +70,8 @@ const edges: Edge[] = [
     end: nodes.get('Frontière BE-DE'),
     label: "3",
     country: Country.BE,
+    departure_time:  h(1, 30),
+    arrival_time: h(2, 0),
   },
   {
     distance: 477,
@@ -64,6 +79,8 @@ const edges: Edge[] = [
     end: nodes.get('Hamburg'),
     label: '',
     country: Country.DE,
+    departure_time:  h(2, 0),
+    arrival_time: h(6, 0),
   },
   {
     distance: 286,
@@ -71,6 +88,8 @@ const edges: Edge[] = [
     end: nodes.get('Berlin'),
     label: '',
     country: Country.DE,
+    departure_time:  h(6, 0),
+    arrival_time: h(8, 0),
   },
 ]
 

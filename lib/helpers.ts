@@ -7,7 +7,7 @@ function vehicleJourney(label: string, rawSegments: Edge[], train: Train): Vehic
         edges,
         label,
         price: _(edges).map('price').sum(),
-        distance: _(edges).map('distance').sum(),
+        distance: _(edges).map('edge.distance').sum(),
         energy: _(edges).map('energy').sum(),
     }
 }
@@ -16,7 +16,7 @@ const fmt = (val: number): string => {
     if(val == 0.0) {
         return "—"
     } else {
-        return val.toPrecision(3);
+        return String(Number(val.toPrecision(3)));
     }
 }
 
@@ -28,4 +28,18 @@ const grey = (val: number): string => {
     }
 }
 
-export {fmt, grey, vehicleJourney}
+const h = (hours: number, minutes: number): number => {
+    if(hours < 12) {
+        return (24 + hours) * 60 + minutes;
+    } else {
+        return hours * 60 + minutes;
+    }
+}
+
+const fh = (time: number): string => {
+    const h = String(Math.floor(time / 60) % 24).padStart(2, '0');
+    const m = String(time % 60).padStart(2, '0');
+    return `${h}:${m}`
+}
+
+export {fmt, grey, vehicleJourney, h, fh}
