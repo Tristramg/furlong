@@ -1,4 +1,5 @@
 import {Edge, Rule, Train} from '../lib/types';
+import { h } from '../lib/helpers'
 const cout_direct_unitaire = 1.7045567852248
 
 enum LineDensity {
@@ -78,6 +79,29 @@ const Lines = {
     '36-Bruxelles-Leuven': LineDensity.VERY_HIGH,
     '36': LineDensity.HIGH,
     '3': LineDensity.VERY_LOW,
+}
+
+function in_period(time: number, start: number, end: number) {
+    return time % (24 * 60) > start % (24 * 60) &&
+           time % (24 * 60) < end % (24 * 60)
+
+}
+
+function included(edge: Edge, start: number, end: number) {
+    return in_period(edge.arrival_time, start, end) || in_period(edge.departure_time, start, end)
+
+}
+
+// TODO: this does not handle the day of the week
+// Nor the ultra_peak (using the North-Midi junction during peak hours)
+function period(edge: Edge): Period {
+    if (included(edge, h(6, 0), h(8, 59))) {
+        return Period.PEAK;
+    } else if (included(edge, h(9,0), h(18, 59))) {
+        return Period.NORMAL;
+    } else {
+        return Period.OFF_PEAK;
+    }
 }
 
 function rules(edge: Edge, train: Train): Rule[] {
