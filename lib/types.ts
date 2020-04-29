@@ -75,5 +75,9 @@ class TrainEdge {
     }
 }
 
-export type {Rule, Train, VehicleJourney, Edge}
+interface Route {
+    label: string,
+    segments: Edge[],
+}
+export type {Rule, Train, VehicleJourney, Edge, Route}
 export { TrainEdge, Node }

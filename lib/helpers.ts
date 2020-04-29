@@ -1,11 +1,11 @@
 import _ from 'lodash'
-import { Edge, TrainEdge, Train, VehicleJourney} from './types';
+import { Route, TrainEdge, Train, VehicleJourney} from './types';
 
-function vehicleJourney(label: string, rawSegments: Edge[], train: Train): VehicleJourney {
-    const edges = rawSegments.map(s => new TrainEdge(s, train))
+function vehicleJourney(route: Route, infra, train: Train): VehicleJourney {
+    const edges = route.segments.map(s => new TrainEdge(s, train))
     return {
         edges,
-        label,
+        label: route.label,
         price: _(edges).map('price').sum(),
         distance: _(edges).map('edge.distance').sum(),
         energy: _(edges).map('energy').sum(),
@@ -42,4 +42,13 @@ const fh = (time: number): string => {
     return `${h}:${m}`
 }
 
-export {fmt, grey, vehicleJourney, h, fh}
+
+function edge_id(from: string, to: string): string {
+    if(from < to) {
+        return `${from}-${to}`
+    } else {
+        return `${to}-${from}`
+    }
+}
+
+export {fmt, grey, vehicleJourney, h, fh, edge_id}

@@ -1,6 +1,6 @@
 
 import { Country } from '../data/countries'
-import { Node, Edge } from '../lib/types'
+import { Node, Edge, Route} from '../lib/types'
 import { h } from '../lib/helpers'
 import _ from 'lodash'
 
@@ -94,8 +94,6 @@ const edges: Edge[] = [
 ]
 
 export default {
-  label: "Nord East",
-  highSpeed: false,
-  gaugeChange: false,
-  segments: edges,
+    label: "Nord East",
+    segments: edges,
 };
