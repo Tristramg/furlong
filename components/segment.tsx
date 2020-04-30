@@ -27,12 +27,12 @@ const Segment: React.FunctionComponent<Props> = ({edge}) => {
         <div className="w-2/12 h-full m-auto">
             <div className="">
                 <span className="w-1/4 font-mono">{fh(edge.edge.departure_time)}</span>
-                <span className="mx-1 text-base">{edge.edge.start.label}</span>
+                <span className="mx-1 text-base">{edge.edge.start}</span>
             </div>
             <div className="text-xs text-right object-middle">{edge.edge.label}</div>
             <div className="">
                 <span className="w-1/4 font-mono">{fh(edge.edge.arrival_time)}</span>
-                <span className="mx-1 text-base">{edge.edge.end.label}</span>
+                <span className="mx-1 text-base">{edge.edge.end}</span>
             </div>
         </div>
         <div className="w-1/12 h-full text-right align-middle m-auto">{edge.edge.distance} km</div>

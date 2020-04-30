@@ -1,6 +1,7 @@
-import nord_east from '../lines/nord_east';
+//import nord_east from '../lines/nord_east';
+import list from '../lines/nord_east';
 import * as Trains from '../data/trains'
-import {vehicleJourney, edge_id} from '../lib/helpers';
+import {vehicleJourney, edge_id, gen} from '../lib/helpers';
 import VehicleJourney from '../components/vehicle_journey';
 import fetch from 'node-fetch'
 import _ from 'lodash'
@@ -12,15 +13,17 @@ export const getStaticProps: GetStaticProps = async context => {
     const lines = await get('', 'Lines');
     const rawEdges = await get('', 'Edges');
 
+
     return {
         props: {
             infra: {
-                nodes: _(rawNodes).values().map(v => [v.Name, v]).fromPairs().value(),
+                nodes: _.keyBy(rawNodes, 'Name'),
                 edges: _(rawEdges).values().map(v => [edge_id(rawNodes[v.from[0]].Name, rawNodes[v.to[0]].Name), {
-                    from: rawNodes[v.from[0]],
-                    to: rawNodes[v.to[0]],
+                    start: rawNodes[v.from[0]].Name,
+                    end: rawNodes[v.to[0]].Name,
                     country: v.Country,
-                    line: v.Line ? lines[v.Line[0]] : null
+                    label: v.Line ? lines[v.Line[0]].Name : '',
+                    distance: v.length,
                 }]).fromPairs().value(),
             }
         },
@@ -43,7 +46,8 @@ async function get(offset: string, table: string) {
 
 
 const Home = ({infra}) =>  {
-    const vj = vehicleJourney(nord_east, infra, Trains.talgo230)
+  const edges = gen(list, infra)
+    const vj = vehicleJourney({label: 'moo', segments: edges}, infra, Trains.talgo230)
     return <VehicleJourney vj={vj}></VehicleJourney>;
 }
 

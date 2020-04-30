@@ -25,30 +25,14 @@ interface VehicleJourney {
     energy: number;
 }
 
-class Node {
-    label: string;
-    country: Country;
-
-    constructor(label: string, country: Country) {
-        this.label = label;
-        this.country = country;
-    }
-}
-
-class TrainNode {
-    node: Node;
-    // Time is represented in minutes since midday
-    time: number;
-    price: number;
-    commercialStop: boolean;
-}
-
-class Edge {
-    start: Node;
-    end: Node;
+class InfraEdge {
+    start: string;
+    end: string;
     label: string;
     distance: number;
     country: Country;
+}
+class Edge extends InfraEdge {
     departure_time: number;
     arrival_time: number;
 }
@@ -80,4 +64,4 @@ interface Route {
     segments: Edge[],
 }
 export type {Rule, Train, VehicleJourney, Edge, Route}
-export { TrainEdge, Node }
+export { TrainEdge }

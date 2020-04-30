@@ -1,8 +1,19 @@
 import _ from 'lodash'
-import { Route, TrainEdge, Train, VehicleJourney} from './types';
+import { Route, Edge, TrainEdge, Train, VehicleJourney} from './types';
+
+
+function gen(list, infra) : Edge[]{
+    return _.zipWith(_.drop(list), _.dropRight(list), (start, end) => {
+        const e = infra.edges[edge_id(start[0], end[0])];
+        e.departure_time = start[1];
+        e.arrival_time = end[1];
+        return e;
+    })
+}
 
 function vehicleJourney(route: Route, infra, train: Train): VehicleJourney {
     const edges = route.segments.map(s => new TrainEdge(s, train))
+
     return {
         edges,
         label: route.label,
@@ -51,4 +62,4 @@ function edge_id(from: string, to: string): string {
     }
 }
 
-export {fmt, grey, vehicleJourney, h, fh, edge_id}
+export {fmt, grey, vehicleJourney, h, fh, edge_id, gen}

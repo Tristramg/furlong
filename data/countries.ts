@@ -13,9 +13,9 @@ enum Country {
 }
 
 const countryRule = {
-    [Country.BE]: belgium,
-    [Country.FR]: france,
-    [Country.DE]: germany,
+    BE: belgium,
+    FR: france,
+    DE: germany,
 }
 
 function rules(edge: Edge, train: Train): Rule[] {
