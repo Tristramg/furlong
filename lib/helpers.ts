@@ -5,8 +5,8 @@ import { Route, Edge, TrainEdge, Train, VehicleJourney} from './types';
 function gen(list, infra) : Edge[]{
     return _.zipWith(_.drop(list), _.dropRight(list), (start, end) => {
         const e = infra.edges[edge_id(start[0], end[0])];
-        e.departure_time = start[1];
-        e.arrival_time = end[1];
+        e.departure_time = end[1];
+        e.arrival_time = start[1];
         return e;
     })
 }
