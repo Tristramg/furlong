@@ -25,12 +25,20 @@ interface VehicleJourney {
     energy: number;
 }
 
+class Line {
+    class: string;
+    highSpeed: boolean;
+    label: string;
+    gauge: string;
+    signaling: string;
+}
 class InfraEdge {
     start: string;
     end: string;
     label: string;
     distance: number;
     country: Country;
+    line: Line;
 }
 class Edge extends InfraEdge {
     departure_time: number;

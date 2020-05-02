@@ -72,19 +72,9 @@ const coeffs = {
     },
 }
 
-const Lines = {
-    '96': LineDensity.HIGH,
-    '96-Bruxelles-Hal': LineDensity.VERY_HIGH,
-    'Jonction Nord-Midi': LineDensity.VERY_HIGH,
-    '36-Bruxelles-Leuven': LineDensity.VERY_HIGH,
-    '36': LineDensity.HIGH,
-    '3': LineDensity.VERY_LOW,
-}
-
 function in_period(time: number, start: number, end: number) {
     return time % (24 * 60) > start % (24 * 60) &&
            time % (24 * 60) < end % (24 * 60)
-
 }
 
 function included(edge: Edge, start: number, end: number) {
@@ -105,7 +95,7 @@ function period(edge: Edge): Period {
 }
 
 function rules(edge: Edge, train: Train): Rule[] {
-    const density = train.highSpeed ? LineDensity.HIGH_SPEED_TRAIN : Lines[edge.label];
+    const density = train.highSpeed ? LineDensity.HIGH_SPEED_TRAIN : edge.line.class;
     const period = Period.OFF_PEAK;
     const coeff =  coeffs[period][density];
 

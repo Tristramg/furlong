@@ -69,7 +69,7 @@ const highSpeedMarket = {
     [Country.IT]: [19.16, 21.35]
 }*/
 
-function market(train: Train, country: Country) {
+function market(train: Train, country: Country): Rule {
     if (!train.highSpeed) {
         return {
             per_ton_and_km: 0,
@@ -88,9 +88,8 @@ function market(train: Train, country: Country) {
 }
 
 function rules(edge: Edge, train: Train): Rule[] {
-    let rules = train.highSpeed? highSpeedTrain : classicTrain;
-    rules.push(market(train, edge.country))
-    return rules
+    const rules = train.highSpeed? highSpeedTrain : classicTrain;
+    return [market(train, edge.country)].concat(rules);
 }
 
 export default rules;

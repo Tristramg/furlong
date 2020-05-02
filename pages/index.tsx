@@ -8,11 +8,52 @@ import _ from 'lodash'
 
 import { GetStaticProps } from 'next'
 
+const defaults = {
+  ES: {
+    current: '3000 CC',
+    gauge: 'Ibérique 1668 mm',
+    signaling: 'ASFA'
+  },
+  FR: {
+    current: '1500 CC',
+    gauge: 'Standard 1435 mm',
+    signaling: 'KVB'
+  },
+  IT: {
+    current: '3000 CC',
+    gauge: 'Standard 1435 mm',
+    signaling: '?'
+  },
+  BE: {
+    current: '3000 CC',
+    gauge: 'Standard 1435 mm',
+    signaling: 'TBL'
+  },
+  DE: {
+    current: '15k AC',
+    gauge: 'Standard 1435 mm',
+    signaling: 'PZB'
+  },
+  PT: {
+    current: '25k AC',
+    gauge: 'Ibérique 1668 mm',
+    signaling: '??'
+  },
+}
+
 export const getStaticProps: GetStaticProps = async context => {
     const rawNodes = await get('', 'Nodes');
-    const lines = await get('', 'Lines');
+    const rawLines = await get('', 'Lines');
     const rawEdges = await get('', 'Edges');
 
+    const lines = _.mapValues(rawLines, l => ({
+      label: l.Name,
+      class: l.Class || null,
+      highSpeed: l.LGV || false,
+      gauge: l.Écartement || 'Standard 1435 mm',
+      signaling: l.Signalisation || null,
+      current: l.Courant || defaults[l.Country].current
+    }) )
 
     return {
         props: {
@@ -22,8 +63,9 @@ export const getStaticProps: GetStaticProps = async context => {
                     start: rawNodes[v.from[0]].Name,
                     end: rawNodes[v.to[0]].Name,
                     country: v.Country,
-                    label: v.Line ? lines[v.Line[0]].Name : '',
+                    label: v.Line ? lines[v.Line[0]].label : '',
                     distance: v.length,
+                    line: v.Line ? lines[v.Line[0]] : null,
                 }]).fromPairs().value(),
             }
         },
