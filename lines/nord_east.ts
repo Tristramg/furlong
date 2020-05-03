@@ -13,7 +13,7 @@ const nordEast = [
   ['Berlin Hbf', h(8, 0)],
 ];
 
-const list = [
+const castilla = [
   ['Paris Montparnasse', h(20, 0)],
   ['Embranchement de Monts', h(21, 0)],
   ['La Gorp', h(22, 20)],
@@ -25,4 +25,16 @@ const list = [
   ['Sevilla Santa Justa', h(9, 0)],
 ];
 
-export default list;
+const lisboa = [
+  ['Paris Montparnasse', h(20, 0)],
+  ['Embranchement de Monts', h(21, 0)],
+  ['La Gorp', h(22, 20)],
+  ['Bordeaux Saint-Jean', h(22, 30)],
+  ['Frontière FR-ES', h(0, 0)],
+  ['Valladolid Campo Grande', h(4, 0)],
+  ['Frontière ES-PT', h(6, 0)],
+  ['Coimbra-B', h(8, 0)],
+  ['Lisboa Oriente', h(10, 0)],
+];
+
+export { lisboa, castilla, nordEast };

@@ -40,4 +40,13 @@ const fh = (time: number): string => {
 
 const edgeId = (from: string, to: string): string => from < to ? `${from}-${to}` : `${to}-${from}`;
 
-export { fmt, grey, vehicleJourney, h, fh, edgeId, gen };
+function in_period(time: number, start: number, end: number) {
+  return time % (24 * 60) > start % (24 * 60) &&
+       time % (24 * 60) < end % (24 * 60);
+}
+
+function included(edge: Edge, start: number, end: number) {
+  return in_period(edge.arrivalTime, start, end) || in_period(edge.departureTime, start, end);
+}
+
+export { fmt, grey, vehicleJourney, h, fh, edgeId, gen, included };

@@ -1,8 +1,9 @@
-import list from '../lines/nord_east';
+import * as Routes from '../lines/nord_east';
 import * as Trains from '../data/trains';
 import { vehicleJourney, edgeId, gen } from '../lib/helpers';
 import VehicleJourney from '../components/vehicle_journey';
 import fetch from 'node-fetch';
+import { Line } from '../lib/types';
 import _ from 'lodash';
 
 import { GetStaticProps } from 'next';
@@ -50,10 +51,19 @@ export const getStaticProps: GetStaticProps = async (_context) => {
     label: l.Name,
     class: l.Class || null,
     highSpeed: l.LGV || false,
-    gauge: l.Écartement || 'Standard 1435 mm',
-    signaling: l.Signalisation || null,
+    gauge: l.Écartement || defaults[l.country].gauge,
+    signaling: l.Signalisation || defaults[l.country].signaling,
     current: l.Courant || defaults[l.Country].current,
   }));
+
+  const defaultLine = (country: string): Line => ({
+    label: null,
+    class: null,
+    highSpeed: false,
+    gauge: defaults[country].gauge,
+    signaling: defaults[country].signaling,
+    current: defaults[country].current,
+  });
 
   return {
     props: {
@@ -65,7 +75,7 @@ export const getStaticProps: GetStaticProps = async (_context) => {
           country: v.Country,
           label: v.Line ? lines[v.Line[0]].label : '',
           distance: v.length,
-          line: v.Line ? lines[v.Line[0]] : null,
+          line: v.Line ? lines[v.Line[0]] : defaultLine(v.Country),
         }]).fromPairs().value(),
       },
     },
@@ -85,7 +95,7 @@ async function get(offset: string, table: string) {
 }
 
 const Home = ({ infra }) => {
-  const edges = gen(list, infra);
+  const edges = gen(Routes.lisboa, infra);
   const vj = vehicleJourney({ label: 'moo', segments: edges }, infra, Trains.talgo230);
   return <VehicleJourney vj={vj}></VehicleJourney>;
 };

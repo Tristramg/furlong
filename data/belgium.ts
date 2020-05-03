@@ -1,5 +1,5 @@
 import { Edge, Rule, Train } from '../lib/types';
-import { h } from '../lib/helpers';
+import { h, included } from '../lib/helpers';
 
 const coutDirectUnitaire = 1.7045567852248;
 
@@ -73,18 +73,9 @@ const coeffs = {
   },
 };
 
-function in_period(time: number, start: number, end: number) {
-  return time % (24 * 60) > start % (24 * 60) &&
-       time % (24 * 60) < end % (24 * 60);
-}
-
-function included(edge: Edge, start: number, end: number) {
-  return in_period(edge.arrivalTime, start, end) || in_period(edge.departureTime, start, end);
-}
-
 // TODO: this does not handle the day of the week
 // Nor the ultra_peak (using the North-Midi junction during peak hours)
-function period(edge: Edge): Period {
+function getPeriod(edge: Edge): Period {
   if (included(edge, h(6, 0), h(8, 59))) {
     return Period.PEAK;
   }
@@ -98,10 +89,22 @@ function period(edge: Edge): Period {
 
 function rules(edge: Edge, train: Train): Rule[] {
   const density = train.highSpeed ? LineDensity.HIGH_SPEED_TRAIN : edge.line.class;
-  const period = Period.OFF_PEAK;
+  const period = getPeriod(edge);
   const coeff =  coeffs[period][density];
 
   return [
+    {
+      per_ton_and_km: 0,
+      per_km: coeff * coutDirectUnitaire,
+      per_kWh: 0,
+      label: `Rails : ${density}, ${period}`,
+    },
+    {
+      per_km: 0,
+      per_kWh: 0.06,
+      per_ton_and_km: 0,
+      label: 'Fourniture électricité',
+    },
     {
       per_ton_and_km: 0,
       per_km: 0,
@@ -113,12 +116,6 @@ function rules(edge: Edge, train: Train): Rule[] {
       per_km: 0,
       per_kWh: 0.020,
       label: 'Distribution et pertes électriques',
-    },
-    {
-      per_ton_and_km: 0,
-      per_km: coeff * coutDirectUnitaire,
-      per_kWh: 0,
-      label: `Rails : ${density}, ${period}`,
     },
   ];
 }
