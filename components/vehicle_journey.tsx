@@ -1,5 +1,5 @@
-import { fmt } from '../lib/helpers'
-import Segment from './segment'
+import { fmt } from '../lib/helpers';
+import Segment from './segment';
 
 const VehicleJourney = ({ vj }) => <div className="p-12">
 <h1 className="text-xl font-bold">{vj.label}</h1>
@@ -27,6 +27,5 @@ const VehicleJourney = ({ vj }) => <div className="p-12">
   <div className="w-1/12 text-right">{fmt(vj.price)} €</div>
 </div>
 </div>;
-
 
 export default VehicleJourney;

@@ -1,53 +1,58 @@
-import { Rule, Edge, Train } from '../lib/types'
-import { h } from '../lib/helpers'
+import { Rule, Edge, Train } from '../lib/types';
+import { h } from '../lib/helpers';
 
 function duration(edge: Edge, start: number, end: number):number {
-    const d = Math.min(end, edge.arrival_time) - Math.max(start, edge.departure_time)
-    return Math.max(0, d)
+  const d = Math.min(end, edge.arrivalTime) - Math.max(start, edge.departureTime);
+  return Math.max(0, d);
 }
 
-function metro_price(edge: Edge, avg_speed: number): number {
-    const considered_speed = Math.max(100, Math.min(160, avg_speed));
-    const metro_max = 12.06;
-    const metro_min = 5.34;
-    return metro_min + (considered_speed - 100) * (metro_max - metro_min) / 60
+function metroPrice(edge: Edge, avgSpeed: number): number {
+  const consideredSpeed = Math.max(100, Math.min(160, avgSpeed));
+  const metroMax = 12.06;
+  const metroMin = 5.34;
+  return metroMin + (consideredSpeed - 100) * (metroMax - metroMin) / 60;
 }
 
 function rules(edge: Edge, train: Train): Rule[] {
-    const total_duration = edge.arrival_time - edge.departure_time;
-    const night_duration = duration(edge, h(23, 0), h(6, 0));
-    const basic_duration = duration(edge, h(20, 0), h(23, 0));
-    const metro_duration = duration(edge, 6 * 60, 20 * 60) + duration(edge, (6 + 24) * 60, (20 + 24) * 60 );
+  const totalDuration = edge.arrivalTime - edge.departureTime;
+  const nightDuration = duration(edge, h(23, 0), h(6, 0));
+  const basicDuration = duration(edge, h(20, 0), h(23, 0));
+  const metroDuration = duration(edge, 6 * 60, 20 * 60) +
+                        duration(edge, (6 + 24) * 60, (20 + 24) * 60);
 
-    const avg_speed = edge.distance * 60 / total_duration;
-    const metro_mid = metro_price(edge, avg_speed);
+  const avgSpeed = edge.distance * 60 / totalDuration;
+  const metroMid = metroPrice(edge, avgSpeed);
 
-    return [
-        {
-            per_km: 2.63 * night_duration / total_duration,
-            per_kWh: 0,
-            per_ton_and_km: 0,
-            label: `Prix nuit « nacht » 2,63€/km sur ${(night_duration * 100 / total_duration).toFixed(0)}%`
-        },
-        {
-            per_km: 4.76 * basic_duration / total_duration,
-            per_kWh: 0,
-            per_ton_and_km: 0,
-            label: `Prix « basic »  4,76 €/km sur ${(basic_duration * 100 / total_duration).toFixed(0)}%`
-        },
-        {
-            per_km: metro_mid * metro_duration / total_duration,
-            per_kWh: 0,
-            per_ton_and_km: 0,
-            label: `Prix « basic »  ${metro_mid.toFixed(2)} €/km, vitesse moyenne ${avg_speed.toFixed(0)} km/h sur ${(metro_duration * 100 / total_duration).toFixed(0)}%`
-        },
-        {
-            per_km: 0,
-            per_kWh: 0.0628,
-            per_ton_and_km: 0,
-            label: 'Distribution électricité',
-        }
-    ]
+  const nightShare = (nightDuration * 100 / totalDuration).toFixed(0);
+  const basicShare = (basicDuration * 100 / totalDuration).toFixed(0);
+  const metroShare = (metroDuration * 100 / totalDuration).toFixed(0);
+
+  return [
+    {
+      per_km: 2.63 * nightDuration / totalDuration,
+      per_kWh: 0,
+      per_ton_and_km: 0,
+      label: `Prix nuit « nacht » 2,63€/km sur ${nightShare}%`,
+    },
+    {
+      per_km: 4.76 * basicDuration / totalDuration,
+      per_kWh: 0,
+      per_ton_and_km: 0,
+      label: `Prix « basic »  4,76 €/km sur ${basicShare}%`,
+    },
+    {
+      per_km: metroMid * metroDuration / totalDuration,
+      per_kWh: 0,
+      per_ton_and_km: 0,
+      label: `Prix « basic »  ${metroMid.toFixed(2)} €/km, vitesse moyenne ${avgSpeed.toFixed(0)} km/h sur ${metroShare}%`,
+    },
+    {
+      per_km: 0,
+      per_kWh: 0.0628,
+      per_ton_and_km: 0,
+      label: 'Distribution électricité',
+    },
+  ];
 }
 
 export default rules;

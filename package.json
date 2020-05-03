@@ -1,32 +1,36 @@
 {
-  "name": "midnight",
+  "name": "furlong",
   "version": "0.0.0",
   "description": "",
   "main": "index.ts",
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "tslint": "tslint -p . -c tslint.json"
   },
   "keywords": [],
-  "author": "",
+  "author": "Tristram Gräbener",
   "license": "ISC",
   "dependencies": {
-    "@types/lodash": "^4.14.149",
-    "lodash": "^4.17.15",
-    "next": "^9.3.4",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
     "@now/node": "^1.4.1",
+    "@types/lodash": "^4.14.150",
     "@types/node-fetch": "^2.5.4",
-    "node-fetch": "^2.6.0"
+    "lodash": "^4.17.15",
+    "next": "^9.3.6",
+    "node-fetch": "^2.6.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^1.3.0",
-    "@types/node": "^13.11.1",
+    "@types/node": "^13.13.4",
     "@types/react": "^16.9.34",
     "postcss-preset-env": "^6.7.0",
-    "tailwindcss": "^1.2.0",
+    "tailwindcss": "^1.4.4",
+    "tslint": "^6.1.2",
+    "tslint-config-airbnb": "^5.11.2",
+    "tslint-react-hooks": "^2.2.2",
     "typescript": "^3.8.3"
   }
 }
