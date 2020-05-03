@@ -26,6 +26,12 @@ const classicTrain = [
     per_kWh: 0,
     label: 'Distribution électriques (RCTE Composante B)',
   },
+  {
+    per_ton_and_km: 0,
+    per_km: 0,
+    per_kWh: 0.06,
+    label: 'Fourniture énergie (estimation)',
+  },
 ];
 
 const highSpeedTrain = [

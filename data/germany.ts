@@ -52,6 +52,12 @@ function rules(edge: Edge, train: Train): Rule[] {
       per_ton_and_km: 0,
       label: 'Distribution électricité',
     },
+    {
+      per_km: 0,
+      per_kWh: 0.07,
+      per_ton_and_km: 0,
+      label: 'Fourniture électricité',
+    },
   ];
 }
 

@@ -2,6 +2,7 @@ import belgium from './belgium';
 import france from './france';
 import germany from './germany';
 import spain from './spain';
+import portugal from './portugal';
 import { Rule, Edge, Train } from '../lib/types';
 
 enum Country {
@@ -18,6 +19,7 @@ const countryRule = {
   FR: france,
   DE: germany,
   ES: spain,
+  PT: portugal,
 };
 
 function rules(edge: Edge, train: Train): Rule[] {

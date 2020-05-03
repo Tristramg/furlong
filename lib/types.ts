@@ -25,13 +25,19 @@ interface VehicleJourney {
   energy: number;
 }
 
-class Line {
+interface Line {
   class: string;
   highSpeed: boolean;
   label: string;
   gauge: string;
   signaling: string;
+  current: string;
 }
+
+function ccCurent(line: Line): boolean {
+  return /CC/.test(line.current);
+}
+
 class InfraEdge {
   start: string;
   end: string;
@@ -72,5 +78,5 @@ interface Route {
   segments: Edge[];
 }
 
-export type { Rule, Train, VehicleJourney, Edge, Route };
-export { TrainEdge };
+export type { Rule, Train, VehicleJourney, Edge, Route, Line };
+export { TrainEdge, ccCurent };
