@@ -35,7 +35,7 @@ const prices = {
 
 function rules(edge: Edge, train: Train): Rule[] {
   // TODO handle non gauge changing trains
-  const cat = edge.line && edge.line.class === 'A' ? 'VL1' : 'other';
+  const cat = edge.line && edge.line.class === 'A' ? 'VL2' : 'other';
 
   const result = [
     {
