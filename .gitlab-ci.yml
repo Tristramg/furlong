@@ -9,4 +9,4 @@ cache:
 test_lint:
   script:
     - npm install
-    - node run tslinter
+    - npm run tslint
