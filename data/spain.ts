@@ -21,12 +21,12 @@ const prices = {
     B: 0.7320,
     C: 0.2039,
   },
-  'LAV Madrid-Sevilla': {
+  'LAV Madrid-Barcelona-Frontera': {
     A: 1.7611,
     B: 0.2317,
     C: 0.3023,
   },
-  MadridToledoSevilleMalaga: {
+  'LAV Madrid-Sevilla': {
     A: 0.8647,
     B: 0.1504,
     C: 0.1962,
