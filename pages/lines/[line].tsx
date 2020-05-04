@@ -106,8 +106,9 @@ const Home = ({ infra }) => {
   const router = useRouter();
   const { line } = router.query;
   const l = typeof line === 'string' ? line : line[0];
-  const edges = gen(Routes[l].steps, infra);
-  const vj = vehicleJourney({ label: 'moo', segments: edges }, infra, Trains.talgo230);
+  const route = Routes[l];
+  const edges = gen(route.steps, infra);
+  const vj = vehicleJourney({ label: route.label, segments: edges }, infra, route.train);
   return <VehicleJourney vj={vj}></VehicleJourney>;
 };
 
