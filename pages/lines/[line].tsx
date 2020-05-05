@@ -1,46 +1,12 @@
 import Routes from '../../data/lines';
-import * as Trains from '../../data/trains';
 import { vehicleJourney, edgeId, gen } from '../../lib/helpers';
 import VehicleJourney from '../../components/vehicle_journey';
 import fetch from 'node-fetch';
 import { Line } from '../../lib/types';
 import _ from 'lodash';
 import { useRouter } from 'next/router';
-
+import { data } from '../../data/countries';
 import { GetStaticProps, GetStaticPaths } from 'next';
-
-const defaults = {
-  ES: {
-    current: '3000 CC',
-    gauge: 'Ibérique 1668 mm',
-    signaling: 'ASFA',
-  },
-  FR: {
-    current: '1500 CC',
-    gauge: 'Standard 1435 mm',
-    signaling: 'KVB',
-  },
-  IT: {
-    current: '3000 CC',
-    gauge: 'Standard 1435 mm',
-    signaling: '?',
-  },
-  BE: {
-    current: '3000 CC',
-    gauge: 'Standard 1435 mm',
-    signaling: 'TBL',
-  },
-  DE: {
-    current: '15k AC',
-    gauge: 'Standard 1435 mm',
-    signaling: 'PZB',
-  },
-  PT: {
-    current: '25k AC',
-    gauge: 'Ibérique 1668 mm',
-    signaling: '?',
-  },
-};
 
 export const getStaticProps: GetStaticProps = async (_context) => {
   const rawNodes = await get('', 'Nodes');
@@ -52,18 +18,18 @@ export const getStaticProps: GetStaticProps = async (_context) => {
     label: l.Name,
     class: l.Class || null,
     highSpeed: l.LGV || false,
-    gauge: l.Écartement || defaults[l.country].gauge,
-    signaling: l.Signalisation || defaults[l.country].signaling,
-    current: l.Courant || defaults[l.Country].current,
+    gauge: l.Écartement || data[l.country].gauge,
+    signaling: l.Signalisation || data[l.country].signaling,
+    current: l.Courant || data[l.Country].current,
   }));
 
   const defaultLine = (country: string): Line => ({
     label: null,
     class: null,
     highSpeed: false,
-    gauge: defaults[country].gauge,
-    signaling: defaults[country].signaling,
-    current: defaults[country].current,
+    gauge: data[country].gauge,
+    signaling: data[country].signaling,
+    current: data[country].current,
   });
 
   return {
