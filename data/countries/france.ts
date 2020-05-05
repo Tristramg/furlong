@@ -1,5 +1,4 @@
-import { Rule, Edge, Train } from '../lib/types';
-import { Country } from './countries';
+import { Rule, Edge, Train } from '../../lib/types';
 
 const classicTrain = [
   {
@@ -75,7 +74,7 @@ const highSpeedMarket = {
   IT: [19.16, 21.35],
 };
 
-function market(train: Train, country: Country): Rule {
+function market(train: Train, country: string): Rule {
   if (!train.highSpeed) {
     return {
       per_ton_and_km: 0,

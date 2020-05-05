@@ -1,5 +1,5 @@
-import { Edge, Rule, Train } from '../lib/types';
-import { h, included } from '../lib/helpers';
+import { Edge, Rule, Train } from '../../lib/types';
+import { h, included } from '../../lib/helpers';
 
 const coutDirectUnitaire = 1.7045567852248;
 

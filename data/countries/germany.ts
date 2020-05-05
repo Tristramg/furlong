@@ -1,5 +1,5 @@
-import { Rule, Edge, Train } from '../lib/types';
-import { h } from '../lib/helpers';
+import { Rule, Edge, Train } from '../../lib/types';
+import { h } from '../../lib/helpers';
 
 function duration(edge: Edge, start: number, end: number):number {
   const d = Math.min(end, edge.arrivalTime) - Math.max(start, edge.departureTime);

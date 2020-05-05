@@ -1,4 +1,4 @@
-import { Rule, Edge, Train, ccCurent } from '../lib/types';
+import { Rule, Edge, Train, ccCurent } from '../../lib/types';
 
 const prices = {
   VL1: {

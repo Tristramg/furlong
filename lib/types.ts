@@ -1,4 +1,4 @@
-import { Country, rules } from '../data/countries';
+import { rules } from '../data/countries';
 import _ from 'lodash';
 
 interface Rule {
@@ -43,7 +43,7 @@ class InfraEdge {
   end: string;
   label: string;
   distance: number;
-  country: Country;
+  country: string;
   line: Line;
 }
 class Edge extends InfraEdge {
