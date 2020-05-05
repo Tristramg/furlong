@@ -44,7 +44,7 @@ function rules(edge: Edge, train: Train,  edges: Edge[]): Rule[] {
       per_km: metroMid * metroDuration / totalDuration,
       per_kWh: 0,
       per_ton_and_km: 0,
-      label: `Prix « basic »  ${metroMid.toFixed(2)} €/km, vitesse moyenne ${avgSpeed.toFixed(0)} km/h sur ${metroShare}%`,
+      label: `Prix « metro »  ${metroMid.toFixed(2)} €/km, vitesse moyenne ${avgSpeed.toFixed(0)} km/h sur ${metroShare}%`,
     },
     {
       per_km: 0,
