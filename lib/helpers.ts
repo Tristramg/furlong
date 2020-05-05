@@ -3,7 +3,9 @@ import { Route, Edge, TrainEdge, Train, VehicleJourney } from './types';
 
 function gen(list, infra) : Edge[] {
   return _.zipWith(_.drop(list), _.dropRight(list), (start, end) => {
-    const e = infra.edges[edgeId(start[0], end[0])];
+    const edge = edgeId(start[0], end[0]);
+    const e = infra.edges[edge];
+
     e.departureTime = end[1];
     e.arrivalTime = start[1];
     return e;
@@ -11,7 +13,7 @@ function gen(list, infra) : Edge[] {
 }
 
 function vehicleJourney(route: Route, infra, train: Train): VehicleJourney {
-  const edges = route.segments.map(s => new TrainEdge(s, train));
+  const edges = route.segments.map(s => new TrainEdge(s, train, route.segments));
 
   return {
     edges,

@@ -1,4 +1,4 @@
-import { Country, rules } from '../data/countries';
+import { rules } from '../data/countries';
 import _ from 'lodash';
 
 interface Rule {
@@ -43,7 +43,7 @@ class InfraEdge {
   end: string;
   label: string;
   distance: number;
-  country: Country;
+  country: string;
   line: Line;
 }
 class Edge extends InfraEdge {
@@ -58,11 +58,11 @@ class TrainEdge {
   price: number;
   rules: Rule[];
 
-  constructor(edge: Edge, train: Train) {
+  constructor(edge: Edge, train: Train, edges: Edge[]) {
     this.edge = edge;
     this.weight = train.weight;
     this.energy = edge.distance * 10;
-    this.rules = rules(edge, train);
+    this.rules = rules(edge, train, edges);
     this.price = _(this.rules).map(r => this.singlePrice(r)).sum();
   }
 

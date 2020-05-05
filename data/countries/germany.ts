@@ -1,5 +1,5 @@
-import { Rule, Edge, Train } from '../lib/types';
-import { h } from '../lib/helpers';
+import { Rule, Edge, Train } from '../../lib/types';
+import { h } from '../../lib/helpers';
 
 function duration(edge: Edge, start: number, end: number):number {
   const d = Math.min(end, edge.arrivalTime) - Math.max(start, edge.departureTime);
@@ -13,7 +13,7 @@ function metroPrice(edge: Edge, avgSpeed: number): number {
   return metroMin + (consideredSpeed - 100) * (metroMax - metroMin) / 60;
 }
 
-function rules(edge: Edge, train: Train): Rule[] {
+function rules(edge: Edge, train: Train,  edges: Edge[]): Rule[] {
   const totalDuration = edge.arrivalTime - edge.departureTime;
   const nightDuration = duration(edge, h(23, 0), h(6, 0));
   const basicDuration = duration(edge, h(20, 0), h(23, 0));
@@ -44,7 +44,7 @@ function rules(edge: Edge, train: Train): Rule[] {
       per_km: metroMid * metroDuration / totalDuration,
       per_kWh: 0,
       per_ton_and_km: 0,
-      label: `Prix « basic »  ${metroMid.toFixed(2)} €/km, vitesse moyenne ${avgSpeed.toFixed(0)} km/h sur ${metroShare}%`,
+      label: `Prix « metro »  ${metroMid.toFixed(2)} €/km, vitesse moyenne ${avgSpeed.toFixed(0)} km/h sur ${metroShare}%`,
     },
     {
       per_km: 0,

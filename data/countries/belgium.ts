@@ -1,5 +1,5 @@
-import { Edge, Rule, Train } from '../lib/types';
-import { h, included } from '../lib/helpers';
+import { Edge, Rule, Train } from '../../lib/types';
+import { h, included } from '../../lib/helpers';
 
 const coutDirectUnitaire = 1.7045567852248;
 
@@ -87,7 +87,7 @@ function getPeriod(edge: Edge): Period {
   return Period.OFF_PEAK;
 }
 
-function rules(edge: Edge, train: Train): Rule[] {
+function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
   const density = train.highSpeed ? LineDensity.HIGH_SPEED_TRAIN : edge.line.class;
   const period = getPeriod(edge);
   const coeff =  coeffs[period][density];
