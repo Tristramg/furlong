@@ -2,8 +2,8 @@ import { h } from '../lib/helpers';
 import * as Trains from './trains';
 
 export default {
-  nordEast: {
-    label: 'Nord East',
+  nordEst: {
+    label: 'Nord Est',
     train: Trains.talgo230,
     steps: [
       ['Paris Gare du Nord', h(20, 0)],
@@ -15,6 +15,16 @@ export default {
       ['Liège', h(1, 30)],
       ['Frontière BE-DE', h(2, 0)],
       ['Hamburg Hbf', h(6, 0)],
+      ['Berlin Hbf', h(8, 0)],
+    ],
+  },
+  nordEstDirect: {
+    label: 'North Est Direct',
+    train: Trains.talgo230,
+    steps: [
+      ['Paris Garde de l’est', h(20, 0)],
+      ['Frontière FR-DE', h(0, 0)],
+      ['Halle', h(6, 0)],
       ['Berlin Hbf', h(8, 0)],
     ],
   },
@@ -46,6 +56,22 @@ export default {
       ['Frontière ES-PT', h(6, 0)],
       ['Coimbra-B', h(8, 0)],
       ['Lisboa Oriente', h(10, 0)],
+    ],
+  },
+  barça: {
+    label: 'Paris Barcelone Madrid',
+    train: Trains.talgo230,
+    steps: [
+      ['Paris Gare de Lyon', h(20, 0)],
+      ['Lyon Part-dieu', h(22, 30)],
+      ['Montpellier Sud de France', h(23, 50)],
+      ['Perpignan', h(5, 30)],
+      ['Frontière FR-CAT', h(5, 45)],
+      ['Girona', h(6, 0)],
+      ['Barcelona Sants', h(6, 45)],
+      ['Camp de Tarragona', h(7, 30)],
+      ['Zaragoza Delicias', h(8, 50)],
+      ['Madrid Atocha', h(10, 0)],
     ],
   },
 };
