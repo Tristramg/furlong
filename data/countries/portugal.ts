@@ -25,7 +25,7 @@ function getPeriod(edge: Edge): string {
   return Period.LOW;
 }
 
-function rules(edge: Edge, train: Train): Rule[] {
+function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
   const period = getPeriod(edge);
   const coeff = coeffsA[period];
 

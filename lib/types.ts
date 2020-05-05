@@ -58,11 +58,11 @@ class TrainEdge {
   price: number;
   rules: Rule[];
 
-  constructor(edge: Edge, train: Train) {
+  constructor(edge: Edge, train: Train, edges: Edge[]) {
     this.edge = edge;
     this.weight = train.weight;
     this.energy = edge.distance * 10;
-    this.rules = rules(edge, train);
+    this.rules = rules(edge, train, edges);
     this.price = _(this.rules).map(r => this.singlePrice(r)).sum();
   }
 

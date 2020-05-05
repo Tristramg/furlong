@@ -87,7 +87,7 @@ function getPeriod(edge: Edge): Period {
   return Period.OFF_PEAK;
 }
 
-function rules(edge: Edge, train: Train): Rule[] {
+function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
   const density = train.highSpeed ? LineDensity.HIGH_SPEED_TRAIN : edge.line.class;
   const period = getPeriod(edge);
   const coeff =  coeffs[period][density];

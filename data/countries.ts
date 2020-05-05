@@ -50,8 +50,8 @@ const data = {
   },
 };
 
-function rules(edge: Edge, train: Train): Rule[] {
-  return data[edge.country].rules(edge, train);
+function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
+  return data[edge.country].rules(edge, train, edges);
 }
 
 export { rules, data };

@@ -13,7 +13,7 @@ function metroPrice(edge: Edge, avgSpeed: number): number {
   return metroMin + (consideredSpeed - 100) * (metroMax - metroMin) / 60;
 }
 
-function rules(edge: Edge, train: Train): Rule[] {
+function rules(edge: Edge, train: Train,  edges: Edge[]): Rule[] {
   const totalDuration = edge.arrivalTime - edge.departureTime;
   const nightDuration = duration(edge, h(23, 0), h(6, 0));
   const basicDuration = duration(edge, h(20, 0), h(23, 0));
