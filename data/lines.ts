@@ -19,7 +19,7 @@ export default {
     ],
   },
   nordEstDirect: {
-    label: 'North Est Direct',
+    label: 'Nord Est Direct',
     train: Trains.talgo230,
     steps: [
       ['Paris Garde de l’est', h(20, 0)],
