@@ -1,15 +1,44 @@
 import Routes from '../data/lines';
 import Link from 'next/link';
+import { GetStaticProps } from 'next';
+import importAirtable from '../data/airtable_importer';
+import { gen, vehicleJourney, fmt } from '../lib/helpers';
+import _ from 'lodash';
 
-const Home = ({}) => {
+export const getStaticProps: GetStaticProps = importAirtable;
+
+const Home = ({ infra }) => {
+
+  const vjs = _.mapValues(Routes, r =>
+    vehicleJourney({ label: r.label, segments: gen(r.steps, infra) }, r.train));
+
   return <div className="p-12">
-    <h1 className="text-2xl">Furlong : estimation de prix de sillons</h1>
+    <h1>Furlong : estimation de prix de sillons</h1>
     <div className="px-6 py-2">
-      <ul className="list-disc">
-        {Object.keys(Routes).map(r => <li className="underline">
-          <Link href={`/lines/${r}`}>{Routes[r].label}</Link>
-          </li>)}
-      </ul>
+      <table className="table-auto">
+        <thead>
+          <th>Route</th>
+          <th>Cout</th>
+          <th>km</th>
+          <th>Début</th>
+          <th>Fin</th>
+          <th>Courants</th>
+          <th>Signalisations</th>
+          <th>Écartements</th>
+        </thead>
+        <tbody>
+        {_.map(vjs, (vj, id) => <tr>
+          <td><Link href={`/lines/${id}`}><a className="underline">{vj.label}</a></Link></td>
+          <td>{fmt(vj.price)}</td>
+          <td>{vj.distance}</td>
+          <td>{_.head(vj.edges).edge.start}</td>
+          <td>{_.last(vj.edges).edge.end}</td>
+          <td>{_(vj.edges).map('edge.line.current').uniq().join(', ')}</td>
+          <td>{_(vj.edges).map('edge.line.signaling').uniq().join(', ')}</td>
+          <td>{_(vj.edges).map('edge.line.gauge').uniq().join(', ')}</td>
+          </tr>)}
+        </tbody>
+      </table>
     </div>
   </div>
   ;

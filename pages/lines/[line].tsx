@@ -23,7 +23,7 @@ const Home = ({ infra }) => {
   const l = typeof line === 'string' ? line : line[0];
   const route = Routes[l];
   const edges = gen(route.steps, infra);
-  const vj = vehicleJourney({ label: route.label, segments: edges }, infra, route.train);
+  const vj = vehicleJourney({ label: route.label, segments: edges }, route.train);
   return <VehicleJourney vj={vj}></VehicleJourney>;
 };
 

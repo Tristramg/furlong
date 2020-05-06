@@ -12,7 +12,7 @@ function gen(list, infra) : Edge[] {
   });
 }
 
-function vehicleJourney(route: Route, infra, train: Train): VehicleJourney {
+function vehicleJourney(route: Route, train: Train): VehicleJourney {
   const edges = route.segments.map(s => new TrainEdge(s, train, route.segments));
 
   return {
