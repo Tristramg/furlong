@@ -87,7 +87,7 @@ const highSpeedMarket = {
   transversalse: [0, 0],
 };
 
-function marketRule(market: string, train: Train): Rule {
+function marketRule(market: string, edge: Edge, train: Train): Rule {
   if (market === 'classic') {
     return {
       per_ton_and_km: 0,
@@ -98,12 +98,22 @@ function marketRule(market: string, train: Train): Rule {
     };
   }
 
+  if (edge.line.highSpeed) {
+    return {
+      per_ton_and_km: 0,
+      per_km: highSpeedMarket[market][train.multipleUnit ? 1 : 0],
+      per_kWh: 0,
+      fixed: 0,
+      label: `Redevance marché grande vitesse vers ${market}, unité ${train.multipleUnit ? 'multiple' : 'simple'}`,
+    };
+  }
+
   return {
     per_ton_and_km: 0,
-    per_km: highSpeedMarket[market][train.multipleUnit ? 1 : 0],
+    per_km: 3.19,
     per_kWh: 0,
     fixed: 0,
-    label: `Redevance marché grande vitesse vers ${market}, unité ${train.multipleUnit ? 'multiple' : 'simple'}`,
+    label: 'Train apte à la grande vitesse sur voie classique',
   };
 }
 
@@ -133,8 +143,8 @@ function rules(edge: Edge, train: Train,  edges: Edge[]): Rule[] {
     return lfp(edge, train);
   }
   const market = marketClass(edges);
-  const rules = market === 'classic' ? highSpeedTrain : classicTrain;
-  const result = [marketRule(market, train)].concat(rules);
+  const rules = market === 'classic' ? classicTrain : highSpeedTrain;
+  const result = [marketRule(market, edge, train)].concat(rules);
   if (edge.line.label === 'LN1') {
     result.push(parisLyonExtra);
   }
