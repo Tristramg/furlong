@@ -1,3 +1,4 @@
+import lfp from './figueras_perpignan';
 import { Rule, Edge, Train } from '../../lib/types';
 import _ from 'lodash';
 
@@ -128,6 +129,9 @@ function marketClass(edges: Edge[]): string {
 }
 
 function rules(edge: Edge, train: Train,  edges: Edge[]): Rule[] {
+  if (edge.line.label === 'LFP') {
+    return lfp(edge, train);
+  }
   const market = marketClass(edges);
   const rules = market === 'classic' ? highSpeedTrain : classicTrain;
   const result = [marketRule(market, train)].concat(rules);

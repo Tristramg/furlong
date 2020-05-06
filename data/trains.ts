@@ -5,6 +5,7 @@ const talgo230 = {
   weight: 320,
   cars: 14,
   multipleUnit: false,
+  capacity: 200,
 };
 
 const talgo250 = {
@@ -14,6 +15,7 @@ const talgo250 = {
   weight: 330,
   cars: 12,
   multipleUnit: false,
-}
+  capacity: 160,
+};
 
 export { talgo230, talgo250 };

@@ -16,6 +16,7 @@ interface Train {
   weight: number;
   cars: number;
   multipleUnit: boolean;
+  capacity: number;
 }
 
 interface VehicleJourney {
