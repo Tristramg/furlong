@@ -6,30 +6,35 @@ const classicTrain = [
     per_ton_and_km: 0.003230,
     per_km: 0.435,
     per_kWh: 0,
+    fixed: 0,
     label: 'Redevance circulation (RC)',
   },
   {
     per_ton_and_km: 0,
     per_km: 0.294,
     per_kWh: 0,
+    fixed: 0,
     label: 'Accès aux installation électriques (RCE)',
   },
   {
     per_ton_and_km: 0,
     per_km: 0.076,
     per_kWh: 0,
+    fixed: 0,
     label: 'Pertes électriques (RCTE Composante A)',
   },
   {
     per_ton_and_km: 0,
     per_km: 0.240,
     per_kWh: 0,
+    fixed: 0,
     label: 'Distribution électriques (RCTE Composante B)',
   },
   {
     per_ton_and_km: 0,
     per_km: 0,
     per_kWh: 0.06,
+    fixed: 0,
     label: 'Fourniture énergie (estimation)',
   },
 ];
@@ -39,24 +44,28 @@ const highSpeedTrain = [
     per_ton_and_km: 0.005874,
     per_km: 0.239,
     per_kWh: 0,
+    fixed: 0,
     label: 'Redevance circulation (RC)',
   },
   {
     per_ton_and_km: 0,
     per_km: 0.294,
     per_kWh: 0,
+    fixed: 0,
     label: 'Accès aux installation électriques (RCE)',
   },
   {
     per_ton_and_km: 0,
     per_km: 0.118,
     per_kWh: 0,
+    fixed: 0,
     label: 'Pertes électriques RCTE Composante A',
   },
   {
     per_ton_and_km: 0,
     per_km: 0.372,
     per_kWh: 0,
+    fixed: 0,
     label: 'Distribution électriques RCTE Composante B',
   },
 ];
@@ -65,6 +74,7 @@ const parisLyonExtra = {
   per_ton_and_km: 0,
   per_km: 0.36,
   per_kWh: 0,
+  fixed: 0,
   label: 'Supplément Paris–Lyon (déploiement signalisation ERTMS)',
 };
 
@@ -82,6 +92,7 @@ function marketRule(market: string, train: Train): Rule {
       per_ton_and_km: 0,
       per_km: 0,
       per_kWh: 0,
+      fixed: 0,
       label: 'Redevance marché train de nuit',
     };
   }
@@ -90,6 +101,7 @@ function marketRule(market: string, train: Train): Rule {
     per_ton_and_km: 0,
     per_km: highSpeedMarket[market][train.multipleUnit ? 1 : 0],
     per_kWh: 0,
+    fixed: 0,
     label: `Redevance marché grande vitesse vers ${market}, unité ${train.multipleUnit ? 'multiple' : 'simple'}`,
   };
 }

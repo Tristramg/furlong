@@ -34,12 +34,14 @@ function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
       per_km: coeff,
       per_kWh: 0,
       per_ton_and_km: 0,
+      fixed: 0,
       label: `Rails classe International, ligne catégorie A, ${period}`,
     },
     {
       per_km: coeff,
       per_kWh: 0.06,
       per_ton_and_km: 0,
+      fixed: 0,
       label: 'Fourniture électricité (estimation)',
     },
   ];

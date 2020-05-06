@@ -5,6 +5,7 @@ interface Rule {
   per_ton_and_km: number;
   per_km: number;
   per_kWh: number;
+  fixed: number;
   label: string;
 }
 
