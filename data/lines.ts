@@ -20,7 +20,7 @@ export default {
   },
   nordEstGV: {
     label: 'Nord Est Grande Vitesse',
-    train: Trains.talgo230,
+    train: Trains.talgo250,
     steps: [
       ['Paris Gare du Nord', h(20, 0)],
       ['Lille Flandres', h(21, 30)],
@@ -77,7 +77,7 @@ export default {
   },
   barça: {
     label: 'Paris Barcelone Madrid',
-    train: Trains.talgo230,
+    train: Trains.talgo250,
     steps: [
       ['Paris Gare de Lyon', h(20, 0)],
       ['Lyon Part-dieu', h(22, 30)],

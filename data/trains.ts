@@ -7,4 +7,13 @@ const talgo230 = {
   multipleUnit: false,
 };
 
-export { talgo230 };
+const talgo250 = {
+  label: 'Talgo 250',
+  highSpeed: true,
+  gaugeChange: true,
+  weight: 330,
+  cars: 12,
+  multipleUnit: false,
+}
+
+export { talgo230, talgo250 };
