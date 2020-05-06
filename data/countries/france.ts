@@ -84,7 +84,7 @@ const highSpeedMarket = {
   DE: [14.98, 16.69],
   ES: [14.68, 16.36],
   IT: [19.16, 21.35],
-  transversalse: [0, 0],
+  transversale: [0, 0],
 };
 
 function marketRule(market: string, edge: Edge, train: Train): Rule {
