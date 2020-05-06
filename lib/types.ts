@@ -5,6 +5,7 @@ interface Rule {
   per_ton_and_km: number;
   per_km: number;
   per_kWh: number;
+  fixed: number;
   label: string;
 }
 
@@ -15,6 +16,7 @@ interface Train {
   weight: number;
   cars: number;
   multipleUnit: boolean;
+  capacity: number;
 }
 
 interface VehicleJourney {
@@ -69,7 +71,8 @@ class TrainEdge {
   singlePrice(rule: Rule): number {
     return this.weight * this.edge.distance * rule.per_ton_and_km +
       this.edge.distance * rule.per_km +
-      this.energy * rule.per_kWh;
+      this.energy * rule.per_kWh +
+      rule.fixed;
   }
 }
 

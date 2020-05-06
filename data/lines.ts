@@ -18,14 +18,44 @@ export default {
       ['Berlin Hbf', h(8, 0)],
     ],
   },
+  nordEstGV: {
+    label: 'Nord Est Grande Vitesse',
+    train: Trains.talgo250,
+    steps: [
+      ['Paris Gare du Nord', h(20, 0)],
+      ['Lille Flandres', h(21, 30)],
+      ['Frontière FR-BE GV', h(21, 15)],
+      ['Hal', h(23, 0)],
+      ['Bruxelles Midi', h(23, 30)],
+      ['Bruxelles Nord', h(23, 40)],
+      ['Leuven', h(1, 0)],
+      ['Liège', h(1, 30)],
+      ['Frontière BE-DE', h(2, 0)],
+      ['Hamburg Hbf', h(6, 0)],
+      ['Berlin Hbf', h(8, 0)],
+    ],
+  },
   nordEstDirect: {
-    label: 'North Est Direct',
+    label: 'Nord Est Direct',
     train: Trains.talgo230,
     steps: [
-      ['Paris Garde de l’est', h(20, 0)],
-      ['Frontière FR-DE', h(0, 0)],
-      ['Halle', h(6, 0)],
-      ['Berlin Hbf', h(8, 0)],
+      ['Paris Garde de l’est', h(19, 30)],
+      ['Frontière FR-DE', h(23, 30)],
+      ['Halle', h(5, 30)],
+      ['Berlin Hbf', h(7, 0)],
+    ],
+  },
+  nordEstDirectBe: {
+    label: 'Nord Est via Belgique',
+    train: Trains.talgo230,
+    steps: [
+      ['Paris Gare du Nord', h(20, 0)],
+      ['Frontière FR-BE Jeumont', h(22, 30)],
+      ['Charlerois', h(22, 50)],
+      ['Namur', h(23, 10)],
+      ['Liège', h(23, 40)],
+      ['Frontière BE-DE', h(0, 0)],
+      ['Berlin Hbf', h(6, 0)],
     ],
   },
   castilla: {
@@ -60,7 +90,7 @@ export default {
   },
   barça: {
     label: 'Paris Barcelone Madrid',
-    train: Trains.talgo230,
+    train: Trains.talgo250,
     steps: [
       ['Paris Gare de Lyon', h(20, 0)],
       ['Lyon Part-dieu', h(22, 30)],

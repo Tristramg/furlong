@@ -16,6 +16,7 @@ const singleRule: React.FunctionComponent<SingleRuleProps> = ({ rule, price }) =
     <span className={`w-1/12 ${grey(rule.per_km)}`}>{fmt(rule.per_km)}</span>
     <span className={`w-1/12 ${grey(rule.per_ton_and_km)}`}>{fmt(rule.per_ton_and_km)}</span>
     <span className={`w-1/12 ${grey(rule.per_kWh)}`}>{fmt(rule.per_kWh)}</span>
+    <span className={`w-1/12 ${grey(rule.fixed)}`}>{fmt(rule.fixed)}</span>
     <span className={`w-1/12 ${grey(price)}`}>{fmt(price)}</span>
     <span className="text-xs w-5/12">{rule.label}</span>
   </div>
@@ -35,9 +36,11 @@ const Segment: React.FunctionComponent<Props> = ({ edge }) => {
         <span className="mx-1 text-base">{edge.edge.end}</span>
       </div>
     </div>
-    <div className="w-1/12 h-full text-right align-middle m-auto">{edge.edge.distance} km</div>
-    <div className="w-1/12 h-full text-right align-middle m-auto">{edge.energy} kWh</div>
-    <div className="w-7/12 mx-6">
+    <div className="w-1/12 flex align-middle m-auto text-right">
+      <div className="w-1/2">{edge.edge.distance}</div>
+      <div className="w-1/2">{edge.energy}</div>
+    </div>
+    <div className="w-8/12 mx-6">
         {edge.rules.map(rule => singleRule({ rule, price: edge.singlePrice(rule) }))}
     </div>
     <div className="w-1/12 align-middle m-auto text-right">{fmt(edge.price)} €</div>

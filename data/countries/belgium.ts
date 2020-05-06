@@ -97,24 +97,28 @@ function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
       per_ton_and_km: 0,
       per_km: coeff * coutDirectUnitaire,
       per_kWh: 0,
+      fixed: 0,
       label: `Rails : ${density}, ${period}`,
     },
     {
       per_km: 0,
       per_kWh: 0.06,
       per_ton_and_km: 0,
+      fixed: 0,
       label: 'Fourniture électricité',
     },
     {
       per_ton_and_km: 0,
       per_km: 0,
       per_kWh: 0.017,
+      fixed: 0,
       label: 'Utilisation caténaire',
     },
     {
       per_ton_and_km: 0,
       per_km: 0,
       per_kWh: 0.020,
+      fixed: 0,
       label: 'Distribution et pertes électriques',
     },
   ];

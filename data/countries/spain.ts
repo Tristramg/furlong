@@ -66,24 +66,28 @@ function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
       per_km: prices[cat]['A'],
       per_kWh: 0,
       per_ton_and_km: 0,
+      fixed: 0,
       label: `Modalidad A (réservaton sillon) ${cat}`,
     },
     {
       per_km: prices[cat]['B'],
       per_kWh: 0,
       per_ton_and_km: 0,
+      fixed: 0,
       label: `Modalidad B (utilisation sillon) ${cat}`,
     },
     {
       per_km: prices[cat]['C'],
       per_kWh: 0,
       per_ton_and_km: 0,
+      fixed: 0,
       label: `Modalidad C (utilisation installation électrique) ${cat}`,
     },
     {
       per_km: 0,
       per_kWh: 0.00112,
       per_ton_and_km: 0,
+      fixed: 0,
       label: 'Cout de gestion électricité (SC-2)',
     },
   ];
@@ -95,18 +99,21 @@ function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
         per_km: prices[line]['A'],
         per_kWh: 0,
         per_ton_and_km: 0,
+        fixed: 0,
         label: `Supplément Modalidad A ligne chargée ${line}`,
       },
       {
         per_km: prices[line]['B'],
         per_kWh: 0,
         per_ton_and_km: 0,
+        fixed: 0,
         label: `Supplément Modalidad B ligne chargée ${line}`,
       },
       {
         per_km: prices[line]['C'],
         per_kWh: 0,
         per_ton_and_km: 0,
+        fixed: 0,
         label: `Supplément Modalidad C ligne chargée ${line}`,
       });
   }
@@ -116,6 +123,7 @@ function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
       per_km: 0,
       per_kWh: 0,
       per_ton_and_km: 3.207659 / 1000,
+      fixed: 0,
       label: 'Fourniture et distribution électricité courant continu',
     });
   } else {
@@ -124,12 +132,14 @@ function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
         per_km: 0,
         per_kWh: 0.0645,
         per_ton_and_km: 0,
+        fixed: 0,
         label: 'Fourniture électricité courant alternatif (energía)',
       },
       {
         per_km: 0,
         per_kWh: 0.032,
         per_ton_and_km: 0,
+        fixed: 0,
         label: 'Distribution électricité courant alternatif (coste ATR)',
       },
     );
