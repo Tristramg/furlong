@@ -39,10 +39,23 @@ export default {
     label: 'Nord Est Direct',
     train: Trains.talgo230,
     steps: [
-      ['Paris Garde de l’est', h(20, 0)],
-      ['Frontière FR-DE', h(0, 0)],
-      ['Halle', h(6, 0)],
-      ['Berlin Hbf', h(8, 0)],
+      ['Paris Garde de l’est', h(19, 30)],
+      ['Frontière FR-DE', h(23, 30)],
+      ['Halle', h(5, 30)],
+      ['Berlin Hbf', h(7, 0)],
+    ],
+  },
+  nordEstDirectBe: {
+    label: 'Nord Est via Belgique',
+    train: Trains.talgo230,
+    steps: [
+      ['Paris Gare du Nord', h(20, 0)],
+      ['Frontière FR-BE Jeumont', h(22, 30)],
+      ['Charlerois', h(22, 50)],
+      ['Namur', h(23, 10)],
+      ['Liège', h(23, 40)],
+      ['Frontière BE-DE', h(0, 0)],
+      ['Berlin Hbf', h(6, 0)],
     ],
   },
   castilla: {
