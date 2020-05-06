@@ -18,6 +18,23 @@ export default {
       ['Berlin Hbf', h(8, 0)],
     ],
   },
+  nordEstGV: {
+    label: 'Nord Est Grande Vitesse',
+    train: Trains.talgo230,
+    steps: [
+      ['Paris Gare du Nord', h(20, 0)],
+      ['Lille Flandres', h(21, 30)],
+      ['Frontière FR-BE GV', h(21, 15)],
+      ['Hal', h(23, 0)],
+      ['Bruxelles Midi', h(23, 30)],
+      ['Bruxelles Nord', h(23, 40)],
+      ['Leuven', h(1, 0)],
+      ['Liège', h(1, 30)],
+      ['Frontière BE-DE', h(2, 0)],
+      ['Hamburg Hbf', h(6, 0)],
+      ['Berlin Hbf', h(8, 0)],
+    ],
+  },
   nordEstDirect: {
     label: 'Nord Est Direct',
     train: Trains.talgo230,
