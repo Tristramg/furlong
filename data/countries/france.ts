@@ -118,7 +118,11 @@ function marketClass(edges: Edge[]): string {
 function rules(edge: Edge, train: Train,  edges: Edge[]): Rule[] {
   const market = marketClass(edges);
   const rules = market === 'classic' ? highSpeedTrain : classicTrain;
-  return [marketRule(market, train)].concat(rules);
+  const result = [marketRule(market, train)].concat(rules);
+  if (edge.line.label === 'LN1') {
+    result.push(parisLyonExtra);
+  }
+  return result;
 }
 
 export default rules;
