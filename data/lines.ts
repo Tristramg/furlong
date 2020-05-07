@@ -39,7 +39,7 @@ export default {
     label: 'Nord Est Direct',
     train: Trains.talgo230,
     steps: [
-      ['Paris Garde de l’est', h(19, 30)],
+      ['Paris Gare de l’est', h(19, 30)],
       ['Frontière FR-DE', h(23, 30)],
       ['Halle', h(5, 30)],
       ['Berlin Hbf', h(7, 0)],
@@ -60,7 +60,7 @@ export default {
   },
   castilla: {
     label: 'Castilla',
-    train: Trains.talgo230,
+    train: Trains.talgo250,
     steps: [
       ['Paris Montparnasse', h(20, 0)],
       ['Embranchement de Monts', h(21, 0)],
@@ -71,6 +71,21 @@ export default {
       ['Madrid Chamartín', h(7, 30)],
       ['Madrid Atocha', h(7, 40)],
       ['Sevilla Santa Justa', h(9, 0)],
+    ],
+  },
+  castillaGV: {
+    label: 'Castilla Classique',
+    train: Trains.talgo230,
+    steps: [
+      ['Paris Austerlitz', h(20, 0)],
+      ['Orléans Les Aubrais', h(21, 0)],
+      ['Saint Pierre des Corps', h(21, 50)],
+      ['Poitiers', h(22, 40)],
+      ['Angoulême', h(0, 0)],
+      ['Bordeaux Saint-Jean', h(1, 0)],
+      ['Frontière FR-ES', h(2, 30)],
+      ['Valladolid Campo Grande', h(6, 30)],
+      ['Madrid Chamartín', h(8, 30)],
     ],
   },
   lisboa: {
