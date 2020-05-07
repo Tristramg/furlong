@@ -1,5 +1,6 @@
-import { Edge, Rule, Train } from '../../lib/types';
+import { Edge, Rule, Train, StopTime } from '../../lib/types';
 import { h, included } from '../../lib/helpers';
+import { stationRules } from '../countries';
 
 const coutDirectUnitaire = 1.7045567852248;
 
@@ -87,7 +88,7 @@ function getPeriod(edge: Edge): Period {
   return Period.OFF_PEAK;
 }
 
-function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
+function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
   const density = train.highSpeed ? LineDensity.HIGH_SPEED_TRAIN : edge.line.class;
   const period = getPeriod(edge);
   const coeff =  coeffs[period][density];
@@ -121,7 +122,7 @@ function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
       fixed: 0,
       label: 'Distribution et pertes électriques',
     },
-  ];
+  ].concat(stationRules(edge, index === edges.length - 1));
 }
 
 export default rules;

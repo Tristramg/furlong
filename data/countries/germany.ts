@@ -1,5 +1,6 @@
 import { Rule, Edge, Train } from '../../lib/types';
 import { h } from '../../lib/helpers';
+import { stationRules } from '../countries';
 
 function duration(edge: Edge, start: number, end: number):number {
   const d = Math.min(end, edge.arrival.time) - Math.max(start, edge.departure.time);
@@ -13,7 +14,7 @@ function metroPrice(edge: Edge, avgSpeed: number): number {
   return metroMin + (consideredSpeed - 100) * (metroMax - metroMin) / 60;
 }
 
-function rules(edge: Edge, train: Train,  edges: Edge[]): Rule[] {
+function rules(edge: Edge, train: Train,  edges: Edge[], index: number): Rule[] {
   const totalDuration = edge.arrival.time - edge.departure.time;
   const nightDuration = duration(edge, h(23, 0), h(6, 0));
   const basicDuration = duration(edge, h(20, 0), h(23, 0));
@@ -63,7 +64,7 @@ function rules(edge: Edge, train: Train,  edges: Edge[]): Rule[] {
       fixed: 0,
       label: 'Fourniture électricité',
     },
-  ];
+  ].concat(stationRules(edge, index === edges.length - 1));
 }
 
 export default rules;

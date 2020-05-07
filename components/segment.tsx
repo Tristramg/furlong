@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { TrainEdge, Rule, Edge } from '../lib/types';
+import { TrainEdge, Rule } from '../lib/types';
 import { grey, fmt, fh } from '../lib/helpers';
-import Station from './station';
 
 type Props = {
   edge: TrainEdge,
-  position: string,
 };
 
 type SingleRuleProps = {
@@ -35,7 +33,7 @@ const Times = ({ edge }) => <div className="w-2/12 h-full m-auto">
   <StopTime stop={edge.arrival}></StopTime>
 </div>;
 
-const Segment: React.FunctionComponent<Props> = ({ edge, position }) => {
+const Segment: React.FunctionComponent<Props> = ({ edge }) => {
   return (
   <div className="flex gap text-sm border border-gray-400 rounded m-1 px-1 odd:bg-gray-100">
     <Times edge={edge.edge}></Times>

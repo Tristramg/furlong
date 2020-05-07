@@ -1,5 +1,5 @@
 import lfp from './figueras_perpignan';
-import { Rule, Edge, Train } from '../../lib/types';
+import { Rule, Edge, Train, StopTime } from '../../lib/types';
 import _ from 'lodash';
 
 const classicTrain = [
@@ -138,7 +138,36 @@ function marketClass(edges: Edge[]): string {
   return 'classic';
 }
 
-function rules(edge: Edge, train: Train,  edges: Edge[]): Rule[] {
+function stationRule(station: StopTime): Rule[] {
+  if (station.commercial) {
+    return [
+      {
+        per_ton_and_km: 0,
+        per_km: 0,
+        per_kWh: 0,
+        fixed: station.station,
+        label: 'Redevance quai (SNCF Réseau)',
+      },
+      {
+        per_ton_and_km: 0,
+        per_km: 0,
+        per_kWh: 0,
+        fixed: station.track,
+        label: 'Redevance Gares & Connexions',
+      },
+    ];
+  }
+  return [];
+}
+
+function stationRules(edge: Edge, last: boolean) {
+  if (last) {
+    return stationRule(edge.departure).concat(stationRule(edge.arrival));
+  }
+  return stationRule(edge.departure);
+}
+
+function rules(edge: Edge, train: Train,  edges: Edge[], index: number): Rule[] {
   if (edge.line.label === 'LFP') {
     return lfp(edge, train);
   }
@@ -148,7 +177,7 @@ function rules(edge: Edge, train: Train,  edges: Edge[]): Rule[] {
   if (edge.line.label === 'LN1') {
     result.push(parisLyonExtra);
   }
-  return result;
+  return result.concat(stationRules(edge, false));
 }
 
 export default rules;

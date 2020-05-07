@@ -5,13 +5,12 @@ function gen(list, infra) : Edge[] {
   return _.zipWith(_.dropRight(list), _.drop(list), (start, end) => {
     const edge = edgeId(start[0], end[0]);
     const infraEdge = infra.edges[edge];
-    if(!infraEdge) console.log(edgeId(start[0], end[0]))
 
     const departure = infra.nodes[start[0]];
     const arrival = infra.nodes[end[0]];
 
-    if (!departure) { console.error(`Missing node ${start[0]}`)}
-    if (!arrival) { console.error(`Missing node ${end[0]}`)}
+    if (!departure) { console.error(`Missing node ${start[0]}`); }
+    if (!arrival) { console.error(`Missing node ${end[0]}`); }
 
     return {
       label: infraEdge.label,
@@ -22,18 +21,24 @@ function gen(list, infra) : Edge[] {
         label: departure.Name,
         time: start[1],
         commercial: start[2],
+        station: departure['Price station'],
+        track: departure['Price track (FR)'],
+        adifClass: departure['ADIF Class (ES)'],
       },
       arrival: {
         label: arrival.Name,
         time: end[1],
         commercial: end[2],
+        station: arrival['Price station'],
+        track: arrival['Price track (FR)'],
+        adifClass: arrival['ADIF Class (ES)'],
       },
-    }
+    };
   });
 }
 
 function vehicleJourney(route: Route, train: Train): VehicleJourney {
-  const edges = route.segments.map(s => new TrainEdge(s, train, route.segments));
+  const edges = route.segments.map((s, i) => new TrainEdge(s, train, route.segments, i));
 
   return {
     edges,

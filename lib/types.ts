@@ -44,6 +44,9 @@ interface StopTime {
   label: string;
   time: number;
   commercial: boolean;
+  station: number;
+  track: number;
+  adifClass: number;
 }
 
 class Edge {
@@ -62,11 +65,11 @@ class TrainEdge {
   price: number;
   rules: Rule[];
 
-  constructor(edge: Edge, train: Train, edges: Edge[]) {
+  constructor(edge: Edge, train: Train, edges: Edge[], index: number) {
     this.edge = edge;
     this.weight = train.weight;
     this.energy = edge.distance * 10;
-    this.rules = rules(edge, train, edges);
+    this.rules = rules(edge, train, edges, index);
     this.price = _(this.rules).map(r => this.singlePrice(r)).sum();
   }
 
@@ -83,5 +86,5 @@ interface Route {
   segments: Edge[];
 }
 
-export type { Rule, Train, VehicleJourney, Edge, Route, Line };
+export type { Rule, Train, VehicleJourney, Edge, Route, Line, StopTime };
 export { TrainEdge, ccCurent };

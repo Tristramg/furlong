@@ -3,7 +3,7 @@ import france from './countries/france';
 import germany from './countries/germany';
 import spain from './countries/spain';
 import portugal from './countries/portugal';
-import { Rule, Edge, Train } from '../lib/types';
+import { Rule, Edge, Train, StopTime } from '../lib/types';
 
 const data = {
   ES: {
@@ -50,8 +50,28 @@ const data = {
   },
 };
 
-function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
-  return data[edge.country].rules(edge, train, edges);
+function stationRule(station: StopTime) {
+  if (station.commercial) {
+    return [{
+      per_ton_and_km: 0,
+      per_km: 0,
+      per_kWh: 0,
+      fixed: station.station,
+      label: 'Gare',
+    }];
+  }
+  return [];
 }
 
-export { rules, data };
+function stationRules(edge: Edge, last: boolean): Rule[] {
+  if (last) {
+    return stationRule(edge.departure).concat(stationRule(edge.arrival));
+  }
+  return stationRule(edge.departure);
+}
+
+function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
+  return data[edge.country].rules(edge, train, edges, index);
+}
+
+export { rules, data, stationRules };
