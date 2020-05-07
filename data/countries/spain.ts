@@ -50,7 +50,7 @@ function market(edges: Edge[]): string {
     return 'VL2';
   }
 
-  if (_.some(edges, e => e.start.includes('Madrid') || e.end.includes('Madrid'))) {
+  if (_.some(edges, e => e.departure.label.includes('Madrid') || e.arrival.label.includes('Madrid'))) {
     return 'VL1';
   }
 

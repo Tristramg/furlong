@@ -40,17 +40,19 @@ function ccCurent(line: Line): boolean {
   return /CC/.test(line.current);
 }
 
-class InfraEdge {
-  start: string;
-  end: string;
+interface StopTime {
+  label: string;
+  time: number;
+  commercial: boolean;
+}
+
+class Edge {
+  departure: StopTime;
+  arrival: StopTime;
   label: string;
   distance: number;
   country: string;
   line: Line;
-}
-class Edge extends InfraEdge {
-  departureTime: number;
-  arrivalTime: number;
 }
 
 class TrainEdge {

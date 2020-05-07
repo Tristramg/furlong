@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { TrainEdge, Rule } from '../lib/types';
+import { TrainEdge, Rule, Edge } from '../lib/types';
 import { grey, fmt, fh } from '../lib/helpers';
+import Station from './station';
 
 type Props = {
   edge: TrainEdge,
@@ -22,15 +23,15 @@ const singleRule: React.FunctionComponent<SingleRuleProps> = ({ rule, price }) =
   </div>
 );
 
-const StopTime = ({ time, label }) => <div>
-  <span className="w-1/4 font-mono">{fh(time)}</span>
-  <span className="mx-1 text-base">{label}</span>
+const StopTime = ({ stop }) => <div className={stop.commercial ? '' : 'text-gray-500'}>
+  <span className="w-1/4 font-mono">{fh(stop.time)}</span>
+  <span className="mx-1 text-base">{stop.label}</span>
 </div>;
 
 const Times = ({ edge }) => <div className="w-2/12 h-full m-auto">
-  <StopTime time={edge.departureTime} label={edge.start}></StopTime>
+  <StopTime stop={edge.departure}></StopTime>
   <div className="text-xs text-right object-middle">{edge.label}</div>
-  <StopTime time={edge.arrivalTime} label={edge.end}></StopTime>
+  <StopTime stop={edge.arrival}></StopTime>
 </div>;
 
 const Segment: React.FunctionComponent<Props> = ({ edge }) => {

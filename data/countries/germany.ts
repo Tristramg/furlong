@@ -2,7 +2,7 @@ import { Rule, Edge, Train } from '../../lib/types';
 import { h } from '../../lib/helpers';
 
 function duration(edge: Edge, start: number, end: number):number {
-  const d = Math.min(end, edge.arrivalTime) - Math.max(start, edge.departureTime);
+  const d = Math.min(end, edge.arrival.time) - Math.max(start, edge.departure.time);
   return Math.max(0, d);
 }
 
@@ -14,7 +14,7 @@ function metroPrice(edge: Edge, avgSpeed: number): number {
 }
 
 function rules(edge: Edge, train: Train,  edges: Edge[]): Rule[] {
-  const totalDuration = edge.arrivalTime - edge.departureTime;
+  const totalDuration = edge.arrival.time - edge.departure.time;
   const nightDuration = duration(edge, h(23, 0), h(6, 0));
   const basicDuration = duration(edge, h(20, 0), h(23, 0));
   const metroDuration = duration(edge, 6 * 60, 20 * 60) +

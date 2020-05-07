@@ -2,13 +2,27 @@ import _ from 'lodash';
 import { Route, Edge, TrainEdge, Train, VehicleJourney } from './types';
 
 function gen(list, infra) : Edge[] {
-  return _.zipWith(_.drop(list), _.dropRight(list), (start, end) => {
+  return _.zipWith(_.dropRight(list), _.drop(list), (start, end) => {
     const edge = edgeId(start[0], end[0]);
-    const e = infra.edges[edge];
+    const infraEdge = infra.edges[edge];
+    if(!infraEdge) console.log(edgeId(start[0], end[0]))
 
-    e.departureTime = end[1];
-    e.arrivalTime = start[1];
-    return e;
+    return {
+      label: infraEdge.label,
+      distance: infraEdge.distance,
+      country: infraEdge.country,
+      line: infraEdge.line,
+      departure: {
+        label: start[0],
+        time: start[1],
+        commercial: start[2],
+      },
+      arrival: {
+        label: end[0],
+        time: end[1],
+        commercial: end[2],
+      },
+    }
   });
 }
 
@@ -48,7 +62,7 @@ function in_period(time: number, start: number, end: number) {
 }
 
 function included(edge: Edge, start: number, end: number) {
-  return in_period(edge.arrivalTime, start, end) || in_period(edge.departureTime, start, end);
+  return in_period(edge.arrival.time, start, end) || in_period(edge.departure.time, start, end);
 }
 
 export { fmt, grey, vehicleJourney, h, fh, edgeId, gen, included };
