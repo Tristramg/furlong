@@ -7,18 +7,24 @@ function gen(list, infra) : Edge[] {
     const infraEdge = infra.edges[edge];
     if(!infraEdge) console.log(edgeId(start[0], end[0]))
 
+    const departure = infra.nodes[start[0]];
+    const arrival = infra.nodes[end[0]];
+
+    if (!departure) { console.error(`Missing node ${start[0]}`)}
+    if (!arrival) { console.error(`Missing node ${end[0]}`)}
+
     return {
       label: infraEdge.label,
-      distance: infraEdge.distance,
+      distance: infraEdge.distance  ,
       country: infraEdge.country,
       line: infraEdge.line,
       departure: {
-        label: start[0],
+        label: departure.Name,
         time: start[1],
         commercial: start[2],
       },
       arrival: {
-        label: end[0],
+        label: arrival.Name,
         time: end[1],
         commercial: end[2],
       },
