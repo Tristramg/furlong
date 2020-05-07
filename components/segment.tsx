@@ -22,20 +22,21 @@ const singleRule: React.FunctionComponent<SingleRuleProps> = ({ rule, price }) =
   </div>
 );
 
+const StopTime = ({ stop }) => <div className={stop.commercial ? '' : 'text-gray-500'}>
+  <span className="w-1/4 font-mono">{fh(stop.time)}</span>
+  <span className="mx-1 text-base">{stop.label}</span>
+</div>;
+
+const Times = ({ edge }) => <div className="w-2/12 h-full m-auto">
+  <StopTime stop={edge.departure}></StopTime>
+  <div className="text-xs text-right object-middle">{edge.label}</div>
+  <StopTime stop={edge.arrival}></StopTime>
+</div>;
+
 const Segment: React.FunctionComponent<Props> = ({ edge }) => {
   return (
   <div className="flex gap text-sm border border-gray-400 rounded m-1 px-1 odd:bg-gray-100">
-    <div className="w-2/12 h-full m-auto">
-      <div className="">
-        <span className="w-1/4 font-mono">{fh(edge.edge.departureTime)}</span>
-        <span className="mx-1 text-base">{edge.edge.start}</span>
-      </div>
-      <div className="text-xs text-right object-middle">{edge.edge.label}</div>
-      <div className="">
-        <span className="w-1/4 font-mono">{fh(edge.edge.arrivalTime)}</span>
-        <span className="mx-1 text-base">{edge.edge.end}</span>
-      </div>
-    </div>
+    <Times edge={edge.edge}></Times>
     <div className="w-1/12 flex align-middle m-auto text-right">
       <div className="w-1/2">{edge.edge.distance}</div>
       <div className="w-1/2">{edge.energy}</div>

@@ -45,8 +45,8 @@ export default async function importAirtable() {
       infra: {
         nodes: _.keyBy(rawNodes, 'Name'),
         edges: _(rawEdges).values().map(v => [id(v), {
-          start: rawNodes[v.from[0]].Name,
-          end: rawNodes[v.to[0]].Name,
+          departure: rawNodes[v.from[0]],
+          arrival: rawNodes[v.to[0]],
           country: v.Country,
           label: v.Line ? lines[v.Line[0]].label : '',
           distance: v.length,

@@ -1,7 +1,13 @@
 import { fmt } from '../lib/helpers';
 import Segment from './segment';
+import { VehicleJourney  } from '../lib/types';
+import * as React from 'react';
 
-const VehicleJourney = ({ vj }) => <div className="p-12">
+type Props = {
+  vj: VehicleJourney;
+};
+
+const VehicleJourneyComponent: React.FunctionComponent<Props> = ({ vj }) => <div className="p-12">
 <h1 className="text-xl font-bold">{vj.label}</h1>
 <div className="flex gap font-bold border border-gray-400 rounded m-1 px-1">
   <div className="w-2/12">Segment</div>
@@ -33,4 +39,4 @@ const VehicleJourney = ({ vj }) => <div className="p-12">
 </div>
 </div>;
 
-export default VehicleJourney;
+export default VehicleJourneyComponent;

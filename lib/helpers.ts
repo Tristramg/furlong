@@ -2,18 +2,43 @@ import _ from 'lodash';
 import { Route, Edge, TrainEdge, Train, VehicleJourney } from './types';
 
 function gen(list, infra) : Edge[] {
-  return _.zipWith(_.drop(list), _.dropRight(list), (start, end) => {
+  return _.zipWith(_.dropRight(list), _.drop(list), (start, end) => {
     const edge = edgeId(start[0], end[0]);
-    const e = infra.edges[edge];
+    const infraEdge = infra.edges[edge];
 
-    e.departureTime = end[1];
-    e.arrivalTime = start[1];
-    return e;
+    const departure = infra.nodes[start[0]];
+    const arrival = infra.nodes[end[0]];
+
+    if (!departure) { console.error(`Missing node ${start[0]}`); }
+    if (!arrival) { console.error(`Missing node ${end[0]}`); }
+
+    return {
+      label: infraEdge.label,
+      distance: infraEdge.distance  ,
+      country: infraEdge.country,
+      line: infraEdge.line,
+      departure: {
+        label: departure.Name,
+        time: start[1],
+        commercial: start[2],
+        station: departure['Price station'],
+        track: departure['Price track (FR)'],
+        adifClass: departure['ADIF Class (ES)'],
+      },
+      arrival: {
+        label: arrival.Name,
+        time: end[1],
+        commercial: end[2],
+        station: arrival['Price station'],
+        track: arrival['Price track (FR)'],
+        adifClass: arrival['ADIF Class (ES)'],
+      },
+    };
   });
 }
 
 function vehicleJourney(route: Route, train: Train): VehicleJourney {
-  const edges = route.segments.map(s => new TrainEdge(s, train, route.segments));
+  const edges = route.segments.map((s, i) => new TrainEdge(s, train, route.segments, i));
 
   return {
     edges,
@@ -48,7 +73,7 @@ function in_period(time: number, start: number, end: number) {
 }
 
 function included(edge: Edge, start: number, end: number) {
-  return in_period(edge.arrivalTime, start, end) || in_period(edge.departureTime, start, end);
+  return in_period(edge.arrival.time, start, end) || in_period(edge.departure.time, start, end);
 }
 
 export { fmt, grey, vehicleJourney, h, fh, edgeId, gen, included };

@@ -31,8 +31,8 @@ const Home = ({ infra }) => {
           <td><Link href={`/lines/${id}`}><a className="underline">{vj.label}</a></Link></td>
           <td>{fmt(vj.price)}</td>
           <td>{vj.distance}</td>
-          <td>{_.head(vj.edges).edge.start}</td>
-          <td>{_.last(vj.edges).edge.end}</td>
+          <td>{_.head(vj.edges).edge.departure.label}</td>
+          <td>{_.last(vj.edges).edge.arrival.label}</td>
           <td>{_(vj.edges).map('edge.line.current').uniq().join(', ')}</td>
           <td>{_(vj.edges).map('edge.line.signaling').uniq().join(', ')}</td>
           <td>{_(vj.edges).map('edge.line.gauge').uniq().join(', ')}</td>
