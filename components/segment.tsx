@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { TrainEdge, Rule } from '../lib/types';
 import { grey, fmt, fh } from '../lib/helpers';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { RuleCategory } from '../lib/types.d';
 
 type Props = {
   edge: TrainEdge,
@@ -11,6 +13,12 @@ type SingleRuleProps = {
   price: number,
 };
 
+const icons = {
+  [RuleCategory.Energy]: <FontAwesomeIcon className="text-gray-600" icon="bolt" />,
+  [RuleCategory.Tracks]: <FontAwesomeIcon className="text-gray-600" icon="road" />,
+  [RuleCategory.Station]: <FontAwesomeIcon className="text-gray-600" icon= "building" />,
+};
+
 const singleRule: React.FunctionComponent<SingleRuleProps> = ({ rule, price }) => (
   <div className="flex">
     <span className={`w-1/12 ${grey(rule.per_km)}`}>{fmt(rule.per_km)}</span>
@@ -18,7 +26,9 @@ const singleRule: React.FunctionComponent<SingleRuleProps> = ({ rule, price }) =
     <span className={`w-1/12 ${grey(rule.per_kWh)}`}>{fmt(rule.per_kWh)}</span>
     <span className={`w-1/12 ${grey(rule.fixed)}`}>{fmt(rule.fixed)}</span>
     <span className={`w-1/12 ${grey(price)}`}>{fmt(price)}</span>
-    <span className="text-xs w-5/12">{rule.label}</span>
+    <span className="text-xs w-5/12">
+      {icons[rule.category]} {rule.label}
+    </span>
   </div>
 );
 
