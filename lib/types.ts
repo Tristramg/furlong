@@ -81,6 +81,11 @@ class TrainEdge {
       this.energy * rule.per_kWh +
       rule.fixed;
   }
+
+  pricesByCategory() {
+    const sumPrices = (rules: Rule[]): number => _(rules).map(r => this.singlePrice(r)).sum();
+    return _(this.rules).groupBy('category').mapValues(sumPrices).value();
+  }
 }
 
 interface Route {

@@ -4,7 +4,11 @@
 /* purgecss end ignore */
 
 h1 {
-  @apply text-2xl;
+  @apply text-2xl  font-bold;
+}
+
+h2 {
+  @apply text-xl pt-2;
 }
 
 a {
