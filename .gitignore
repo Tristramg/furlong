@@ -1,4 +1,7 @@
 node_modules
 .next
-
 .now
+.env
+.vscode
+now.json
+next-env.d.ts
