@@ -1,5 +1,6 @@
 import { fmt } from '../lib/helpers';
 import Segment from './segment';
+import VJSummary from './vj_summary';
 import { VehicleJourney  } from '../lib/types';
 import * as React from 'react';
 
@@ -8,7 +9,10 @@ type Props = {
 };
 
 const VehicleJourneyComponent: React.FunctionComponent<Props> = ({ vj }) => <div className="p-12">
-<h1 className="text-xl font-bold">{vj.label}</h1>
+<h1>{vj.label}</h1>
+<h2>Synthèse</h2>
+<VJSummary vj={vj} />
+<h2>Détails</h2>
 <div className="flex gap font-bold border border-gray-400 rounded m-1 px-1">
   <div className="w-2/12">Segment</div>
   <div className="w-1/12 flex text-right">
