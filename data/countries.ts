@@ -4,6 +4,7 @@ import germany from './countries/germany';
 import spain from './countries/spain';
 import portugal from './countries/portugal';
 import { Rule, Edge, Train, StopTime } from '../lib/types';
+import { RuleCategory } from '../lib/types.d';
 
 const data = {
   ES: {
@@ -50,7 +51,7 @@ const data = {
   },
 };
 
-function stationRule(station: StopTime) {
+function stationRule(station: StopTime): Rule[] {
   if (station.commercial) {
     return [{
       per_ton_and_km: 0,
@@ -58,6 +59,7 @@ function stationRule(station: StopTime) {
       per_kWh: 0,
       fixed: station.station,
       label: 'Gare',
+      category: RuleCategory.Station,
     }];
   }
   return [];

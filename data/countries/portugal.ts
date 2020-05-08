@@ -1,4 +1,5 @@
 import { Edge, Rule, Train } from '../../lib/types';
+import { RuleCategory } from '../../lib/types.d';
 import { h, included } from '../../lib/helpers';
 
 enum Period {
@@ -36,6 +37,7 @@ function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
       per_ton_and_km: 0,
       fixed: 0,
       label: `Rails classe International, ligne catégorie A, ${period}`,
+      category: RuleCategory.Tracks,
     },
     {
       per_km: coeff,
@@ -43,6 +45,7 @@ function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
       per_ton_and_km: 0,
       fixed: 0,
       label: 'Fourniture électricité (estimation)',
+      category: RuleCategory.Energy,
     },
   ];
 }

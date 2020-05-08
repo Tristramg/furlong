@@ -1,4 +1,5 @@
 import { Rule, Edge, Train } from '../../lib/types';
+import { RuleCategory } from '../../lib/types.d';
 import { h } from '../../lib/helpers';
 import { stationRules } from '../countries';
 
@@ -35,6 +36,7 @@ function rules(edge: Edge, train: Train,  edges: Edge[], index: number): Rule[] 
       per_ton_and_km: 0,
       fixed: 0,
       label: `Prix nuit « nacht » 2,63€/km sur ${nightShare}%`,
+      category: RuleCategory.Tracks,
     },
     {
       per_km: 4.76 * basicDuration / totalDuration,
@@ -42,6 +44,7 @@ function rules(edge: Edge, train: Train,  edges: Edge[], index: number): Rule[] 
       per_ton_and_km: 0,
       fixed: 0,
       label: `Prix « basic »  4,76 €/km sur ${basicShare}%`,
+      category: RuleCategory.Tracks,
     },
     {
       per_km: metroMid * metroDuration / totalDuration,
@@ -49,6 +52,7 @@ function rules(edge: Edge, train: Train,  edges: Edge[], index: number): Rule[] 
       per_ton_and_km: 0,
       fixed: 0,
       label: `Prix « metro »  ${metroMid.toFixed(2)} €/km, vitesse moyenne ${avgSpeed.toFixed(0)} km/h sur ${metroShare}%`,
+      category: RuleCategory.Tracks,
     },
     {
       per_km: 0,
@@ -56,6 +60,7 @@ function rules(edge: Edge, train: Train,  edges: Edge[], index: number): Rule[] 
       per_ton_and_km: 0,
       fixed: 0,
       label: 'Distribution électricité',
+      category: RuleCategory.Energy,
     },
     {
       per_km: 0,
@@ -63,6 +68,7 @@ function rules(edge: Edge, train: Train,  edges: Edge[], index: number): Rule[] 
       per_ton_and_km: 0,
       fixed: 0,
       label: 'Fourniture électricité',
+      category: RuleCategory.Energy,
     },
   ].concat(stationRules(edge, index === edges.length - 1));
 }

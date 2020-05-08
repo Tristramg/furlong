@@ -1,4 +1,5 @@
-import { Edge, Rule, Train, StopTime } from '../../lib/types';
+import { Edge, Rule, Train } from '../../lib/types';
+import { RuleCategory } from '../../lib/types.d';
 import { h, included } from '../../lib/helpers';
 import { stationRules } from '../countries';
 
@@ -100,6 +101,7 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
       per_kWh: 0,
       fixed: 0,
       label: `Rails : ${density}, ${period}`,
+      category: RuleCategory.Tracks,
     },
     {
       per_km: 0,
@@ -107,6 +109,7 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
       per_ton_and_km: 0,
       fixed: 0,
       label: 'Fourniture électricité',
+      category: RuleCategory.Energy,
     },
     {
       per_ton_and_km: 0,
@@ -114,6 +117,7 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
       per_kWh: 0.017,
       fixed: 0,
       label: 'Utilisation caténaire',
+      category: RuleCategory.Energy,
     },
     {
       per_ton_and_km: 0,
@@ -121,6 +125,7 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
       per_kWh: 0.020,
       fixed: 0,
       label: 'Distribution et pertes électriques',
+      category: RuleCategory.Energy,
     },
   ].concat(stationRules(edge, index === edges.length - 1));
 }

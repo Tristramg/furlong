@@ -1,14 +1,16 @@
 import lfp from './figueras_perpignan';
 import { Rule, Edge, Train, StopTime } from '../../lib/types';
+import { RuleCategory } from '../../lib/types.d';
 import _ from 'lodash';
 
-const classicTrain = [
+const classicTrain: Rule[] = [
   {
     per_ton_and_km: 0.003230,
     per_km: 0.435,
     per_kWh: 0,
     fixed: 0,
     label: 'Redevance circulation (RC)',
+    category: RuleCategory.Tracks,
   },
   {
     per_ton_and_km: 0,
@@ -16,6 +18,7 @@ const classicTrain = [
     per_kWh: 0,
     fixed: 0,
     label: 'Accès aux installation électriques (RCE)',
+    category: RuleCategory.Energy,
   },
   {
     per_ton_and_km: 0,
@@ -23,6 +26,7 @@ const classicTrain = [
     per_kWh: 0,
     fixed: 0,
     label: 'Pertes électriques (RCTE Composante A)',
+    category: RuleCategory.Energy,
   },
   {
     per_ton_and_km: 0,
@@ -30,6 +34,7 @@ const classicTrain = [
     per_kWh: 0,
     fixed: 0,
     label: 'Distribution électriques (RCTE Composante B)',
+    category: RuleCategory.Energy,
   },
   {
     per_ton_and_km: 0,
@@ -37,16 +42,18 @@ const classicTrain = [
     per_kWh: 0.06,
     fixed: 0,
     label: 'Fourniture énergie (estimation)',
+    category: RuleCategory.Energy,
   },
 ];
 
-const highSpeedTrain = [
+const highSpeedTrain: Rule[] = [
   {
     per_ton_and_km: 0.005874,
     per_km: 0.239,
     per_kWh: 0,
     fixed: 0,
     label: 'Redevance circulation (RC)',
+    category: RuleCategory.Tracks,
   },
   {
     per_ton_and_km: 0,
@@ -54,6 +61,7 @@ const highSpeedTrain = [
     per_kWh: 0,
     fixed: 0,
     label: 'Accès aux installation électriques (RCE)',
+    category: RuleCategory.Energy,
   },
   {
     per_ton_and_km: 0,
@@ -61,6 +69,7 @@ const highSpeedTrain = [
     per_kWh: 0,
     fixed: 0,
     label: 'Pertes électriques RCTE Composante A',
+    category: RuleCategory.Energy,
   },
   {
     per_ton_and_km: 0,
@@ -68,15 +77,17 @@ const highSpeedTrain = [
     per_kWh: 0,
     fixed: 0,
     label: 'Distribution électriques RCTE Composante B',
+    category: RuleCategory.Energy,
   },
 ];
 
-const parisLyonExtra = {
+const parisLyonExtra: Rule = {
   per_ton_and_km: 0,
   per_km: 0.36,
   per_kWh: 0,
   fixed: 0,
   label: 'Supplément Paris–Lyon (déploiement signalisation ERTMS)',
+  category: RuleCategory.Tracks,
 };
 
 const highSpeedMarket = {
@@ -95,6 +106,7 @@ function marketRule(market: string, edge: Edge, train: Train): Rule {
       per_kWh: 0,
       fixed: 0,
       label: 'Redevance marché train de nuit',
+      category: RuleCategory.Tracks,
     };
   }
 
@@ -105,6 +117,7 @@ function marketRule(market: string, edge: Edge, train: Train): Rule {
       per_kWh: 0,
       fixed: 0,
       label: `Redevance marché grande vitesse vers ${market}, unité ${train.multipleUnit ? 'multiple' : 'simple'}`,
+      category: RuleCategory.Tracks,
     };
   }
 
@@ -114,6 +127,7 @@ function marketRule(market: string, edge: Edge, train: Train): Rule {
     per_kWh: 0,
     fixed: 0,
     label: 'Train apte à la grande vitesse sur voie classique',
+    category: RuleCategory.Tracks,
   };
 }
 
@@ -147,6 +161,7 @@ function stationRule(station: StopTime): Rule[] {
         per_kWh: 0,
         fixed: station.station,
         label: 'Redevance quai (SNCF Réseau)',
+        category: RuleCategory.Station,
       },
       {
         per_ton_and_km: 0,
@@ -154,6 +169,7 @@ function stationRule(station: StopTime): Rule[] {
         per_kWh: 0,
         fixed: station.track,
         label: 'Redevance Gares & Connexions',
+        category: RuleCategory.Station,
       },
     ];
   }

@@ -1,4 +1,5 @@
 import { rules } from '../data/countries';
+import { RuleCategory } from './types.d';
 import _ from 'lodash';
 
 interface Rule {
@@ -7,6 +8,7 @@ interface Rule {
   per_kWh: number;
   fixed: number;
   label: string;
+  category: RuleCategory;
 }
 
 interface Train {
