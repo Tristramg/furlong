@@ -21,9 +21,9 @@ const icons = {
 
 const singleRule: React.FunctionComponent<SingleRuleProps> = ({ rule, price }) => (
   <div className="flex">
-    <span className={`w-1/12 ${grey(rule.per_km)}`}>{fmt(rule.per_km)}</span>
-    <span className={`w-1/12 ${grey(rule.per_ton_and_km)}`}>{fmt(rule.per_ton_and_km)}</span>
-    <span className={`w-1/12 ${grey(rule.per_kWh)}`}>{fmt(rule.per_kWh)}</span>
+    <span className={`w-1/12 ${grey(rule.perKm)}`}>{fmt(rule.perKm)}</span>
+    <span className={`w-1/12 ${grey(rule.perTonAndKm)}`}>{fmt(rule.perTonAndKm)}</span>
+    <span className={`w-1/12 ${grey(rule.perkWh)}`}>{fmt(rule.perkWh)}</span>
     <span className={`w-1/12 ${grey(rule.fixed)}`}>{fmt(rule.fixed)}</span>
     <span className={`w-1/12 ${grey(price)}`}>{fmt(price)}</span>
     <span className="text-xs w-5/12">

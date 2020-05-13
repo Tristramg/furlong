@@ -5,41 +5,41 @@ import _ from 'lodash';
 
 const classicTrain: Rule[] = [
   {
-    per_ton_and_km: 0.003230,
-    per_km: 0.435,
-    per_kWh: 0,
+    perTonAndKm: 0.003230,
+    perKm: 0.435,
+    perkWh: 0,
     fixed: 0,
     label: 'Redevance circulation (RC)',
     category: RuleCategory.Tracks,
   },
   {
-    per_ton_and_km: 0,
-    per_km: 0.294,
-    per_kWh: 0,
+    perTonAndKm: 0,
+    perKm: 0.294,
+    perkWh: 0,
     fixed: 0,
     label: 'Accès aux installation électriques (RCE)',
     category: RuleCategory.Energy,
   },
   {
-    per_ton_and_km: 0,
-    per_km: 0.076,
-    per_kWh: 0,
+    perTonAndKm: 0,
+    perKm: 0.076,
+    perkWh: 0,
     fixed: 0,
     label: 'Pertes électriques (RCTE Composante A)',
     category: RuleCategory.Energy,
   },
   {
-    per_ton_and_km: 0,
-    per_km: 0.240,
-    per_kWh: 0,
+    perTonAndKm: 0,
+    perKm: 0.240,
+    perkWh: 0,
     fixed: 0,
     label: 'Distribution électriques (RCTE Composante B)',
     category: RuleCategory.Energy,
   },
   {
-    per_ton_and_km: 0,
-    per_km: 0,
-    per_kWh: 0.06,
+    perTonAndKm: 0,
+    perKm: 0,
+    perkWh: 0.06,
     fixed: 0,
     label: 'Fourniture énergie (estimation)',
     category: RuleCategory.Energy,
@@ -48,33 +48,33 @@ const classicTrain: Rule[] = [
 
 const highSpeedTrain: Rule[] = [
   {
-    per_ton_and_km: 0.005874,
-    per_km: 0.239,
-    per_kWh: 0,
+    perTonAndKm: 0.005874,
+    perKm: 0.239,
+    perkWh: 0,
     fixed: 0,
     label: 'Redevance circulation (RC)',
     category: RuleCategory.Tracks,
   },
   {
-    per_ton_and_km: 0,
-    per_km: 0.294,
-    per_kWh: 0,
+    perTonAndKm: 0,
+    perKm: 0.294,
+    perkWh: 0,
     fixed: 0,
     label: 'Accès aux installation électriques (RCE)',
     category: RuleCategory.Energy,
   },
   {
-    per_ton_and_km: 0,
-    per_km: 0.118,
-    per_kWh: 0,
+    perTonAndKm: 0,
+    perKm: 0.118,
+    perkWh: 0,
     fixed: 0,
     label: 'Pertes électriques RCTE Composante A',
     category: RuleCategory.Energy,
   },
   {
-    per_ton_and_km: 0,
-    per_km: 0.372,
-    per_kWh: 0,
+    perTonAndKm: 0,
+    perKm: 0.372,
+    perkWh: 0,
     fixed: 0,
     label: 'Distribution électriques RCTE Composante B',
     category: RuleCategory.Energy,
@@ -82,9 +82,9 @@ const highSpeedTrain: Rule[] = [
 ];
 
 const parisLyonExtra: Rule = {
-  per_ton_and_km: 0,
-  per_km: 0.36,
-  per_kWh: 0,
+  perTonAndKm: 0,
+  perKm: 0.36,
+  perkWh: 0,
   fixed: 0,
   label: 'Supplément Paris–Lyon (déploiement signalisation ERTMS)',
   category: RuleCategory.Tracks,
@@ -101,9 +101,9 @@ const highSpeedMarket = {
 function marketRule(market: string, edge: Edge, train: Train): Rule {
   if (market === 'classic') {
     return {
-      per_ton_and_km: 0,
-      per_km: 0,
-      per_kWh: 0,
+      perTonAndKm: 0,
+      perKm: 0,
+      perkWh: 0,
       fixed: 0,
       label: 'Redevance marché train de nuit',
       category: RuleCategory.Tracks,
@@ -112,9 +112,9 @@ function marketRule(market: string, edge: Edge, train: Train): Rule {
 
   if (edge.line.highSpeed) {
     return {
-      per_ton_and_km: 0,
-      per_km: highSpeedMarket[market][train.multipleUnit ? 1 : 0],
-      per_kWh: 0,
+      perTonAndKm: 0,
+      perKm: highSpeedMarket[market][train.multipleUnit ? 1 : 0],
+      perkWh: 0,
       fixed: 0,
       label: `Redevance marché grande vitesse vers ${market}, unité ${train.multipleUnit ? 'multiple' : 'simple'}`,
       category: RuleCategory.Tracks,
@@ -122,9 +122,9 @@ function marketRule(market: string, edge: Edge, train: Train): Rule {
   }
 
   return {
-    per_ton_and_km: 0,
-    per_km: 3.19,
-    per_kWh: 0,
+    perTonAndKm: 0,
+    perKm: 3.19,
+    perkWh: 0,
     fixed: 0,
     label: 'Train apte à la grande vitesse sur voie classique',
     category: RuleCategory.Tracks,
@@ -156,17 +156,17 @@ function stationRule(station: StopTime): Rule[] {
   if (station.commercial) {
     return [
       {
-        per_ton_and_km: 0,
-        per_km: 0,
-        per_kWh: 0,
+        perTonAndKm: 0,
+        perKm: 0,
+        perkWh: 0,
         fixed: station.station,
         label: 'Redevance quai (SNCF Réseau)',
         category: RuleCategory.Station,
       },
       {
-        per_ton_and_km: 0,
-        per_km: 0,
-        per_kWh: 0,
+        perTonAndKm: 0,
+        perKm: 0,
+        perkWh: 0,
         fixed: station.track,
         label: 'Redevance Gares & Connexions',
         category: RuleCategory.Station,

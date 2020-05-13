@@ -39,19 +39,19 @@ const labels = {
   peak: 'heure de pointe',
 };
 
-const booking = {
-  per_ton_and_km: 0,
-  per_km: 0,
-  per_kWh: 0,
+const booking: Rule = {
+  perTonAndKm: 0,
+  perKm: 0,
+  perkWh: 0,
   fixed: 200,
   label: 'Réservation Ligne Figueres-Perpignan',
   category: RuleCategory.Tracks,
 };
 
-const elec = {
-  per_ton_and_km: 0,
-  per_km: 0,
-  per_kWh: 0.1,
+const elec: Rule = {
+  perTonAndKm: 0,
+  perKm: 0,
+  perkWh: 0.1,
   fixed: 0,
   label: 'Électricité (estimation)',
   category: RuleCategory.Energy,
@@ -72,10 +72,10 @@ export default function (edge: Edge, train: Train): Rule[] {
   const s = train.highSpeed ? 'highSpeed' : 'lowSpeed';
   const c = train.capacity > 300 ? 'highCapa' : 'smallCapa';
 
-  const useRule = {
-    per_ton_and_km: 0,
-    per_km: 0,
-    per_kWh: 0,
+  const useRule: Rule = {
+    perTonAndKm: 0,
+    perKm: 0,
+    perkWh: 0,
     fixed: use[c][s][p],
     label: `Utilisation du tunnel ${labels[c]}, ${labels[s]}, ${labels[p]}`,
     category: RuleCategory.Tracks,

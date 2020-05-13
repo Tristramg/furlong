@@ -4,43 +4,15 @@ import _ from 'lodash';
 
 function ta1(train: Train): Rule {
   if (train.weight < 500) {
-    return {
-      per_kWh: 0,
-      per_km: 0.128,
-      per_ton_and_km: 0,
-      fixed: 0,
-      label: 'Ta1: Weight class < 500t',
-      category: RuleCategory.Tracks,
-    };
+    return Rule.perKm(0.128, 'Ta1: Weight class < 500t', RuleCategory.Tracks);
   }
   if (train.weight < 1000) {
-    return {
-      per_kWh: 0,
-      per_km: 0.372,
-      per_ton_and_km: 0,
-      fixed: 0,
-      label: 'Ta1: Weight class 500—1000t',
-      category: RuleCategory.Tracks,
-    };
+    return Rule.perKm(0.372, 'Ta1: Weight class 500—1000t', RuleCategory.Tracks);
   }
   if (train.weight < 1500) {
-    return {
-      per_kWh: 0,
-      per_km: 0.616,
-      per_ton_and_km: 0,
-      fixed: 0,
-      label: 'Ta1: Weight class 1000–1500t',
-      category: RuleCategory.Tracks,
-    };
+    return Rule.perKm(0.616, 'Ta1: Weight class 1000–1500t', RuleCategory.Tracks);
   }
-  return {
-    per_kWh: 0,
-    per_km: 0.860,
-    per_ton_and_km: 0,
-    fixed: 0,
-    label: 'Ta1: Weight class > 1500t',
-    category: RuleCategory.Tracks,
-  };
+  return Rule.perKm(0.860, 'Ta1: Weight class > 1500t', RuleCategory.Tracks);
 }
 
 function ta2(edges: Edge[]): Rule {
@@ -49,54 +21,19 @@ function ta2(edges: Edge[]): Rule {
   const average = distance * 60 / duration;
 
   if (average < 100) {
-    return {
-      per_kWh: 0,
-      per_km: 0.117,
-      per_ton_and_km: 0,
-      fixed: 0,
-      label: 'Ta2: vitesse moyenne < 100km/h',
-      category: RuleCategory.Tracks,
-    };
+    return Rule.perKm(0.117, 'Ta2: vitesse moyenne < 100km/h', RuleCategory.Tracks);
   }
   if (average < 150) {
-    return {
-      per_kWh: 0,
-      per_km: 0.117,
-      per_ton_and_km: 0,
-      fixed: 0,
-      label: 'Ta2: vitesse moyenne 100—150km/h',
-      category: RuleCategory.Tracks,
-    };
+    return Rule.perKm(0.193, 'Ta2: vitesse moyenne 100—150km/h', RuleCategory.Tracks);
   }
-  return {
-    per_kWh: 0,
-    per_km: 1.056,
-    per_ton_and_km: 0,
-    fixed: 0,
-    label: 'Ta2: vitesse moyenne > 150km/h',
-    category: RuleCategory.Tracks,
-  };
+  return Rule.perKm(1.056, 'Ta2: vitesse moyenne > 150km/h', RuleCategory.Tracks);
 }
 
 function ta3(train: Train): Rule {
   if (train.highSpeed) {
-    return {
-      per_kWh: 0,
-      per_km: 0.046,
-      per_ton_and_km: 0,
-      fixed: 0,
-      label: 'Ta3: utilisation caténaire grande vitesse',
-      category: RuleCategory.Energy,
-    };
+    return Rule.perKm(0.046, 'Ta3: utilisation caténaire grande vitesse', RuleCategory.Energy);
   }
-  return {
-    per_kWh: 0,
-    per_km: 0.023,
-    per_ton_and_km: 0,
-    fixed: 0,
-    label: 'Ta3: utilisation caténaire vitesse classique',
-    category: RuleCategory.Energy,
-  };
+  return Rule.perKm(0.023, 'Ta3: utilisation caténaire vitesse classique', RuleCategory.Energy);
 }
 
 enum Segment {
@@ -156,21 +93,13 @@ function segment(edges: Edge[], train: Train): Segment {
 
 function tb(edges: Edge[], train: Train): Rule {
   const seg: Segment = segment(edges, train);
-
-  return {
-    per_km: prices[seg],
-    per_kWh: 0,
-    per_ton_and_km: 0,
-    fixed: 0,
-    category: RuleCategory.Tracks,
-    label: seg,
-  };
+  return Rule.perKm(prices[seg], seg, RuleCategory.Tracks);
 }
 
 const elec: Rule = {
-  per_km: 0,
-  per_kWh: 0.06,
-  per_ton_and_km: 0,
+  perKm: 0,
+  perkWh: 0.06,
+  perTonAndKm: 0,
   fixed: 0,
   category: RuleCategory.Energy,
   label: 'Énergie (estimation)',

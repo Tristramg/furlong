@@ -55,9 +55,9 @@ const data = {
 function stationRule(station: StopTime): Rule[] {
   if (station.commercial) {
     return [{
-      per_ton_and_km: 0,
-      per_km: 0,
-      per_kWh: 0,
+      perTonAndKm: 0,
+      perKm: 0,
+      perkWh: 0,
       fixed: station.station,
       label: 'Gare',
       category: RuleCategory.Station,
