@@ -3,6 +3,7 @@ import france from './countries/france';
 import germany from './countries/germany';
 import spain from './countries/spain';
 import portugal from './countries/portugal';
+import italy from './countries/italy';
 import { Rule, Edge, Train, StopTime } from '../lib/types';
 import { RuleCategory } from '../lib/types.d';
 
@@ -23,14 +24,14 @@ const data = {
   },
   IT: {
     label: 'Italie',
-    current: '3000 CC',
+    current: '3000 DC',
     gauge: 'Standard 1435 mm',
-    signaling: '?',
-  //  rules: italy,
+    signaling: 'BACC',
+    rules: italy,
   },
   BE: {
     label: 'Belgique',
-    current: '3000 CC',
+    current: '3000 DC',
     gauge: 'Standard 1435 mm',
     signaling: 'TBL',
     rules: belgium,
