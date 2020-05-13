@@ -73,14 +73,10 @@ const stations = {
   },
 };
 
-const stationRule = (station: StopTime, position: string): Rule => ({
-  perKm:0,
-  perkWh: 0,
-  perTonAndKm: 0,
-  fixed: stations[station.adifClass][position],
-  label: `Gare classe ${station.adifClass} ${position}`,
-  category: RuleCategory.Station,
-});
+const stationRule = (station: StopTime, position: string): Rule => Rule.station(
+  stations[station.adifClass][position],
+  `Gare classe ${station.adifClass} ${position}`,
+);
 
 function stationRules(edge: Edge, len: number, index: number): Rule[] {
   const result = [];

@@ -136,22 +136,8 @@ function marketClass(edges: Edge[]): string {
 function stationRule(station: StopTime): Rule[] {
   if (station.commercial) {
     return [
-      {
-        perTonAndKm: 0,
-        perKm: 0,
-        perkWh: 0,
-        fixed: station.station,
-        label: 'Redevance quai (SNCF Réseau)',
-        category: RuleCategory.Station,
-      },
-      {
-        perTonAndKm: 0,
-        perKm: 0,
-        perkWh: 0,
-        fixed: station.track,
-        label: 'Redevance Gares & Connexions',
-        category: RuleCategory.Station,
-      },
+      Rule.station(station.station, 'Redevance quai (SNCF Réseau)'),
+      Rule.station(station.track, 'Redevance Gares & Connexions'),
     ];
   }
   return [];

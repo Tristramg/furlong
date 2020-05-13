@@ -31,6 +31,17 @@ class Rule {
       perKm: 0,
     };
   }
+
+  static station(fixed: number, label): Rule {
+    return {
+      fixed,
+      label,
+      category: RuleCategory.Station,
+      perTonAndKm: 0,
+      perKm: 0,
+      perkWh: 0,
+    };
+  }
 }
 
 interface Train {
