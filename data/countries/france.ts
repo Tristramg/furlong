@@ -100,35 +100,16 @@ const highSpeedMarket = {
 
 function marketRule(market: string, edge: Edge, train: Train): Rule {
   if (market === 'classic') {
-    return {
-      perTonAndKm: 0,
-      perKm: 0,
-      perkWh: 0,
-      fixed: 0,
-      label: 'Redevance marché train de nuit',
-      category: RuleCategory.Tracks,
-    };
+    return Rule.perKm(0, 'Redevance marché train de nuit', RuleCategory.Tracks);
   }
 
   if (edge.line.highSpeed) {
-    return {
-      perTonAndKm: 0,
-      perKm: highSpeedMarket[market][train.multipleUnit ? 1 : 0],
-      perkWh: 0,
-      fixed: 0,
-      label: `Redevance marché grande vitesse vers ${market}, unité ${train.multipleUnit ? 'multiple' : 'simple'}`,
-      category: RuleCategory.Tracks,
-    };
+    return Rule.perKm(highSpeedMarket[market][train.multipleUnit ? 1 : 0],
+                      `Redevance marché grande vitesse vers ${market}, unité ${train.multipleUnit ? 'multiple' : 'simple'}`,
+                      RuleCategory.Tracks);
   }
 
-  return {
-    perTonAndKm: 0,
-    perKm: 3.19,
-    perkWh: 0,
-    fixed: 0,
-    label: 'Train apte à la grande vitesse sur voie classique',
-    category: RuleCategory.Tracks,
-  };
+  return Rule.perKm(3.19, 'Train apte à la grande vitesse sur voie classique', RuleCategory.Tracks);
 }
 
 function marketClass(edges: Edge[]): string {
