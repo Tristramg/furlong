@@ -3,7 +3,7 @@ import * as Trains from './trains';
 
 export default {
   nordEst: {
-    label: 'Nord Est',
+    label: 'Paris–Bruxelles–Hambourg–Berlin',
     train: Trains.talgo230,
     steps: [
       ['Paris Gare du Nord', h(20, 0), true],
@@ -12,14 +12,14 @@ export default {
       ['Bruxelles Midi', h(23, 30), true],
       ['Bruxelles Nord', h(23, 40), false],
       ['Leuven', h(1, 0), false],
-      ['Liège', h(1, 30), true],
+      ['Liège', h(1, 30), false],
       ['Frontière BE-DE', h(2, 0), false],
       ['Hamburg Hbf', h(6, 0), true],
       ['Berlin Hbf', h(8, 0), true],
     ],
   },
   nordEstGV: {
-    label: 'Nord Est Grande Vitesse',
+    label: 'Paris–Bruxelles–Hambourg–Berlin Grande Vitesse',
     train: Trains.talgo250,
     steps: [
       ['Paris Gare du Nord', h(20, 0), true],
@@ -32,21 +32,32 @@ export default {
       ['Liège', h(1, 30), true],
       ['Frontière BE-DE', h(2, 0), false],
       ['Hamburg Hbf', h(6, 0), true],
-      ['Berlin Hbf', h(8, 0), true],
+      ['Berlin Hbf', h(7, 50), true],
     ],
   },
-  nordEstDirect: {
-    label: 'Nord Est Direct',
+  nordEstDirectHamburg: {
+    label: 'Paris–Berlin–Hambourg',
     train: Trains.talgo230,
     steps: [
       ['Paris Gare de l’est', h(19, 30), true],
       ['Frontière FR-DE', h(23, 30), false],
-      ['Halle', h(5, 30), false],
-      ['Berlin Hbf', h(7, 0), true],
+      ['Halle', h(4, 30), false],
+      ['Berlin Hbf', h(6, 0), true],
+      ['Hamburg Hbf', h(8, 0), true],
     ],
   },
-  nordEstDirectBe: {
-    label: 'Nord Est via Belgique',
+  nordEstDirect: {
+    label: 'Paris–Berlin',
+    train: Trains.talgo230,
+    steps: [
+      ['Paris Gare de l’est', h(19, 30), true],
+      ['Frontière FR-DE', h(23, 30), false],
+      ['Halle', h(4, 30), false],
+      ['Berlin Hbf', h(6, 0), true],
+    ],
+  },
+  nordEstDirectBeHamburg: {
+    label: 'Paris–Charlerois–Hambourg–Berlin ',
     train: Trains.talgo230,
     steps: [
       ['Paris Gare du Nord', h(20, 0), true],
@@ -55,6 +66,21 @@ export default {
       ['Namur', h(23, 10), false],
       ['Liège', h(23, 40), false],
       ['Frontière BE-DE', h(0, 0), false],
+      ['Hamburg Hbf', h(6, 0), true],
+      ['Berlin Hbf', h(8, 0), true],
+    ],
+  },
+  nordEstDirectBe: {
+    label: 'Paris–Charlerois–Berlin ',
+    train: Trains.talgo230,
+    steps: [
+      ['Paris Gare du Nord', h(20, 0), true],
+      ['Frontière FR-BE Jeumont', h(22, 30), false],
+      ['Charlerois', h(22, 50), true],
+      ['Namur', h(23, 10), false],
+      ['Liège', h(23, 40), false],
+      ['Frontière BE-DE', h(0, 0), false],
+      ['Hannover HbF', h(4, 0), false],
       ['Berlin Hbf', h(6, 0), true],
     ],
   },
