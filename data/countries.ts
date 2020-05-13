@@ -1,5 +1,5 @@
-import belgium from './countries/belgium';
 import france from './countries/france';
+import belgium from './countries/belgium';
 import germany from './countries/germany';
 import spain from './countries/spain';
 import portugal from './countries/portugal';
@@ -53,17 +53,7 @@ const data = {
 };
 
 function stationRule(station: StopTime): Rule[] {
-  if (station.commercial) {
-    return [{
-      per_ton_and_km: 0,
-      per_km: 0,
-      per_kWh: 0,
-      fixed: station.station,
-      label: 'Gare',
-      category: RuleCategory.Station,
-    }];
-  }
-  return [];
+  return station.commercial ? [Rule.station(station.station, 'Gare')] : [];
 }
 
 function stationRules(edge: Edge, last: boolean): Rule[] {

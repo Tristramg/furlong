@@ -73,14 +73,10 @@ const stations = {
   },
 };
 
-const stationRule = (station: StopTime, position: string): Rule => ({
-  per_km:0,
-  per_kWh: 0,
-  per_ton_and_km: 0,
-  fixed: stations[station.adifClass][position],
-  label: `Gare classe ${station.adifClass} ${position}`,
-  category: RuleCategory.Station,
-});
+const stationRule = (station: StopTime, position: string): Rule => Rule.station(
+  stations[station.adifClass][position],
+  `Gare classe ${station.adifClass} ${position}`,
+);
 
 function stationRules(edge: Edge, len: number, index: number): Rule[] {
   const result = [];
@@ -104,63 +100,41 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
   const cat = edge.line && edge.line.class === 'A' ? market(edges) : 'other';
 
   const result = [
-    {
-      per_km: prices[cat]['A'],
-      per_kWh: 0,
-      per_ton_and_km: 0,
-      fixed: 0,
-      label: `Modalidad A (réservaton sillon) ${cat}`,
-      category: RuleCategory.Tracks,
-    },
-    {
-      per_km: prices[cat]['B'],
-      per_kWh: 0,
-      per_ton_and_km: 0,
-      fixed: 0,
-      label: `Modalidad B (utilisation sillon) ${cat}`,
-      category: RuleCategory.Tracks,
-    },
-    {
-      per_km: prices[cat]['C'],
-      per_kWh: 0,
-      per_ton_and_km: 0,
-      fixed: 0,
-      label: `Modalidad C (utilisation installation électrique) ${cat}`,
-      category: RuleCategory.Tracks,
-    },
-    {
-      per_km: 0,
-      per_kWh: 0.00112,
-      per_ton_and_km: 0,
-      fixed: 0,
-      label: 'Cout de gestion électricité (SC-2)',
-      category: RuleCategory.Tracks,
-    },
+    Rule.perKm(prices[cat]['A'],
+               `Modalidad A (réservaton sillon) ${cat}`,
+               RuleCategory.Tracks),
+    Rule.perKm(prices[cat]['B'],
+               `Modalidad B (utilisation sillon) ${cat}`,
+               RuleCategory.Tracks),
+    Rule.perKm(prices[cat]['C'],
+               `Modalidad C (utilisation installation électrique) ${cat}`,
+               RuleCategory.Energy),
+    Rule.perkWh(0.00112, 'Cout de gestion électricité (SC-2)'),
   ];
 
   if (edge.line && prices[edge.line.label]) {
     const line = edge.line.label;
     result.push(
       {
-        per_km: prices[line]['A'],
-        per_kWh: 0,
-        per_ton_and_km: 0,
+        perKm: prices[line]['A'],
+        perkWh: 0,
+        perTonAndKm: 0,
         fixed: 0,
         label: `Supplément Modalidad A ligne chargée ${line}`,
         category: RuleCategory.Tracks,
       },
       {
-        per_km: prices[line]['B'],
-        per_kWh: 0,
-        per_ton_and_km: 0,
+        perKm: prices[line]['B'],
+        perkWh: 0,
+        perTonAndKm: 0,
         fixed: 0,
         label: `Supplément Modalidad B ligne chargée ${line}`,
         category: RuleCategory.Tracks,
       },
       {
-        per_km: prices[line]['C'],
-        per_kWh: 0,
-        per_ton_and_km: 0,
+        perKm: prices[line]['C'],
+        perkWh: 0,
+        perTonAndKm: 0,
         fixed: 0,
         label: `Supplément Modalidad C ligne chargée ${line}`,
         category: RuleCategory.Tracks,
@@ -169,31 +143,17 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
 
   if (ccCurent(edge.line)) {
     result.push({
-      per_km: 0,
-      per_kWh: 0,
-      per_ton_and_km: 3.207659 / 1000,
+      perKm: 0,
+      perkWh: 0,
+      perTonAndKm: 3.207659 / 1000,
       fixed: 0,
       label: 'Fourniture et distribution électricité courant continu',
       category: RuleCategory.Energy,
     });
   } else {
     result.push(
-      {
-        per_km: 0,
-        per_kWh: 0.0645,
-        per_ton_and_km: 0,
-        fixed: 0,
-        label: 'Fourniture électricité courant alternatif (energía)',
-        category: RuleCategory.Energy,
-      },
-      {
-        per_km: 0,
-        per_kWh: 0.032,
-        per_ton_and_km: 0,
-        fixed: 0,
-        label: 'Distribution électricité courant alternatif (coste ATR)',
-        category: RuleCategory.Energy,
-      },
+      Rule.perkWh(0.0645, 'Fourniture électricité courant alternatif (energía)'),
+      Rule.perkWh(0.032, 'Distribution électricité courant alternatif (coste ATR)'),
     );
   }
 

@@ -31,22 +31,8 @@ function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
   const coeff = coeffsA[period];
 
   return [
-    {
-      per_km: coeff,
-      per_kWh: 0,
-      per_ton_and_km: 0,
-      fixed: 0,
-      label: `Rails classe International, ligne catégorie A, ${period}`,
-      category: RuleCategory.Tracks,
-    },
-    {
-      per_km: coeff,
-      per_kWh: 0.06,
-      per_ton_and_km: 0,
-      fixed: 0,
-      label: 'Fourniture électricité (estimation)',
-      category: RuleCategory.Energy,
-    },
+    Rule.perKm(coeff, `Classe International, ligne catégorie A, ${period}`, RuleCategory.Tracks),
+    Rule.perkWh(0.06, 'Fourniture électricité (estimation)'),
   ];
 }
 

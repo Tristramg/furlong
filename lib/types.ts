@@ -2,13 +2,46 @@ import { rules } from '../data/countries';
 import { RuleCategory } from './types.d';
 import _ from 'lodash';
 
-interface Rule {
-  per_ton_and_km: number;
-  per_km: number;
-  per_kWh: number;
+class Rule {
+  perTonAndKm: number;
+  perKm: number;
+  perkWh: number;
   fixed: number;
   label: string;
   category: RuleCategory;
+
+  static perKm(perKm: number, label: string, category: RuleCategory): Rule {
+    return {
+      perKm,
+      label,
+      category,
+      perTonAndKm: 0,
+      fixed: 0,
+      perkWh: 0,
+    };
+  }
+
+  static perkWh(perkWh: number, label: string): Rule {
+    return {
+      perkWh,
+      label,
+      category: RuleCategory.Energy,
+      perTonAndKm: 0,
+      fixed: 0,
+      perKm: 0,
+    };
+  }
+
+  static station(fixed: number, label): Rule {
+    return {
+      fixed,
+      label,
+      category: RuleCategory.Station,
+      perTonAndKm: 0,
+      perKm: 0,
+      perkWh: 0,
+    };
+  }
 }
 
 interface Train {
@@ -39,7 +72,7 @@ interface Line {
 }
 
 function ccCurent(line: Line): boolean {
-  return /CC/.test(line.current);
+  return /DC/.test(line.current);
 }
 
 interface StopTime {
@@ -76,9 +109,9 @@ class TrainEdge {
   }
 
   singlePrice(rule: Rule): number {
-    return this.weight * this.edge.distance * rule.per_ton_and_km +
-      this.edge.distance * rule.per_km +
-      this.energy * rule.per_kWh +
+    return this.weight * this.edge.distance * rule.perTonAndKm +
+      this.edge.distance * rule.perKm +
+      this.energy * rule.perkWh +
       rule.fixed;
   }
 
@@ -93,5 +126,5 @@ interface Route {
   segments: Edge[];
 }
 
-export type { Rule, Train, VehicleJourney, Edge, Route, Line, StopTime };
-export { TrainEdge, ccCurent };
+export type { Train, VehicleJourney, Edge, Route, Line, StopTime };
+export { Rule, TrainEdge, ccCurent };

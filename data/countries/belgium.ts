@@ -95,38 +95,10 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
   const coeff =  coeffs[period][density];
 
   return [
-    {
-      per_ton_and_km: 0,
-      per_km: coeff * coutDirectUnitaire,
-      per_kWh: 0,
-      fixed: 0,
-      label: `Rails : ${density}, ${period}`,
-      category: RuleCategory.Tracks,
-    },
-    {
-      per_km: 0,
-      per_kWh: 0.06,
-      per_ton_and_km: 0,
-      fixed: 0,
-      label: 'Fourniture électricité',
-      category: RuleCategory.Energy,
-    },
-    {
-      per_ton_and_km: 0,
-      per_km: 0,
-      per_kWh: 0.017,
-      fixed: 0,
-      label: 'Utilisation caténaire',
-      category: RuleCategory.Energy,
-    },
-    {
-      per_ton_and_km: 0,
-      per_km: 0,
-      per_kWh: 0.020,
-      fixed: 0,
-      label: 'Distribution et pertes électriques',
-      category: RuleCategory.Energy,
-    },
+    Rule.perKm(coeff * coutDirectUnitaire, `Rails : ${density}, ${period}`, RuleCategory.Tracks),
+    Rule.perkWh(0.06, 'Fourniture électricité'),
+    Rule.perkWh(0.017, 'Utilisation caténaire'),
+    Rule.perkWh(0.020, 'Distribution et pertes électriques'),
   ].concat(stationRules(edge, index === edges.length - 1));
 }
 
