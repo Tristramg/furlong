@@ -39,22 +39,8 @@ function rules(edge: Edge, train: Train,  edges: Edge[], index: number): Rule[] 
     Rule.perKm(metroMid * metroDuration / totalDuration,
                `Prix « metro »  ${metroMid.toFixed(2)} €/km, vitesse moyenne ${avgSpeed.toFixed(0)} km/h sur ${metroShare}%`,
                RuleCategory.Tracks),
-    {
-      perKm: 0,
-      perkWh: 0.0628,
-      perTonAndKm: 0,
-      fixed: 0,
-      label: 'Distribution électricité',
-      category: RuleCategory.Energy,
-    },
-    {
-      perKm: 0,
-      perkWh: 0.07,
-      perTonAndKm: 0,
-      fixed: 0,
-      label: 'Fourniture électricité',
-      category: RuleCategory.Energy,
-    },
+    Rule.perkWh(0.0628, 'Distribution électricité'),
+    Rule.perkWh(0.07, 'Fourniture électricité'),
   ].concat(stationRules(edge, index === edges.length - 1));
 }
 

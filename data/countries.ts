@@ -1,5 +1,5 @@
-import belgium from './countries/belgium';
 import france from './countries/france';
+import belgium from './countries/belgium';
 import germany from './countries/germany';
 import spain from './countries/spain';
 import portugal from './countries/portugal';

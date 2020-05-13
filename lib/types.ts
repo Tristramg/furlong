@@ -20,6 +20,17 @@ class Rule {
       perkWh: 0,
     };
   }
+
+  static perkWh(perkWh: number, label: string): Rule {
+    return {
+      perkWh,
+      label,
+      category: RuleCategory.Energy,
+      perTonAndKm: 0,
+      fixed: 0,
+      perKm: 0,
+    };
+  }
 }
 
 interface Train {

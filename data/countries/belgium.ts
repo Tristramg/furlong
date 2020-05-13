@@ -96,30 +96,9 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
 
   return [
     Rule.perKm(coeff * coutDirectUnitaire, `Rails : ${density}, ${period}`, RuleCategory.Tracks),
-    {
-      perKm: 0,
-      perkWh: 0.06,
-      perTonAndKm: 0,
-      fixed: 0,
-      label: 'Fourniture électricité',
-      category: RuleCategory.Energy,
-    },
-    {
-      perTonAndKm: 0,
-      perKm: 0,
-      perkWh: 0.017,
-      fixed: 0,
-      label: 'Utilisation caténaire',
-      category: RuleCategory.Energy,
-    },
-    {
-      perTonAndKm: 0,
-      perKm: 0,
-      perkWh: 0.020,
-      fixed: 0,
-      label: 'Distribution et pertes électriques',
-      category: RuleCategory.Energy,
-    },
+    Rule.perkWh(0.06, 'Fourniture électricité'),
+    Rule.perkWh(0.017, 'Utilisation caténaire'),
+    Rule.perkWh(0.020, 'Distribution et pertes électriques'),
   ].concat(stationRules(edge, index === edges.length - 1));
 }
 

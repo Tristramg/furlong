@@ -113,14 +113,7 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
     Rule.perKm(prices[cat]['C'],
                `Modalidad C (utilisation installation électrique) ${cat}`,
                RuleCategory.Energy),
-    {
-      perKm: 0,
-      perkWh: 0.00112,
-      perTonAndKm: 0,
-      fixed: 0,
-      label: 'Cout de gestion électricité (SC-2)',
-      category: RuleCategory.Tracks,
-    },
+    Rule.perkWh(0.00112, 'Cout de gestion électricité (SC-2)'),
   ];
 
   if (edge.line && prices[edge.line.label]) {
@@ -163,22 +156,8 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
     });
   } else {
     result.push(
-      {
-        perKm: 0,
-        perkWh: 0.0645,
-        perTonAndKm: 0,
-        fixed: 0,
-        label: 'Fourniture électricité courant alternatif (energía)',
-        category: RuleCategory.Energy,
-      },
-      {
-        perKm: 0,
-        perkWh: 0.032,
-        perTonAndKm: 0,
-        fixed: 0,
-        label: 'Distribution électricité courant alternatif (coste ATR)',
-        category: RuleCategory.Energy,
-      },
+      Rule.perkWh(0.0645, 'Fourniture électricité courant alternatif (energía)'),
+      Rule.perkWh(0.032, 'Distribution électricité courant alternatif (coste ATR)'),
     );
   }
 

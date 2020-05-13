@@ -32,14 +32,7 @@ function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
 
   return [
     Rule.perKm(coeff, `Classe International, ligne catégorie A, ${period}`, RuleCategory.Tracks),
-    {
-      perKm: coeff,
-      perkWh: 0.06,
-      perTonAndKm: 0,
-      fixed: 0,
-      label: 'Fourniture électricité (estimation)',
-      category: RuleCategory.Energy,
-    },
+    Rule.perkWh(0.06, 'Fourniture électricité (estimation)'),
   ];
 }
 

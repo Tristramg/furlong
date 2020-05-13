@@ -96,22 +96,13 @@ function tb(edges: Edge[], train: Train): Rule {
   return Rule.perKm(prices[seg], seg, RuleCategory.Tracks);
 }
 
-const elec: Rule = {
-  perKm: 0,
-  perkWh: 0.06,
-  perTonAndKm: 0,
-  fixed: 0,
-  category: RuleCategory.Energy,
-  label: 'Énergie (estimation)',
-};
-
 function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
   return [
     ta1(train),
     ta2(edges),
     ta3(train),
     tb(edges, train),
-    elec,
+    Rule.perkWh(0.06, 'Énergie (estimation)'),
   ];
 }
 
