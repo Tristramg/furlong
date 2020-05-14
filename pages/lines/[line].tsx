@@ -1,6 +1,7 @@
 import Routes from '../../data/lines';
 import { gen } from '../../lib/helpers';
 import { VehicleJourney as VJ } from '../../lib/types';
+import { Day } from '../../lib/types.d';
 import VehicleJourney from '../../components/vehicle_journey';
 import importAirtable from '../../data/airtable_importer';
 
@@ -24,7 +25,7 @@ const Home = ({ infra }) => {
   const l = typeof line === 'string' ? line : line[0];
   const route = Routes[l];
   const edges = gen(route.steps, infra);
-  const vj = new VJ({ label: route.label, segments: edges }, route.train);
+  const vj = new VJ({ label: route.label, segments: edges }, route.train, Day.Monday);
   return <VehicleJourney vj={vj}></VehicleJourney>;
 };
 

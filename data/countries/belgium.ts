@@ -1,7 +1,8 @@
 import { Edge, Rule, Train } from '../../lib/types';
-import { RuleCategory } from '../../lib/types.d';
-import { h, included } from '../../lib/helpers';
+import { RuleCategory, Day } from '../../lib/types.d';
+import { h, included, weekEnd } from '../../lib/helpers';
 import { stationRules } from '../countries';
+import _ from 'lodash';
 
 const coutDirectUnitaire = 1.7045567852248;
 
@@ -77,7 +78,14 @@ const coeffs = {
 
 // TODO: this does not handle the day of the week
 // Nor the ultra_peak (using the North-Midi junction during peak hours)
-function getPeriod(edge: Edge): Period {
+function getPeriod(edge: Edge, day: Day): Period {
+  if (weekEnd(edge, day)) {
+    if (included(edge, h(6, 0), h(18, 59))) {
+      return Period.WEEK_END_DAY;
+    }
+    return Period.WEEK_END_NIGHT
+  }
+
   if (included(edge, h(6, 0), h(8, 59))) {
     return Period.PEAK;
   }
@@ -89,9 +97,9 @@ function getPeriod(edge: Edge): Period {
   return Period.OFF_PEAK;
 }
 
-function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
+function rules(edge: Edge, train: Train, edges: Edge[], index: number, day: Day): Rule[] {
   const density = train.highSpeed ? LineDensity.HIGH_SPEED_TRAIN : edge.line.class;
-  const period = getPeriod(edge);
+  const period = getPeriod(edge, day);
   const coeff =  coeffs[period][density];
 
   return [

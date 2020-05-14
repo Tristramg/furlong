@@ -1,5 +1,5 @@
 import { rules } from '../data/countries';
-import { RuleCategory } from './types.d';
+import { RuleCategory, Day } from './types.d';
 import _ from 'lodash';
 
 class Rule {
@@ -62,8 +62,8 @@ class VehicleJourney {
   energy: number;
   train: Train;
 
-  constructor(route: Route, train: Train) {
-    this.edges = route.segments.map((s, i) => new TrainEdge(s, train, route.segments, i));
+  constructor(route: Route, train: Train, day: Day) {
+    this.edges = route.segments.map((s, i) => new TrainEdge(s, train, route.segments, i, day));
     this.label = route.label;
     this.price = _(this.edges).map('price').sum();
     this.distance = _(this.edges).map('edge.distance').sum();
@@ -114,11 +114,11 @@ class TrainEdge {
   price: number;
   rules: Rule[];
 
-  constructor(edge: Edge, train: Train, edges: Edge[], index: number) {
+  constructor(edge: Edge, train: Train, edges: Edge[], index: number, day: Day) {
     this.edge = edge;
     this.weight = train.weight;
     this.energy = edge.distance * 10;
-    this.rules = rules(edge, train, edges, index);
+    this.rules = rules(edge, train, edges, index, day);
     this.price = _(this.rules).map(r => this.singlePrice(r)).sum();
   }
 

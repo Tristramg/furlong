@@ -1,5 +1,5 @@
 import { Edge, Rule, Train, StopTime } from '../../lib/types';
-import { RuleCategory, Countries } from '../../lib/types.d';
+import { RuleCategory, Countries, Day } from '../../lib/types.d';
 import _ from 'lodash';
 
 function ta1(train: Train): Rule {
@@ -68,7 +68,7 @@ const cityInStopTime = (stop: StopTime, city: string): boolean => stop.label.inc
 const hasCity = (edge: Edge, city: string): boolean => cityInStopTime(edge.arrival, city) ||
                                                        cityInStopTime(edge.departure, city);
 
-function segment(edges: Edge[], train: Train): Segment {
+function segment(edges: Edge[], train: Train, day: Day): Segment {
   const itEdges = _.filter(edges, e => e.country === Countries.IT);
   const roma: boolean = _.some(itEdges, e => hasCity(e, 'Roma'));
   const milano: boolean = _.some(itEdges, e => hasCity(e, 'Milano'));
@@ -80,6 +80,9 @@ function segment(edges: Edge[], train: Train): Segment {
     return Segment.International;
   }
   if (roma && milano) {
+    if(day === Day.Saturday) {
+      return train.capacity > 700 ? Segment.TopSPlus : Segment.TopS;
+    }
     return train.capacity > 700 ? Segment.TopPlus : Segment.Top;
   }
   if (roma || milano) {
@@ -91,17 +94,17 @@ function segment(edges: Edge[], train: Train): Segment {
   return Segment.Basic;
 }
 
-function tb(edges: Edge[], train: Train): Rule {
-  const seg: Segment = segment(edges, train);
+function tb(edges: Edge[], train: Train, day: Day): Rule {
+  const seg: Segment = segment(edges, train, day);
   return Rule.perKm(prices[seg], seg, RuleCategory.Tracks);
 }
 
-function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
+function rules(edge: Edge, train: Train, edges: Edge[], day: Day): Rule[] {
   return [
     ta1(train),
     ta2(edges),
     ta3(train),
-    tb(edges, train),
+    tb(edges, train, day),
     Rule.perkWh(0.06, 'Énergie (estimation)'),
   ];
 }

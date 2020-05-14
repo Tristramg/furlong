@@ -4,6 +4,7 @@ import { GetStaticProps } from 'next';
 import importAirtable from '../data/airtable_importer';
 import { gen, fmt } from '../lib/helpers';
 import { VehicleJourney } from '../lib/types';
+import { Day } from '../lib/types.d';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 
@@ -12,7 +13,7 @@ export const getStaticProps: GetStaticProps = importAirtable;
 const Home = ({ infra }) => {
 
   const vjs = _.mapValues(Routes, r =>
-    new VehicleJourney({ label: r.label, segments: gen(r.steps, infra) }, r.train));
+    new VehicleJourney({ label: r.label, segments: gen(r.steps, infra) }, r.train, Day.Monday));
 
   return <div className="p-12">
     <h1>Furlong : estimation de prix de sillons</h1>
