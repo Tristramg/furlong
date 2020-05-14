@@ -18,13 +18,13 @@ async function get(offset: string, table: string) {
 }
 
 const countriesMap = {
-  'IT': Countries.IT,
-  'BE': Countries.BE,
-  'FR': Countries.FR,
-  'DE': Countries.DE,
-  'ES': Countries.ES,
-  'PT': Countries.PT,
-}
+  IT: Countries.IT,
+  BE: Countries.BE,
+  FR: Countries.FR,
+  DE: Countries.DE,
+  ES: Countries.ES,
+  PT: Countries.PT,
+};
 
 export default async function importAirtable() {
   const rawNodes = await get('', 'Nodes');
@@ -32,7 +32,7 @@ export default async function importAirtable() {
   const rawEdges = await get('', 'Edges');
   const id = n => edgeId(rawNodes[n.from[0]].Name, rawNodes[n.to[0]].Name);
 
-  const lines = _.mapValues(rawLines, l => {
+  const lines = _.mapValues(rawLines, (l) => {
     const defaults = data[countriesMap[l.country]];
     return {
       label: l.Name,
@@ -41,9 +41,8 @@ export default async function importAirtable() {
       gauge: l.Écartement || defaults.gauge,
       signaling: l.Signalisation || defaults.signaling,
       current: l.Courant || defaults.current,
-    }
-  }
-  );
+    };
+  });
 
   const defaultLine = (country: Countries): Line => {
     const defaults = data[country];

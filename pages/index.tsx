@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { GetStaticProps } from 'next';
 import importAirtable from '../data/airtable_importer';
 import { gen, fmt } from '../lib/helpers';
-import { VehicleJourney } from '../lib/types'
+import { VehicleJourney } from '../lib/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 
@@ -32,7 +32,9 @@ const Home = ({ infra }) => {
         <tbody>
         {_.map(vjs, (vj, id) => <tr>
           <td><Link href={`/lines/${id}`}><a className="underline">{vj.label}</a></Link></td>
-          <td className="text-center"><FontAwesomeIcon icon={vj.highspeed() ? 'check' : 'times'} /></td>
+          <td className="text-center">
+            <FontAwesomeIcon icon={vj.highspeed() ? 'check' : 'times'} />
+          </td>
           <td>{fmt(vj.price)}</td>
           <td>{vj.distance}</td>
           <td>{_.head(vj.edges).edge.departure.label}</td>
