@@ -54,12 +54,26 @@ interface Train {
   capacity: number;
 }
 
-interface VehicleJourney {
+class VehicleJourney {
   label: string;
   edges: TrainEdge[];
   price: number;
   distance: number;
   energy: number;
+  train: Train;
+
+  constructor(route: Route, train: Train) {
+    this.edges = route.segments.map((s, i) => new TrainEdge(s, train, route.segments, i));
+    this.label = route.label;
+    this.price = _(this.edges).map('price').sum();
+    this.distance = _(this.edges).map('edge.distance').sum();
+    this.energy = _(this.edges).map('energy').sum();
+    this.train = train;
+  }
+
+  highspeed(): boolean {
+    return this.train.highSpeed && _.some(this.edges, 'edge.line.highSpeed');
+  }
 }
 
 interface Line {
@@ -126,5 +140,5 @@ interface Route {
   segments: Edge[];
 }
 
-export type { Train, VehicleJourney, Edge, Route, Line, StopTime };
-export { Rule, TrainEdge, ccCurent };
+export type { Train, Edge, Route, Line, StopTime };
+export { Rule, TrainEdge, ccCurent, VehicleJourney };
