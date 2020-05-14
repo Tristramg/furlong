@@ -7,33 +7,27 @@ const prices = {
     A: 1.9275,
     B: 4.7931,
     C: 0.8020,
+    'LAV Madrid-Barcelona-Frontera': 1.7611,
+    'LAV Madrid-Sevilla': 0.8647,
   },
   VL2: {
     A: 0.9258,
     B: 2.3017,
     C: 0.3835,
+    'LAV Madrid-Barcelona-Frontera': 0.2317,
+    'LAV Madrid-Sevilla': 0.1504,
   },
   VL3: {
     A: 1.9275,
     B: 2.3017,
     C: 0.8020,
+    'LAV Madrid-Barcelona-Frontera': 0.3023,
+    'LAV Madrid-Sevilla': 0.1962,
   },
   other: {
     A: 0.5133,
     B: 0.7320,
     C: 0.2039,
-  },
-  // TODO those values are per bunch of 100 seats
-  // Those prices are for VL1, VL2, and VL3, not A, B C
-  'LAV Madrid-Barcelona-Frontera': {
-    A: 1.7611,
-    B: 0.2317,
-    C: 0.3023,
-  },
-  'LAV Madrid-Sevilla': {
-    A: 0.8647,
-    B: 0.1504,
-    C: 0.1962,
   },
 };
 
@@ -112,33 +106,12 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
     Rule.perkWh(0.00112, 'Cout de gestion électricité (SC-2)'),
   ];
 
-  if (edge.line && prices[edge.line.label]) {
+  if (edge.line && prices[cat][edge.line.label]) {
     const line = edge.line.label;
-    result.push(
-      {
-        perKm: prices[line]['A'],
-        perkWh: 0,
-        perTonAndKm: 0,
-        fixed: 0,
-        label: `Supplément Modalidad A ligne chargée ${line}`,
-        category: RuleCategory.Tracks,
-      },
-      {
-        perKm: prices[line]['B'],
-        perkWh: 0,
-        perTonAndKm: 0,
-        fixed: 0,
-        label: `Supplément Modalidad B ligne chargée ${line}`,
-        category: RuleCategory.Tracks,
-      },
-      {
-        perKm: prices[line]['C'],
-        perkWh: 0,
-        perTonAndKm: 0,
-        fixed: 0,
-        label: `Supplément Modalidad C ligne chargée ${line}`,
-        category: RuleCategory.Tracks,
-      });
+    const multiplier = Math.ceil(train.capacity / 100);
+    result.push(Rule.perKm(prices[cat][line] * multiplier,
+                           `Supplément ${cat} ligne chargée ${line} (×${multiplier})`,
+                           RuleCategory.Tracks));
   }
 
   if (ccCurent(edge.line)) {
