@@ -10,7 +10,7 @@ export const getStaticProps: GetStaticProps = importAirtable;
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: Object.keys(Routes).map(r => ({ params: { line: r} })),
+    paths: Object.keys(Routes).map(r => ({ params: { line: r } })),
     fallback: false,
   };
 };
@@ -21,4 +21,3 @@ export default ({ infra }) => {
 
   return <VehicleJourney vj={buildVJ(line, 'Lundi', infra)}></VehicleJourney>;
 };
-

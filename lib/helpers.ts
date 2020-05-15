@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Edge} from './types';
+import { Edge } from './types';
 import { Day } from './types.d';
 
 function gen(list, infra) : Edge[] {
@@ -74,9 +74,9 @@ function nextDay(edge: Edge, day: Day): Day {
     [Day.Friday]: Day.Saturday,
     [Day.Saturday]: Day.Sunday,
     [Day.Sunday]: Day.Monday,
-  }
+  };
 
-  if(edge.arrival.time > 24 * 60) {
+  if (edge.arrival.time > 24 * 60) {
     return nextDay[day];
   }
 
@@ -87,6 +87,5 @@ function weekEnd(edge: Edge, departureDay: Day): boolean {
   const consideredDay = nextDay(edge, departureDay);
   return _.includes([Day.Saturday, Day.Sunday], consideredDay);
 }
-
 
 export { fmt, grey, h, fh, edgeId, gen, included, weekEnd };

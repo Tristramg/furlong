@@ -83,7 +83,7 @@ function getPeriod(edge: Edge, day: Day): Period {
     if (included(edge, h(6, 0), h(18, 59))) {
       return Period.WEEK_END_DAY;
     }
-    return Period.WEEK_END_NIGHT
+    return Period.WEEK_END_NIGHT;
   }
 
   if (included(edge, h(6, 0), h(8, 59))) {

@@ -80,7 +80,7 @@ function segment(edges: Edge[], train: Train, day: Day): Segment {
     return Segment.International;
   }
   if (roma && milano) {
-    if(day === Day.Saturday) {
+    if (day === Day.Saturday) {
       return train.capacity > 700 ? Segment.TopSPlus : Segment.TopS;
     }
     return train.capacity > 700 ? Segment.TopPlus : Segment.Top;

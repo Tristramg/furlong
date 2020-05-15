@@ -12,7 +12,7 @@ export const getStaticProps: GetStaticProps = importAirtable;
 
 const Home = ({ infra }) => {
 
-  const vjs = _.mapValues(Routes, r => {
+  const vjs = _.mapValues(Routes, (r) => {
     const params = { label: r.label, segments: gen(r.steps, infra) };
     return {
       [Day.Monday]: new VehicleJourney(params, r.train, Day.Monday),
@@ -39,15 +39,19 @@ const Home = ({ infra }) => {
         </thead>
         <tbody>
         {_.map(vjs, (vj, id) => <tr>
-          <td><Link href={`/lines/${id}`}><a className="underline">{vj[Day.Monday].label}</a></Link></td>
+          <td><Link href={`/lines/${id}`}><a>{vj[Day.Monday].label}</a></Link></td>
           <td className="text-center">
             <FontAwesomeIcon icon={vj[Day.Monday].highspeed() ? 'check' : 'times'} />
           </td>
           <td className="text-right">
-            L:&nbsp;{fmt(vj[Day.Monday].price)}<br/>
-            V:&nbsp;{fmt(vj[Day.Friday].price)}<br/>
-            S:&nbsp;{fmt(vj[Day.Saturday].price)}<br/>
-            D:&nbsp;{fmt(vj[Day.Sunday].price)}<br/>
+            <Link href={`/lines/${id}/Lundi`}><a>L:&nbsp;{fmt(vj[Day.Monday].price)}</a></Link>
+            <br/>
+            <Link href={`/lines/${id}/Vendredi`}><a>V:&nbsp;{fmt(vj[Day.Friday].price)}</a></Link>
+            <br/>
+            <Link href={`/lines/${id}/Samedi`}><a>S:&nbsp;{fmt(vj[Day.Saturday].price)}</a></Link>
+            <br/>
+            <Link href={`/lines/${id}/Dimanche`}><a>D:&nbsp;{fmt(vj[Day.Sunday].price)}</a></Link>
+            <br/>
           </td>
           <td className="text-right">{fmt(vj[Day.Monday].distance)}</td>
           <td>{_.head(vj[Day.Monday].edges).edge.departure.label}</td>
