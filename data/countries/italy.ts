@@ -1,5 +1,5 @@
 import { Edge, Rule, Train, StopTime } from '../../lib/types';
-import { RuleCategory } from '../../lib/types.d';
+import { RuleCategory, Countries } from '../../lib/types.d';
 import _ from 'lodash';
 
 function ta1(train: Train): Rule {
@@ -69,7 +69,7 @@ const hasCity = (edge: Edge, city: string): boolean => cityInStopTime(edge.arriv
                                                        cityInStopTime(edge.departure, city);
 
 function segment(edges: Edge[], train: Train): Segment {
-  const itEdges = _.filter(edges, e => e.country === 'IT');
+  const itEdges = _.filter(edges, e => e.country === Countries.IT);
   const roma: boolean = _.some(itEdges, e => hasCity(e, 'Roma'));
   const milano: boolean = _.some(itEdges, e => hasCity(e, 'Milano'));
   const distance: number = _.sumBy(itEdges, 'distance');

@@ -5,45 +5,45 @@ import spain from './countries/spain';
 import portugal from './countries/portugal';
 import italy from './countries/italy';
 import { Rule, Edge, Train, StopTime } from '../lib/types';
-import { RuleCategory } from '../lib/types.d';
+import { Countries } from '../lib/types.d';
 
 const data = {
-  ES: {
+  [Countries.ES]: {
     label: 'Belgique',
     current: '3000 CC',
     gauge: 'Ibérique 1668 mm',
     signaling: 'ASFA',
     rules: spain,
   },
-  FR: {
+  [Countries.FR]: {
     label: 'France',
     current: '1500 CC',
     gauge: 'Standard 1435 mm',
     signaling: 'KVB',
     rules: france,
   },
-  IT: {
+  [Countries.IT]: {
     label: 'Italie',
     current: '3000 DC',
     gauge: 'Standard 1435 mm',
     signaling: 'BACC',
     rules: italy,
   },
-  BE: {
+  [Countries.BE]: {
     label: 'Belgique',
     current: '3000 DC',
     gauge: 'Standard 1435 mm',
     signaling: 'TBL',
     rules: belgium,
   },
-  DE: {
+  [Countries.DE]: {
     label: 'Allemagne',
     current: '15k AC',
     gauge: 'Standard 1435 mm',
     signaling: 'PZB',
     rules: germany,
   },
-  PT: {
+  [Countries.PT]: {
     label: 'Portugal',
     current: '25k AC',
     gauge: 'Ibérique 1668 mm',

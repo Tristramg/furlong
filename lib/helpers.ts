@@ -37,18 +37,6 @@ function gen(list, infra) : Edge[] {
   });
 }
 
-function vehicleJourney(route: Route, train: Train): VehicleJourney {
-  const edges = route.segments.map((s, i) => new TrainEdge(s, train, route.segments, i));
-
-  return {
-    edges,
-    label: route.label,
-    price: _(edges).map('price').sum(),
-    distance: _(edges).map('edge.distance').sum(),
-    energy: _(edges).map('energy').sum(),
-  };
-}
-
 const fmt = (val: number): string => val === 0.0 ? '—' : String(Number(val.toPrecision(3)));
 const grey = (val: number): string => val === 0.0 ? 'text-gray-500' : '';
 
@@ -76,4 +64,4 @@ function included(edge: Edge, start: number, end: number) {
   return in_period(edge.arrival.time, start, end) || in_period(edge.departure.time, start, end);
 }
 
-export { fmt, grey, vehicleJourney, h, fh, edgeId, gen, included };
+export { fmt, grey, h, fh, edgeId, gen, included };

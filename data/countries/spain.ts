@@ -110,8 +110,8 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
     const line = edge.line.label;
     const multiplier = Math.ceil(train.capacity / 100);
     result.push(Rule.perKm(prices[cat][line] * multiplier,
-                           `Supplément ${cat} ligne chargée ${line} (×${multiplier})`,
-                           RuleCategory.Tracks));
+                            `Supplément ${cat} ligne chargée ${line} (×${multiplier})`,
+                            RuleCategory.Tracks));
   }
 
   if (ccCurent(edge.line)) {

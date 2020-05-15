@@ -1,6 +1,6 @@
 import lfp from './figueras_perpignan';
 import { Rule, Edge, Train, StopTime } from '../../lib/types';
-import { RuleCategory } from '../../lib/types.d';
+import { Countries, RuleCategory } from '../../lib/types.d';
 import _ from 'lodash';
 
 const classicTrain: Rule[] = [
@@ -91,10 +91,10 @@ const parisLyonExtra: Rule = {
 };
 
 const highSpeedMarket = {
-  BE: [20.83, 23.23],
-  DE: [14.98, 16.69],
-  ES: [14.68, 16.36],
-  IT: [19.16, 21.35],
+  [Countries.BE]: [20.83, 23.23],
+  [Countries.DE]: [14.98, 16.69],
+  [Countries.ES]: [14.68, 16.36],
+  [Countries.IT]: [19.16, 21.35],
   transversale: [0, 0],
 };
 
@@ -113,20 +113,20 @@ function marketRule(market: string, edge: Edge, train: Train): Rule {
 }
 
 function marketClass(edges: Edge[]): string {
-  if (_.some(edges, e => e.country === 'FR' && e.line.highSpeed)) {
+  if (_.some(edges, e => e.country === Countries.FR && e.line.highSpeed)) {
     const countries = _(edges).map('country').uniq();
-    if (countries.includes('BE')) {
-      return 'BE';
+    if (countries.includes(Countries.BE)) {
+      return Countries.BE;
     }
     // Going to Germany through Belgium counts as Belgium
-    if (countries.includes('DE')) {
-      return 'DE';
+    if (countries.includes(Countries.DE)) {
+      return Countries.DE;
     }
-    if (countries.includes('IT')) {
-      return 'IT';
+    if (countries.includes(Countries.IT)) {
+      return Countries.IT;
     }
-    if (countries.includes('ES')) {
-      return 'ES';
+    if (countries.includes(Countries.ES)) {
+      return Countries.ES;
     }
     return 'transversale';
   }
