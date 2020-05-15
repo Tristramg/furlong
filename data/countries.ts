@@ -5,7 +5,7 @@ import spain from './countries/spain';
 import portugal from './countries/portugal';
 import italy from './countries/italy';
 import { Rule, Edge, Train, StopTime } from '../lib/types';
-import { Countries } from '../lib/types.d';
+import { Countries, Day } from '../lib/types.d';
 
 const data = {
   [Countries.ES]: {
@@ -63,8 +63,8 @@ function stationRules(edge: Edge, last: boolean): Rule[] {
   return stationRule(edge.departure);
 }
 
-function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
-  return data[edge.country].rules(edge, train, edges, index);
+function rules(edge: Edge, train: Train, edges: Edge[], index: number, day: Day): Rule[] {
+  return data[edge.country].rules(edge, train, edges, index, day);
 }
 
 export { rules, data, stationRules };

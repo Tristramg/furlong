@@ -1,12 +1,9 @@
-import Routes from '../../data/lines';
-import { gen } from '../../lib/helpers';
-import { VehicleJourney as VJ } from '../../lib/types';
+
 import VehicleJourney from '../../components/vehicle_journey';
 import importAirtable from '../../data/airtable_importer';
-
-import _ from 'lodash';
+import Routes from '../../data/lines';
+import buildVJ from '../../lib/line';
 import { useRouter } from 'next/router';
-
 import { GetStaticProps, GetStaticPaths } from 'next';
 
 export const getStaticProps: GetStaticProps = importAirtable;
@@ -18,14 +15,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-const Home = ({ infra }) => {
+export default ({ infra }) => {
   const router = useRouter();
   const { line } = router.query;
-  const l = typeof line === 'string' ? line : line[0];
-  const route = Routes[l];
-  const edges = gen(route.steps, infra);
-  const vj = new VJ({ label: route.label, segments: edges }, route.train);
-  return <VehicleJourney vj={vj}></VehicleJourney>;
-};
 
-export default Home;
+  return <VehicleJourney vj={buildVJ(line, 'Lundi', infra)}></VehicleJourney>;
+};

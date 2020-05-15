@@ -13,3 +13,13 @@ export enum Countries {
   FR = 'France',
   PT = 'Portugal',
 }
+
+export enum Day {
+  Monday = 'Lundi',
+  Tuesday = 'Mardi',
+  Wednesday = 'Mercredi',
+  Thursday = 'Jeudi',
+  Friday = 'Vendredi',
+  Saturday = 'Samedi',
+  Sunday = 'Dimanche',
+}

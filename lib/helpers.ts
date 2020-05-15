@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { Route, Edge, TrainEdge, Train, VehicleJourney } from './types';
+import { Edge } from './types';
+import { Day } from './types.d';
 
 function gen(list, infra) : Edge[] {
   return _.zipWith(_.dropRight(list), _.drop(list), (start, end) => {
@@ -64,4 +65,27 @@ function included(edge: Edge, start: number, end: number) {
   return in_period(edge.arrival.time, start, end) || in_period(edge.departure.time, start, end);
 }
 
-export { fmt, grey, h, fh, edgeId, gen, included };
+function nextDay(edge: Edge, day: Day): Day {
+  const nextDay = {
+    [Day.Monday]: Day.Tuesday,
+    [Day.Tuesday]: Day.Wednesday,
+    [Day.Wednesday]: Day.Thursday,
+    [Day.Thursday]: Day.Friday,
+    [Day.Friday]: Day.Saturday,
+    [Day.Saturday]: Day.Sunday,
+    [Day.Sunday]: Day.Monday,
+  };
+
+  if (edge.arrival.time > 24 * 60) {
+    return nextDay[day];
+  }
+
+  return day;
+}
+
+function weekEnd(edge: Edge, departureDay: Day): boolean {
+  const consideredDay = nextDay(edge, departureDay);
+  return _.includes([Day.Saturday, Day.Sunday], consideredDay);
+}
+
+export { fmt, grey, h, fh, edgeId, gen, included, weekEnd };
