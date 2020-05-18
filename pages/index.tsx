@@ -4,14 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import React from 'react';
 import Routes from '../data/lines';
-import importAirtable from '../data/airtable_importer';
+import { Infra, importAirtable } from '../data/airtable_importer';
 import { gen, fmt } from '../lib/helpers';
 import VehicleJourney from '../lib/vehicle_journey';
 import { Day } from '../lib/types.d';
 
 export const getStaticProps: GetStaticProps = importAirtable;
 
-const Home = ({ infra }) => {
+const Home = ({ infra }: Infra) => {
   const vjs = _.mapValues(Routes, (r) => {
     const params = { label: r.label, segments: gen(r.steps, infra) };
     return {
@@ -43,7 +43,7 @@ const Home = ({ infra }) => {
               <tr>
                 <td><Link href={`/lines/${id}`}><a>{vj[Day.Monday].label}</a></Link></td>
                 <td className="text-center">
-                  <FontAwesomeIcon icon={vj[Day.Monday].highspeed() ? 'check' : 'times'} />
+                  <FontAwesomeIcon icon={vj[Day.Monday].highspeed() ? 'check' : 'times'} />
                 </td>
                 <td className="text-right">
                   <Link href={`/lines/${id}/Lundi`}>

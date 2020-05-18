@@ -2,7 +2,7 @@ import _ from 'lodash';
 import Edge from './edge';
 import { Train } from './types';
 import { Day } from './types.d';
-import Rule from './rule';
+import { Rule } from './rule';
 import { rules } from '../data/countries';
 
 export default class TrainEdge {
@@ -32,7 +32,7 @@ export default class TrainEdge {
   }
 
   pricesByCategory(): {[category: string]: number } {
-    const sumPrices = (currentRules: Rule[]): number => _(currentRules).map(r => this.singlePrice(r)).sum();
+    const sumPrices = (r: Rule[]): number => _(r).map((rule) => this.singlePrice(rule)).sum();
     return _(this.rules).groupBy('category').mapValues(sumPrices).value();
   }
 }

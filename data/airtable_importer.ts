@@ -26,18 +26,25 @@ const countriesMap = {
   PT: Countries.PT,
 };
 
-interface rawEdge {
+interface RawEdge {
   from: string[];
   to: string[];
 }
 
-export default async function importAirtable() {
+interface Infra {
+  infra: {
+    nodes: {[name: string]: object};
+    edges: {[id: string]: RawEdge[]};
+  }
+}
+
+export default async function importAirtable(): Promise<{props: Infra}> {
   const rawNodes = await get('', 'Nodes');
   const rawLines = await get('', 'Lines');
   const rawEdges = await get('', 'Edges');
-  const id = (n: rawEdge): string => edgeId(rawNodes[n.from[0]].Name, rawNodes[n.to[0]].Name);
+  const id = (n: RawEdge): string => edgeId(rawNodes[n.from[0]].Name, rawNodes[n.to[0]].Name);
 
-  const lines = _.mapValues(rawLines, (l) => {
+  const lines: {[name: string]: Line} = _.mapValues(rawLines, (l) => {
     const defaults = data[countriesMap[l.country]];
     return {
       label: l.Name,
@@ -78,3 +85,6 @@ export default async function importAirtable() {
     },
   };
 }
+
+export type { Infra };
+export { importAirtable };

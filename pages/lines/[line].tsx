@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import React from 'react';
 import VehicleJourney from '../../components/vehicle_journey';
-import importAirtable from '../../data/airtable_importer';
+import { Infra, importAirtable } from '../../data/airtable_importer';
 import Routes from '../../data/lines';
 import buildVJ from '../../lib/line';
 
@@ -14,7 +14,7 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: false,
 });
 
-export default ({ infra }) => {
+export default ({ infra }: Infra) => {
   const router = useRouter();
   const { line } = router.query;
 
