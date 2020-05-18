@@ -2,6 +2,8 @@ import _ from 'lodash';
 import { Edge } from './types';
 import { Day } from './types.d';
 
+const edgeId = (from: string, to: string): string => (from < to ? `${from}-${to}` : `${to}-${from}`);
+
 function gen(list, infra) : Edge[] {
   return _.zipWith(_.dropRight(list), _.drop(list), (start, end) => {
     const edge = edgeId(start[0], end[0]);
@@ -10,12 +12,9 @@ function gen(list, infra) : Edge[] {
     const departure = infra.nodes[start[0]];
     const arrival = infra.nodes[end[0]];
 
-    if (!departure) { console.error(`Missing node ${start[0]}`); }
-    if (!arrival) { console.error(`Missing node ${end[0]}`); }
-
     return {
       label: infraEdge.label,
-      distance: infraEdge.distance  ,
+      distance: infraEdge.distance,
       country: infraEdge.country,
       line: infraEdge.line,
       departure: {
@@ -54,14 +53,12 @@ const fh = (time: number): string => {
   return `${h}:${m}`;
 };
 
-const edgeId = (from: string, to: string): string => from < to ? `${from}-${to}` : `${to}-${from}`;
-
-function in_period(time: number, start: number, end: number) {
+function in_period(time: number, start: number, end: number): boolean {
   return time % (24 * 60) > start % (24 * 60) &&
        time % (24 * 60) < end % (24 * 60);
 }
 
-function included(edge: Edge, start: number, end: number) {
+function included(edge: Edge, start: number, end: number): boolean {
   return in_period(edge.arrival.time, start, end) || in_period(edge.departure.time, start, end);
 }
 

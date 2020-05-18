@@ -67,7 +67,7 @@ function period(edge: Edge): string {
   return 'medium';
 }
 
-export default function (edge: Edge, train: Train): Rule[] {
+export default function rules(edge: Edge, train: Train): Rule[] {
   const p = period(edge);
   const s = train.highSpeed ? 'highSpeed' : 'lowSpeed';
   const c = train.capacity > 300 ? 'highCapa' : 'smallCapa';

@@ -2,7 +2,6 @@ import Routes from '../data/lines';
 import { gen } from './helpers';
 import { VehicleJourney } from './types';
 import { Day } from './types.d';
-import _ from 'lodash';
 
 const reverse = {
   Lundi: Day.Monday,
@@ -14,7 +13,7 @@ const reverse = {
   Dimanche: Day.Sunday,
 };
 
-export default function (line: string|string[], day: string|string[], infra): VehicleJourney {
+export default function VJ(line: string|string[], day: string|string[], infra): VehicleJourney {
   const l = typeof line === 'string' ? line : line[0];
   const d = typeof day === 'string' ? day : day[0];
   const route = Routes[l];

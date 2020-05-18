@@ -1,6 +1,8 @@
-import { Rule, Edge, Train, ccCurent, StopTime } from '../../lib/types';
-import { RuleCategory } from '../../lib/types.d';
 import _ from 'lodash';
+import {
+  Rule, Edge, Train, ccCurent, StopTime,
+} from '../../lib/types';
+import { RuleCategory } from '../../lib/types.d';
 
 const prices = {
   VL1: {
@@ -32,18 +34,16 @@ const prices = {
 };
 
 function market(edges: Edge[]): string {
-  const broadGauge =
-    _(edges).
-      filter(e => e.country === 'ES' && e.line.gauge.includes('1668')).
-      sumBy('distance');
+  const broadGauge = _(edges)
+    .filter((e) => e.country === 'ES' && e.line.gauge.includes('1668'))
+    .sumBy('distance');
 
-  const standardGauge =
-    _(edges).
-      filter(e => e.country === 'ES' && e.line.gauge.includes('1435')).
-      sumBy('distance');
+  const standardGauge = _(edges)
+    .filter((e) => e.country === 'ES' && e.line.gauge.includes('1435'))
+    .sumBy('distance');
 
   const madrid = (label: string): boolean => label.includes('Madrid');
-  if (_.some(edges, e => madrid(e.departure.label) || madrid(e.arrival.label))) {
+  if (_.some(edges, (e) => madrid(e.departure.label) || madrid(e.arrival.label))) {
     // More than 10% is in broad gauge
     if (broadGauge / (broadGauge + standardGauge) > 0.1) {
       return 'VL2';
@@ -90,19 +90,18 @@ function stationRules(edge: Edge, len: number, index: number): Rule[] {
 }
 
 function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
-
   const cat = edge.line && edge.line.class === 'A' ? market(edges) : 'other';
 
   const result = [
-    Rule.perKm(prices[cat]['A'],
-               `Modalidad A (réservaton sillon) ${cat}`,
-               RuleCategory.Tracks),
-    Rule.perKm(prices[cat]['B'],
-               `Modalidad B (utilisation sillon) ${cat}`,
-               RuleCategory.Tracks),
-    Rule.perKm(prices[cat]['C'],
-               `Modalidad C (utilisation installation électrique) ${cat}`,
-               RuleCategory.Energy),
+    Rule.perKm(prices[cat].A,
+      `Modalidad A (réservaton sillon) ${cat}`,
+      RuleCategory.Tracks),
+    Rule.perKm(prices[cat].B,
+      `Modalidad B (utilisation sillon) ${cat}`,
+      RuleCategory.Tracks),
+    Rule.perKm(prices[cat].C,
+      `Modalidad C (utilisation installation électrique) ${cat}`,
+      RuleCategory.Energy),
     Rule.perkWh(0.00112, 'Cout de gestion électricité (SC-2)'),
   ];
 
@@ -110,8 +109,8 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
     const line = edge.line.label;
     const multiplier = Math.ceil(train.capacity / 100);
     result.push(Rule.perKm(prices[cat][line] * multiplier,
-                            `Supplément ${cat} ligne chargée ${line} (×${multiplier})`,
-                            RuleCategory.Tracks));
+      `Supplément ${cat} ligne chargée ${line} (×${multiplier})`,
+      RuleCategory.Tracks));
   }
 
   if (ccCurent(edge.line)) {

@@ -1,13 +1,18 @@
+import _ from 'lodash';
 import { rules } from '../data/countries';
 import { RuleCategory, Day } from './types.d';
-import _ from 'lodash';
 
 class Rule {
   perTonAndKm: number;
+
   perKm: number;
+
   perkWh: number;
+
   fixed: number;
+
   label: string;
+
   category: RuleCategory;
 
   static perKm(perKm: number, label: string, category: RuleCategory): Rule {
@@ -54,12 +59,49 @@ interface Train {
   capacity: number;
 }
 
+class TrainEdge {
+  edge: Edge;
+
+  weight: number;
+
+  energy: number;
+
+  price: number;
+
+  rules: Rule[];
+
+  constructor(edge: Edge, train: Train, edges: Edge[], index: number, day: Day) {
+    this.edge = edge;
+    this.weight = train.weight;
+    this.energy = edge.distance * 10;
+    this.rules = rules(edge, train, edges, index, day);
+    this.price = _(this.rules).map((r) => this.singlePrice(r)).sum();
+  }
+
+  singlePrice(rule: Rule): number {
+    return this.weight * this.edge.distance * rule.perTonAndKm
+      + this.edge.distance * rule.perKm
+      + this.energy * rule.perkWh
+      + rule.fixed;
+  }
+
+  pricesByCategory(): {[category: string]: number } {
+    const sumPrices = (rules: Rule[]): number => _(rules).map((r) => this.singlePrice(r)).sum();
+    return _(this.rules).groupBy('category').mapValues(sumPrices).value();
+  }
+}
+
 class VehicleJourney {
   label: string;
+
   edges: TrainEdge[];
+
   price: number;
+
   distance: number;
+
   energy: number;
+
   train: Train;
 
   constructor(route: Route, train: Train, day: Day) {
@@ -100,39 +142,16 @@ interface StopTime {
 
 class Edge {
   departure: StopTime;
+
   arrival: StopTime;
+
   label: string;
+
   distance: number;
+
   country: string;
+
   line: Line;
-}
-
-class TrainEdge {
-  edge: Edge;
-  weight: number;
-  energy: number;
-  price: number;
-  rules: Rule[];
-
-  constructor(edge: Edge, train: Train, edges: Edge[], index: number, day: Day) {
-    this.edge = edge;
-    this.weight = train.weight;
-    this.energy = edge.distance * 10;
-    this.rules = rules(edge, train, edges, index, day);
-    this.price = _(this.rules).map(r => this.singlePrice(r)).sum();
-  }
-
-  singlePrice(rule: Rule): number {
-    return this.weight * this.edge.distance * rule.perTonAndKm +
-      this.edge.distance * rule.perKm +
-      this.energy * rule.perkWh +
-      rule.fixed;
-  }
-
-  pricesByCategory() {
-    const sumPrices = (rules: Rule[]): number => _(rules).map(r => this.singlePrice(r)).sum();
-    return _(this.rules).groupBy('category').mapValues(sumPrices).value();
-  }
 }
 
 interface Route {
@@ -140,5 +159,9 @@ interface Route {
   segments: Edge[];
 }
 
-export type { Train, Edge, Route, Line, StopTime };
-export { Rule, TrainEdge, ccCurent, VehicleJourney };
+export type {
+  Train, Edge, Route, Line, StopTime,
+};
+export {
+  Rule, TrainEdge, ccCurent, VehicleJourney,
+};

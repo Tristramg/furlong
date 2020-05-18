@@ -2,7 +2,6 @@ import { Edge, Rule, Train } from '../../lib/types';
 import { RuleCategory, Day } from '../../lib/types.d';
 import { h, included, weekEnd } from '../../lib/helpers';
 import { stationRules } from '../countries';
-import _ from 'lodash';
 
 const coutDirectUnitaire = 1.7045567852248;
 
@@ -100,7 +99,7 @@ function getPeriod(edge: Edge, day: Day): Period {
 function rules(edge: Edge, train: Train, edges: Edge[], index: number, day: Day): Rule[] {
   const density = train.highSpeed ? LineDensity.HIGH_SPEED_TRAIN : edge.line.class;
   const period = getPeriod(edge, day);
-  const coeff =  coeffs[period][density];
+  const coeff = coeffs[period][density];
 
   return [
     Rule.perKm(coeff * coutDirectUnitaire, `Rails : ${density}, ${period}`, RuleCategory.Tracks),

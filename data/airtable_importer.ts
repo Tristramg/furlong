@@ -1,18 +1,18 @@
-import { data } from './countries';
 import fetch from 'node-fetch';
+import _ from 'lodash';
+import { data } from './countries';
 import { Line } from '../lib/types';
 import { Countries } from '../lib/types.d';
 import { edgeId } from '../lib/helpers';
-import _ from 'lodash';
 
 async function get(offset: string, table: string) {
   const base = 'app79tCh1zYIM8CT9';
   const res = await fetch(`https://api.airtable.com/v0/${base}/${table}?maxRecords=1000&api_key=${process.env.AIRTABLE_KEY}&offset=${offset}`);
   const r = await res.json();
-  const current = _(r.records).map(r => [r.id, r.fields]).fromPairs().value();
+  const current = _(r.records).map((r) => [r.id, r.fields]).fromPairs().value();
 
   if (r.offset) {
-    return get(r.offset, table).then(moar => Object.assign(current, moar));
+    return get(r.offset, table).then((moar) => Object.assign(current, moar));
   }
   return current;
 }
@@ -30,7 +30,7 @@ export default async function importAirtable() {
   const rawNodes = await get('', 'Nodes');
   const rawLines = await get('', 'Lines');
   const rawEdges = await get('', 'Edges');
-  const id = n => edgeId(rawNodes[n.from[0]].Name, rawNodes[n.to[0]].Name);
+  const id = (n: { from: string[]; to: string[]; }): string => edgeId(rawNodes[n.from[0]].Name, rawNodes[n.to[0]].Name);
 
   const lines = _.mapValues(rawLines, (l) => {
     const defaults = data[countriesMap[l.country]];
@@ -60,14 +60,15 @@ export default async function importAirtable() {
     props: {
       infra: {
         nodes: _.keyBy(rawNodes, 'Name'),
-        edges: _(rawEdges).values().map(v => [id(v), {
+        edges: _(rawEdges).values().map((v) => [id(v), {
           departure: rawNodes[v.from[0]],
           arrival: rawNodes[v.to[0]],
           country: countriesMap[v.Country],
           label: v.Line ? lines[v.Line[0]].label : '',
           distance: v.length,
           line: v.Line ? lines[v.Line[0]] : defaultLine(countriesMap[v.Country]),
-        }]).fromPairs().value(),
+        }]).fromPairs()
+          .value(),
       },
     },
   };
