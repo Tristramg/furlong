@@ -4,8 +4,10 @@ import germany from './countries/germany';
 import spain from './countries/spain';
 import portugal from './countries/portugal';
 import italy from './countries/italy';
-import { Rule, Edge, Train, StopTime } from '../lib/types';
+import { Train } from '../lib/types';
 import { Countries, Day } from '../lib/types.d';
+import { Rule } from '../lib/rule';
+import Edge from '../lib/edge';
 
 const data = {
   [Countries.ES]: {
@@ -52,19 +54,8 @@ const data = {
   },
 };
 
-function stationRule(station: StopTime): Rule[] {
-  return station.commercial ? [Rule.station(station.station, 'Gare')] : [];
-}
-
-function stationRules(edge: Edge, last: boolean): Rule[] {
-  if (last) {
-    return stationRule(edge.departure).concat(stationRule(edge.arrival));
-  }
-  return stationRule(edge.departure);
-}
-
 function rules(edge: Edge, train: Train, edges: Edge[], index: number, day: Day): Rule[] {
   return data[edge.country].rules(edge, train, edges, index, day);
 }
 
-export { rules, data, stationRules };
+export { rules, data };

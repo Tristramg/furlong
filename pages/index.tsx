@@ -6,7 +6,7 @@ import React from 'react';
 import Routes from '../data/lines';
 import importAirtable from '../data/airtable_importer';
 import { gen, fmt } from '../lib/helpers';
-import { VehicleJourney } from '../lib/types';
+import VehicleJourney from '../lib/vehicle_journey';
 import { Day } from '../lib/types.d';
 
 export const getStaticProps: GetStaticProps = importAirtable;

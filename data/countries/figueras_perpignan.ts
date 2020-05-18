@@ -1,5 +1,7 @@
 import { h, included } from '../../lib/helpers';
-import { Train, Edge, Rule } from '../../lib/types';
+import { Train } from '../../lib/types';
+import { Rule } from '../../lib/rule';
+import Edge from '../../lib/edge';
 import { RuleCategory } from '../../lib/types.d';
 
 const use = {

@@ -1,8 +1,10 @@
 import _ from 'lodash';
 import {
-  Edge, Rule, Train, StopTime,
+  Train, StopTime,
 } from '../../lib/types';
 import { RuleCategory, Countries, Day } from '../../lib/types.d';
+import { Rule } from '../../lib/rule';
+import Edge from '../../lib/edge';
 
 function ta1(train: Train): Rule {
   if (train.weight < 500) {

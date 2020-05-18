@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { TrainEdge, Rule } from '../lib/types';
+import TrainEdge from '../lib/train_edge';
+import Rule from '../lib/rule';
 import { grey, fmt, fh } from '../lib/helpers';
 import { RuleCategory } from '../lib/types.d';
 

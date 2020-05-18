@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Edge } from './types';
+import Edge from './edge';
 import { Day } from './types.d';
 
 const edgeId = (from: string, to: string): string => (from < to ? `${from}-${to}` : `${to}-${from}`);
@@ -37,8 +37,8 @@ function gen(list, infra) : Edge[] {
   });
 }
 
-const fmt = (val: number): string => val === 0.0 ? '—' : String(Number(val.toPrecision(3)));
-const grey = (val: number): string => val === 0.0 ? 'text-gray-500' : '';
+const fmt = (val: number): string => (val === 0.0 ? '—' : String(Number(val.toPrecision(3))));
+const grey = (val: number): string => (val === 0.0 ? 'text-gray-500' : '');
 
 const h = (hours: number, minutes: number): number => {
   if (hours < 12) {
@@ -48,22 +48,22 @@ const h = (hours: number, minutes: number): number => {
 };
 
 const fh = (time: number): string => {
-  const h = String(Math.floor(time / 60) % 24).padStart(2, '0');
-  const m = String(time % 60).padStart(2, '0');
-  return `${h}:${m}`;
+  const hours = String(Math.floor(time / 60) % 24).padStart(2, '0');
+  const min = String(time % 60).padStart(2, '0');
+  return `${hours}:${min}`;
 };
 
-function in_period(time: number, start: number, end: number): boolean {
-  return time % (24 * 60) > start % (24 * 60) &&
-       time % (24 * 60) < end % (24 * 60);
+function inPeriod(time: number, start: number, end: number): boolean {
+  return time % (24 * 60) > start % (24 * 60)
+       && time % (24 * 60) < end % (24 * 60);
 }
 
 function included(edge: Edge, start: number, end: number): boolean {
-  return in_period(edge.arrival.time, start, end) || in_period(edge.departure.time, start, end);
+  return inPeriod(edge.arrival.time, start, end) || inPeriod(edge.departure.time, start, end);
 }
 
 function nextDay(edge: Edge, day: Day): Day {
-  const nextDay = {
+  const nextDays = {
     [Day.Monday]: Day.Tuesday,
     [Day.Tuesday]: Day.Wednesday,
     [Day.Wednesday]: Day.Thursday,
@@ -74,7 +74,7 @@ function nextDay(edge: Edge, day: Day): Day {
   };
 
   if (edge.arrival.time > 24 * 60) {
-    return nextDay[day];
+    return nextDays[day];
   }
 
   return day;
@@ -85,4 +85,6 @@ function weekEnd(edge: Edge, departureDay: Day): boolean {
   return _.includes([Day.Saturday, Day.Sunday], consideredDay);
 }
 
-export { fmt, grey, h, fh, edgeId, gen, included, weekEnd };
+export {
+  fmt, grey, h, fh, edgeId, gen, included, weekEnd,
+};

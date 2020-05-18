@@ -1,7 +1,8 @@
-import { Rule, Edge, Train } from '../../lib/types';
+import { Train } from '../../lib/types';
+import Edge from '../../lib/edge';
 import { RuleCategory, Day } from '../../lib/types.d';
 import { h, weekEnd } from '../../lib/helpers';
-import { stationRules } from '../countries';
+import { Rule, stationRules } from '../../lib/rule';
 
 function duration(edge: Edge, start: number, end: number):number {
   const d = Math.min(end, edge.arrival.time) - Math.max(start, edge.departure.time);
@@ -12,7 +13,7 @@ function metroPrice(edge: Edge, avgSpeed: number): number {
   const consideredSpeed = Math.max(100, Math.min(160, avgSpeed));
   const metroMax = 12.06;
   const metroMin = 5.34;
-  return metroMin + (consideredSpeed - 100) * (metroMax - metroMin) / 60;
+  return metroMin + ((consideredSpeed - 100) * (metroMax - metroMin)) / 60;
 }
 
 function basic(edge: Edge, day: Day): number {

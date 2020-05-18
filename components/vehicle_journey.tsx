@@ -2,7 +2,7 @@ import * as React from 'react';
 import { fmt } from '../lib/helpers';
 import Segment from './segment';
 import VJSummary from './vj_summary';
-import { VehicleJourney } from '../lib/types';
+import VehicleJourney from '../lib/vehicle_journey';
 
 type Props = {
   vj: VehicleJourney;

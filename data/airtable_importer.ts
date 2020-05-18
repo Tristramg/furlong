@@ -8,11 +8,11 @@ import { edgeId } from '../lib/helpers';
 async function get(offset: string, table: string) {
   const base = 'app79tCh1zYIM8CT9';
   const res = await fetch(`https://api.airtable.com/v0/${base}/${table}?maxRecords=1000&api_key=${process.env.AIRTABLE_KEY}&offset=${offset}`);
-  const r = await res.json();
-  const current = _(r.records).map((r) => [r.id, r.fields]).fromPairs().value();
+  const json = await res.json();
+  const current = _(json.records).map((r) => [r.id, r.fields]).fromPairs().value();
 
-  if (r.offset) {
-    return get(r.offset, table).then((moar) => Object.assign(current, moar));
+  if (json.offset) {
+    return get(json.offset, table).then((moar) => Object.assign(current, moar));
   }
   return current;
 }
@@ -26,11 +26,16 @@ const countriesMap = {
   PT: Countries.PT,
 };
 
+interface rawEdge {
+  from: string[];
+  to: string[];
+}
+
 export default async function importAirtable() {
   const rawNodes = await get('', 'Nodes');
   const rawLines = await get('', 'Lines');
   const rawEdges = await get('', 'Edges');
-  const id = (n: { from: string[]; to: string[]; }): string => edgeId(rawNodes[n.from[0]].Name, rawNodes[n.to[0]].Name);
+  const id = (n: rawEdge): string => edgeId(rawNodes[n.from[0]].Name, rawNodes[n.to[0]].Name);
 
   const lines = _.mapValues(rawLines, (l) => {
     const defaults = data[countriesMap[l.country]];

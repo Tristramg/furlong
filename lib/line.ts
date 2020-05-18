@@ -1,6 +1,6 @@
 import Routes from '../data/lines';
 import { gen } from './helpers';
-import { VehicleJourney } from './types';
+import VehicleJourney from './vehicle_journey';
 import { Day } from './types.d';
 
 const reverse = {

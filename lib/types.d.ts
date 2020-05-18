@@ -2,7 +2,7 @@
 export enum RuleCategory {
   Tracks = 'Voies',
   Energy = 'Énergie',
-  Station =  'Gares',
+  Station = 'Gares',
 }
 
 export enum Countries {

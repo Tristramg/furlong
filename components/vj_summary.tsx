@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
-import { VehicleJourney, TrainEdge } from '../lib/types';
+import VehicleJourney from '../lib/vehicle_journey';
+import TrainEdge from '../lib/train_edge';
 import { RuleCategory, Countries } from '../lib/types.d';
 import { fh, fmt } from '../lib/helpers';
 
@@ -46,7 +47,7 @@ const Country = ({ country, stats }) => {
       <td>{fmt(total / stats.distance)}</td>
       <td>{fmt(stats.distance)}</td>
       <td>{fh(stats.duration)}</td>
-      <td>{fmt(stats.distance * 60 / stats.duration)}</td>
+      <td>{fmt((stats.distance * 60) / stats.duration)}</td>
     </tr>
   );
 };

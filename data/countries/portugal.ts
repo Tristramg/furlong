@@ -1,6 +1,7 @@
-import { Edge, Rule, Train } from '../../lib/types';
 import { RuleCategory } from '../../lib/types.d';
 import { h, included } from '../../lib/helpers';
+import { Rule } from '../../lib/rule';
+import Edge from '../../lib/edge';
 
 enum Period {
   LOW = 'Low period',
@@ -26,7 +27,7 @@ function getPeriod(edge: Edge): string {
   return Period.LOW;
 }
 
-function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
+function rules(edge: Edge): Rule[] {
   const period = getPeriod(edge);
   const coeff = coeffsA[period];
 

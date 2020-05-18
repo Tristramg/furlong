@@ -1,7 +1,8 @@
-import { Edge, Rule, Train } from '../../lib/types';
+import { Train } from '../../lib/types';
 import { RuleCategory, Day } from '../../lib/types.d';
 import { h, included, weekEnd } from '../../lib/helpers';
-import { stationRules } from '../countries';
+import { Rule, stationRules } from '../../lib/rule';
+import Edge from '../../lib/edge';
 
 const coutDirectUnitaire = 1.7045567852248;
 
