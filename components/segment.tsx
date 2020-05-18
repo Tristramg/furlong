@@ -8,31 +8,40 @@ import { RuleCategory } from '../lib/types.d';
 import { StopTime } from '../lib/types';
 
 type Props = {
-  edge: TrainEdge,
+  edge: TrainEdge;
 };
 
 type SingleRuleProps = {
-  rule: Rule,
-  price: number,
+  rule: Rule;
+  price: number;
 };
 
 const icons = {
-  [RuleCategory.Energy]: <FontAwesomeIcon className="text-gray-600" icon="bolt" />,
-  [RuleCategory.Tracks]: <FontAwesomeIcon className="text-gray-600" icon="road" />,
-  [RuleCategory.Station]: <FontAwesomeIcon className="text-gray-600" icon="building" />,
+  [RuleCategory.Energy]: (
+    <FontAwesomeIcon className="text-gray-600" icon="bolt" />
+  ),
+  [RuleCategory.Tracks]: (
+    <FontAwesomeIcon className="text-gray-600" icon="road" />
+  ),
+  [RuleCategory.Station]: (
+    <FontAwesomeIcon className="text-gray-600" icon="building" />
+  ),
 };
 
-const singleRule: React.FunctionComponent<SingleRuleProps> = ({ rule, price }: SingleRuleProps) => (
+const singleRule: React.FunctionComponent<SingleRuleProps> = ({
+  rule,
+  price,
+}: SingleRuleProps) => (
   <div className="flex">
     <span className={`w-1/12 ${grey(rule.perKm)}`}>{fmt(rule.perKm)}</span>
-    <span className={`w-1/12 ${grey(rule.perTonAndKm)}`}>{fmt(rule.perTonAndKm)}</span>
+    <span className={`w-1/12 ${grey(rule.perTonAndKm)}`}>
+      {fmt(rule.perTonAndKm)}
+    </span>
     <span className={`w-1/12 ${grey(rule.perkWh)}`}>{fmt(rule.perkWh)}</span>
     <span className={`w-1/12 ${grey(rule.fixed)}`}>{fmt(rule.fixed)}</span>
     <span className={`w-1/12 ${grey(price)}`}>{fmt(price)}</span>
     <span className="text-xs w-5/12">
-      {icons[rule.category]}
-      {' '}
-      {rule.label}
+      {`${icons[rule.category]} ${rule.label}`}
     </span>
   </div>
 );
@@ -60,7 +69,9 @@ const Segment: React.FunctionComponent<Props> = ({ edge }: Props) => (
       <div className="w-1/2">{edge.energy}</div>
     </div>
     <div className="w-8/12 mx-6">
-      {edge.rules.map((rule) => singleRule({ rule, price: edge.singlePrice(rule) }))}
+      {edge.rules.map((rule) =>
+        singleRule({ rule, price: edge.singlePrice(rule) })
+      )}
     </div>
     <div className="w-1/12 align-middle m-auto text-right">
       {`${fmt(edge.price)} €`}

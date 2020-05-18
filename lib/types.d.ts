@@ -1,4 +1,3 @@
-
 export enum RuleCategory {
   Tracks = 'Voies',
   Energy = 'Énergie',

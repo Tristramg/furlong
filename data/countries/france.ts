@@ -7,7 +7,7 @@ import Edge from '../../lib/edge';
 
 const classicTrain: Rule[] = [
   {
-    perTonAndKm: 0.003230,
+    perTonAndKm: 0.00323,
     perKm: 0.435,
     perkWh: 0,
     fixed: 0,
@@ -32,7 +32,7 @@ const classicTrain: Rule[] = [
   },
   {
     perTonAndKm: 0,
-    perKm: 0.240,
+    perKm: 0.24,
     perkWh: 0,
     fixed: 0,
     label: 'Distribution électriques (RCTE Composante B)',
@@ -106,12 +106,20 @@ function marketRule(market: string, edge: Edge, train: Train): Rule {
   }
 
   if (edge.line.highSpeed) {
-    return Rule.perKm(highSpeedMarket[market][train.multipleUnit ? 1 : 0],
-      `Redevance marché grande vitesse vers ${market}, unité ${train.multipleUnit ? 'multiple' : 'simple'}`,
-      RuleCategory.Tracks);
+    return Rule.perKm(
+      highSpeedMarket[market][train.multipleUnit ? 1 : 0],
+      `Redevance marché grande vitesse vers ${market}, unité ${
+        train.multipleUnit ? 'multiple' : 'simple'
+      }`,
+      RuleCategory.Tracks
+    );
   }
 
-  return Rule.perKm(3.19, 'Train apte à la grande vitesse sur voie classique', RuleCategory.Tracks);
+  return Rule.perKm(
+    3.19,
+    'Train apte à la grande vitesse sur voie classique',
+    RuleCategory.Tracks
+  );
 }
 
 function marketClass(edges: Edge[]): string {

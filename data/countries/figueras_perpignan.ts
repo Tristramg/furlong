@@ -7,26 +7,26 @@ import { RuleCategory } from '../../lib/types.d';
 const use = {
   smallCapa: {
     lowSpeed: {
-      offPeak: 786.80,
-      medium: 957.60,
-      peak: 1313.20,
+      offPeak: 786.8,
+      medium: 957.6,
+      peak: 1313.2,
     },
     highSpeed: {
-      offPeak: 1011.60,
-      medium: 1231.20,
-      peak: 1688.40,
+      offPeak: 1011.6,
+      medium: 1231.2,
+      peak: 1688.4,
     },
   },
   highCapa: {
     lowSpeed: {
-      offPeak: 910.00,
-      medium: 1108.80,
-      peak: 1517.60,
+      offPeak: 910.0,
+      medium: 1108.8,
+      peak: 1517.6,
     },
     highSpeed: {
-      offPeak: 1170.00,
-      medium: 1425.60,
-      peak: 1951.20,
+      offPeak: 1170.0,
+      medium: 1425.6,
+      peak: 1951.2,
     },
   },
 };

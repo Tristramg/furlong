@@ -25,11 +25,14 @@ function stats(edges: TrainEdge[]): Stats {
     tracks: _(prices).map(RuleCategory.Tracks).sum() || 0,
     stations: _(prices).map(RuleCategory.Station).sum() || 0,
     distance: _(edges).map('edge.distance').sum() || 0,
-    duration: _(edges).map((e) => e.edge.arrival.time - e.edge.departure.time).sum() || 0,
+    duration:
+      _(edges)
+        .map((e) => e.edge.arrival.time - e.edge.departure.time)
+        .sum() || 0,
   };
 }
 
-function group(vj: VehicleJourney): { [country: string]: Stats} {
+function group(vj: VehicleJourney): { [country: string]: Stats } {
   const result = _(vj.edges).groupBy('edge.country').mapValues(stats).value();
 
   result.Total = {
@@ -43,8 +46,15 @@ function group(vj: VehicleJourney): { [country: string]: Stats} {
   return result;
 }
 
-const Country = ({ country, stats: countryStats } : {country: string, stats: Stats}) => {
-  const total = countryStats.energy + countryStats.tracks + countryStats.stations;
+const Country = ({
+  country,
+  stats: countryStats,
+}: {
+  country: string;
+  stats: Stats;
+}) => {
+  const total =
+    countryStats.energy + countryStats.tracks + countryStats.stations;
   return (
     <tr className="text-right">
       <td className="text-center">{Countries[country] || country}</td>
@@ -67,22 +77,24 @@ const VJSummary: React.FunctionComponent<Props> = ({ vj }: Props) => (
       <th className="w-1/12">€ Total</th>
       <th className="w-1/12">
         <FontAwesomeIcon className="text-gray-600" icon="road" />
-        € Infrastructure
+        €&nbsp;Infrastructure
       </th>
       <th className="w-1/12">
         <FontAwesomeIcon className="text-gray-600" icon="bolt" />
-        € Énergie
+        €&nbsp;Énergie
       </th>
       <th className="w-1/12">
         <FontAwesomeIcon className="text-gray-600" icon="building" />
-        € Gares
+        €&nbsp;Gares
       </th>
       <th className="w-1/12">€/km</th>
       <th className="w-1/12">km</th>
       <th className="w-1/12">Durée</th>
       <th className="w-1/12">V moyenne</th>
     </thead>
-    {_.map(group(vj), (vjStats, country) => <Country country={country} stats={vjStats} />)}
+    {_.map(group(vj), (vjStats, country) => (
+      <Country country={country} stats={vjStats} />
+    ))}
   </table>
 );
 

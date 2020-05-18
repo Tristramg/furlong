@@ -54,7 +54,13 @@ const data = {
   },
 };
 
-function rules(edge: Edge, train: Train, edges: Edge[], index: number, day: Day): Rule[] {
+function rules(
+  edge: Edge,
+  train: Train,
+  edges: Edge[],
+  index: number,
+  day: Day
+): Rule[] {
   return data[edge.country].rules(edge, train, edges, index, day);
 }
 

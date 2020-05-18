@@ -8,7 +8,7 @@ const prices = {
   VL1: {
     A: 1.9275,
     B: 4.7931,
-    C: 0.8020,
+    C: 0.802,
     'LAV Madrid-Barcelona-Frontera': 1.7611,
     'LAV Madrid-Sevilla': 0.8647,
   },
@@ -22,13 +22,13 @@ const prices = {
   VL3: {
     A: 1.9275,
     B: 2.3017,
-    C: 0.8020,
+    C: 0.802,
     'LAV Madrid-Barcelona-Frontera': 0.3023,
     'LAV Madrid-Sevilla': 0.1962,
   },
   other: {
     A: 0.5133,
-    B: 0.7320,
+    B: 0.732,
     C: 0.2039,
   },
 };
@@ -43,7 +43,9 @@ function market(edges: Edge[]): string {
     .sumBy('distance');
 
   const madrid = (label: string): boolean => label.includes('Madrid');
-  if (_.some(edges, (e) => madrid(e.departure.label) || madrid(e.arrival.label))) {
+  if (
+    _.some(edges, (e) => madrid(e.departure.label) || madrid(e.arrival.label))
+  ) {
     // More than 10% is in broad gauge
     if (broadGauge / (broadGauge + standardGauge) > 0.1) {
       return 'VL2';
@@ -67,10 +69,11 @@ const stations = {
   },
 };
 
-const stationRule = (station: StopTime, position: string): Rule => Rule.station(
-  stations[station.adifClass][position],
-  `Gare classe ${station.adifClass} ${position}`,
-);
+const stationRule = (station: StopTime, position: string): Rule =>
+  Rule.station(
+    stations[station.adifClass][position],
+    `Gare classe ${station.adifClass} ${position}`
+  );
 
 function stationRules(edge: Edge, len: number, index: number): Rule[] {
   const result = [];
@@ -93,24 +96,34 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
   const cat = edge.line && edge.line.class === 'A' ? market(edges) : 'other';
 
   const result = [
-    Rule.perKm(prices[cat].A,
+    Rule.perKm(
+      prices[cat].A,
       `Modalidad A (réservaton sillon) ${cat}`,
-      RuleCategory.Tracks),
-    Rule.perKm(prices[cat].B,
+      RuleCategory.Tracks
+    ),
+    Rule.perKm(
+      prices[cat].B,
       `Modalidad B (utilisation sillon) ${cat}`,
-      RuleCategory.Tracks),
-    Rule.perKm(prices[cat].C,
+      RuleCategory.Tracks
+    ),
+    Rule.perKm(
+      prices[cat].C,
       `Modalidad C (utilisation installation électrique) ${cat}`,
-      RuleCategory.Energy),
+      RuleCategory.Energy
+    ),
     Rule.perkWh(0.00112, 'Cout de gestion électricité (SC-2)'),
   ];
 
   if (edge.line && prices[cat][edge.line.label]) {
     const line = edge.line.label;
     const multiplier = Math.ceil(train.capacity / 100);
-    result.push(Rule.perKm(prices[cat][line] * multiplier,
-      `Supplément ${cat} ligne chargée ${line} (×${multiplier})`,
-      RuleCategory.Tracks));
+    result.push(
+      Rule.perKm(
+        prices[cat][line] * multiplier,
+        `Supplément ${cat} ligne chargée ${line} (×${multiplier})`,
+        RuleCategory.Tracks
+      )
+    );
   }
 
   if (ccCurent(edge.line)) {
@@ -124,8 +137,14 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
     });
   } else {
     result.push(
-      Rule.perkWh(0.0645, 'Fourniture électricité courant alternatif (energía)'),
-      Rule.perkWh(0.032, 'Distribution électricité courant alternatif (coste ATR)'),
+      Rule.perkWh(
+        0.0645,
+        'Fourniture électricité courant alternatif (energía)'
+      ),
+      Rule.perkWh(
+        0.032,
+        'Distribution électricité courant alternatif (coste ATR)'
+      )
     );
   }
 

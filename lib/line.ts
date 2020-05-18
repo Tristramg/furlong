@@ -13,10 +13,18 @@ const reverse = {
   Dimanche: Day.Sunday,
 };
 
-export default function VJ(line: string|string[], day: string|string[], infra): VehicleJourney {
+export default function VJ(
+  line: string | string[],
+  day: string | string[],
+  infra
+): VehicleJourney {
   const l = typeof line === 'string' ? line : line[0];
   const d = typeof day === 'string' ? day : day[0];
   const route = Routes[l];
   const edges = gen(route.steps, infra);
-  return new VehicleJourney({ label: route.label, segments: edges }, route.train, reverse[d]);
+  return new VehicleJourney(
+    { label: route.label, segments: edges },
+    route.train,
+    reverse[d]
+  );
 }

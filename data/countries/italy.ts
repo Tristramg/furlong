@@ -1,7 +1,5 @@
 import _ from 'lodash';
-import {
-  Train, StopTime,
-} from '../../lib/types';
+import { Train, StopTime } from '../../lib/types';
 import { RuleCategory, Countries, Day } from '../../lib/types.d';
 import { Rule } from '../../lib/rule';
 import Edge from '../../lib/edge';
@@ -11,12 +9,20 @@ function ta1(train: Train): Rule {
     return Rule.perKm(0.128, 'Ta1: Weight class < 500t', RuleCategory.Tracks);
   }
   if (train.weight < 1000) {
-    return Rule.perKm(0.372, 'Ta1: Weight class 500—1000t', RuleCategory.Tracks);
+    return Rule.perKm(
+      0.372,
+      'Ta1: Weight class 500—1000t',
+      RuleCategory.Tracks
+    );
   }
   if (train.weight < 1500) {
-    return Rule.perKm(0.616, 'Ta1: Weight class 1000–1500t', RuleCategory.Tracks);
+    return Rule.perKm(
+      0.616,
+      'Ta1: Weight class 1000–1500t',
+      RuleCategory.Tracks
+    );
   }
-  return Rule.perKm(0.860, 'Ta1: Weight class > 1500t', RuleCategory.Tracks);
+  return Rule.perKm(0.86, 'Ta1: Weight class > 1500t', RuleCategory.Tracks);
 }
 
 function ta2(edges: Edge[]): Rule {
@@ -25,19 +31,39 @@ function ta2(edges: Edge[]): Rule {
   const average = (distance * 60) / duration;
 
   if (average < 100) {
-    return Rule.perKm(0.117, 'Ta2: vitesse moyenne < 100km/h', RuleCategory.Tracks);
+    return Rule.perKm(
+      0.117,
+      'Ta2: vitesse moyenne < 100km/h',
+      RuleCategory.Tracks
+    );
   }
   if (average < 150) {
-    return Rule.perKm(0.193, 'Ta2: vitesse moyenne 100—150km/h', RuleCategory.Tracks);
+    return Rule.perKm(
+      0.193,
+      'Ta2: vitesse moyenne 100—150km/h',
+      RuleCategory.Tracks
+    );
   }
-  return Rule.perKm(1.056, 'Ta2: vitesse moyenne > 150km/h', RuleCategory.Tracks);
+  return Rule.perKm(
+    1.056,
+    'Ta2: vitesse moyenne > 150km/h',
+    RuleCategory.Tracks
+  );
 }
 
 function ta3(train: Train): Rule {
   if (train.highSpeed) {
-    return Rule.perKm(0.046, 'Ta3: utilisation caténaire grande vitesse', RuleCategory.Energy);
+    return Rule.perKm(
+      0.046,
+      'Ta3: utilisation caténaire grande vitesse',
+      RuleCategory.Energy
+    );
   }
-  return Rule.perKm(0.023, 'Ta3: utilisation caténaire vitesse classique', RuleCategory.Energy);
+  return Rule.perKm(
+    0.023,
+    'Ta3: utilisation caténaire vitesse classique',
+    RuleCategory.Energy
+  );
 }
 
 enum Segment {
@@ -54,30 +80,32 @@ enum Segment {
 }
 
 const prices = {
-  [Segment.TopPlus]: 5.890,
+  [Segment.TopPlus]: 5.89,
   [Segment.Top]: 5.371,
   [Segment.TopSPlus]: 4.847,
   [Segment.TopS]: 4.416,
   [Segment.PBasePlus]: 4.524,
-  [Segment.PBase]: 4.150,
+  [Segment.PBase]: 4.15,
   [Segment.PLightPlus]: 4.385,
   [Segment.PLight]: 4.023,
   [Segment.International]: 4.099,
   [Segment.Basic]: 3.412,
 };
 
-const cityInStopTime = (stop: StopTime, city: string): boolean => stop.label.includes(city)
-                                                                  && stop.commercial;
+const cityInStopTime = (stop: StopTime, city: string): boolean =>
+  stop.label.includes(city) && stop.commercial;
 
-const hasCity = (edge: Edge, city: string): boolean => cityInStopTime(edge.arrival, city)
-                                                       || cityInStopTime(edge.departure, city);
+const hasCity = (edge: Edge, city: string): boolean =>
+  cityInStopTime(edge.arrival, city) || cityInStopTime(edge.departure, city);
 
 function segment(edges: Edge[], train: Train, day: Day): Segment {
   const itEdges = _.filter(edges, (e) => e.country === Countries.IT);
   const roma: boolean = _.some(itEdges, (e) => hasCity(e, 'Roma'));
   const milano: boolean = _.some(itEdges, (e) => hasCity(e, 'Milano'));
   const distance: number = _.sumBy(itEdges, 'distance');
-  const highServiceDistance: number = _(itEdges).filter((e) => e.line.highSpeed).sumBy('distance');
+  const highServiceDistance: number = _(itEdges)
+    .filter((e) => e.line.highSpeed)
+    .sumBy('distance');
 
   // Never use === on floats
   if (highServiceDistance < 1.0 && _(edges).uniqBy('country').size() > 1) {

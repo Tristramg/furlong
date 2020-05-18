@@ -16,7 +16,10 @@ const coeffsA = {
 };
 
 function getPeriod(edge: Edge): string {
-  if (included(edge, h(6, 0), h(9, 59)) || included(edge, h(16, 31), h(20, 44))) {
+  if (
+    included(edge, h(6, 0), h(9, 59)) ||
+    included(edge, h(16, 31), h(20, 44))
+  ) {
     return Period.PEAK;
   }
 
@@ -32,7 +35,11 @@ function rules(edge: Edge): Rule[] {
   const coeff = coeffsA[period];
 
   return [
-    Rule.perKm(coeff, `Classe International, ligne catégorie A, ${period}`, RuleCategory.Tracks),
+    Rule.perKm(
+      coeff,
+      `Classe International, ligne catégorie A, ${period}`,
+      RuleCategory.Tracks
+    ),
     Rule.perkWh(0.06, 'Fourniture électricité (estimation)'),
   ];
 }

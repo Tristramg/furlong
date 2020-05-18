@@ -16,23 +16,36 @@ export default class TrainEdge {
 
   rules: Rule[];
 
-  constructor(edge: Edge, train: Train, edges: Edge[], index: number, day: Day) {
+  constructor(
+    edge: Edge,
+    train: Train,
+    edges: Edge[],
+    index: number,
+    day: Day
+  ) {
     this.edge = edge;
     this.weight = train.weight;
     this.energy = edge.distance * 10;
     this.rules = rules(edge, train, edges, index, day);
-    this.price = _(this.rules).map((r) => this.singlePrice(r)).sum();
+    this.price = _(this.rules)
+      .map((r) => this.singlePrice(r))
+      .sum();
   }
 
   singlePrice(rule: Rule): number {
-    return this.weight * this.edge.distance * rule.perTonAndKm
-      + this.edge.distance * rule.perKm
-      + this.energy * rule.perkWh
-      + rule.fixed;
+    return (
+      this.weight * this.edge.distance * rule.perTonAndKm +
+      this.edge.distance * rule.perKm +
+      this.energy * rule.perkWh +
+      rule.fixed
+    );
   }
 
-  pricesByCategory(): {[category: string]: number } {
-    const sumPrices = (r: Rule[]): number => _(r).map((rule) => this.singlePrice(rule)).sum();
+  pricesByCategory(): { [category: string]: number } {
+    const sumPrices = (r: Rule[]): number =>
+      _(r)
+        .map((rule) => this.singlePrice(rule))
+        .sum();
     return _(this.rules).groupBy('category').mapValues(sumPrices).value();
   }
 }
