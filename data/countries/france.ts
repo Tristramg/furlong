@@ -1,7 +1,9 @@
-import lfp from './figueras_perpignan';
-import { Rule, Edge, Train, StopTime } from '../../lib/types';
-import { Countries, RuleCategory } from '../../lib/types.d';
 import _ from 'lodash';
+import lfp from './figueras_perpignan';
+import { Train, StopTime } from '../../lib/types';
+import { Countries, RuleCategory } from '../../lib/types.d';
+import { Rule } from '../../lib/rule';
+import Edge from '../../lib/edge';
 
 const classicTrain: Rule[] = [
   {
@@ -105,15 +107,15 @@ function marketRule(market: string, edge: Edge, train: Train): Rule {
 
   if (edge.line.highSpeed) {
     return Rule.perKm(highSpeedMarket[market][train.multipleUnit ? 1 : 0],
-                      `Redevance marché grande vitesse vers ${market}, unité ${train.multipleUnit ? 'multiple' : 'simple'}`,
-                      RuleCategory.Tracks);
+      `Redevance marché grande vitesse vers ${market}, unité ${train.multipleUnit ? 'multiple' : 'simple'}`,
+      RuleCategory.Tracks);
   }
 
   return Rule.perKm(3.19, 'Train apte à la grande vitesse sur voie classique', RuleCategory.Tracks);
 }
 
 function marketClass(edges: Edge[]): string {
-  if (_.some(edges, e => e.country === Countries.FR && e.line.highSpeed)) {
+  if (_.some(edges, (e) => e.country === Countries.FR && e.line.highSpeed)) {
     const countries = _(edges).map('country').uniq();
     if (countries.includes(Countries.BE)) {
       return Countries.BE;
@@ -143,20 +145,20 @@ function stationRule(station: StopTime): Rule[] {
   return [];
 }
 
-function stationRules(edge: Edge, last: boolean) {
+function stationRules(edge: Edge, last: boolean): Rule[] {
   if (last) {
     return stationRule(edge.departure).concat(stationRule(edge.arrival));
   }
   return stationRule(edge.departure);
 }
 
-function rules(edge: Edge, train: Train,  edges: Edge[], index: number): Rule[] {
+function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
   if (edge.line.label === 'LFP') {
     return lfp(edge, train);
   }
   const market = marketClass(edges);
-  const rules = market === 'classic' ? classicTrain : highSpeedTrain;
-  const result = [marketRule(market, edge, train)].concat(rules);
+  const marketRules = market === 'classic' ? classicTrain : highSpeedTrain;
+  const result = [marketRule(market, edge, train)].concat(marketRules);
   if (edge.line.label === 'LN1') {
     result.push(parisLyonExtra);
   }

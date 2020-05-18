@@ -1,0 +1,5 @@
+node_modules
+.next
+*.config.js
+*rc.js
+next-env.d.ts

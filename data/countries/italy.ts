@@ -1,6 +1,10 @@
-import { Edge, Rule, Train, StopTime } from '../../lib/types';
-import { RuleCategory, Countries, Day } from '../../lib/types.d';
 import _ from 'lodash';
+import {
+  Train, StopTime,
+} from '../../lib/types';
+import { RuleCategory, Countries, Day } from '../../lib/types.d';
+import { Rule } from '../../lib/rule';
+import Edge from '../../lib/edge';
 
 function ta1(train: Train): Rule {
   if (train.weight < 500) {
@@ -17,8 +21,8 @@ function ta1(train: Train): Rule {
 
 function ta2(edges: Edge[]): Rule {
   const distance = _.sumBy(edges, 'distance');
-  const duration = _.sumBy(edges, e => e.arrival.time - e.departure.time);
-  const average = distance * 60 / duration;
+  const duration = _.sumBy(edges, (e) => e.arrival.time - e.departure.time);
+  const average = (distance * 60) / duration;
 
   if (average < 100) {
     return Rule.perKm(0.117, 'Ta2: vitesse moyenne < 100km/h', RuleCategory.Tracks);
@@ -45,7 +49,7 @@ enum Segment {
   PBase = 'P Base Plus : Premium avec un arrêt à Milan OU Rome, < 700 places',
   PLightPlus = 'P Light Plus : moins de 30% de ligne High Service, > 700 places',
   PLight = 'P Light Plus : moins de 30% de ligne High Service, < 700 places',
-  International =  'International : pas d’utilisation de grande vitesse',
+  International = 'International : pas d’utilisation de grande vitesse',
   Basic = 'National open access sans grande vitesse',
 }
 
@@ -62,18 +66,18 @@ const prices = {
   [Segment.Basic]: 3.412,
 };
 
-const cityInStopTime = (stop: StopTime, city: string): boolean => stop.label.includes(city) &&
-                                                                  stop.commercial;
+const cityInStopTime = (stop: StopTime, city: string): boolean => stop.label.includes(city)
+                                                                  && stop.commercial;
 
-const hasCity = (edge: Edge, city: string): boolean => cityInStopTime(edge.arrival, city) ||
-                                                       cityInStopTime(edge.departure, city);
+const hasCity = (edge: Edge, city: string): boolean => cityInStopTime(edge.arrival, city)
+                                                       || cityInStopTime(edge.departure, city);
 
 function segment(edges: Edge[], train: Train, day: Day): Segment {
-  const itEdges = _.filter(edges, e => e.country === Countries.IT);
-  const roma: boolean = _.some(itEdges, e => hasCity(e, 'Roma'));
-  const milano: boolean = _.some(itEdges, e => hasCity(e, 'Milano'));
+  const itEdges = _.filter(edges, (e) => e.country === Countries.IT);
+  const roma: boolean = _.some(itEdges, (e) => hasCity(e, 'Roma'));
+  const milano: boolean = _.some(itEdges, (e) => hasCity(e, 'Milano'));
   const distance: number = _.sumBy(itEdges, 'distance');
-  const highServiceDistance: number = _(itEdges).filter(e => e.line.highSpeed).sumBy('distance');
+  const highServiceDistance: number = _(itEdges).filter((e) => e.line.highSpeed).sumBy('distance');
 
   // Never use === on floats
   if (highServiceDistance < 1.0 && _(edges).uniqBy('country').size() > 1) {
@@ -86,7 +90,7 @@ function segment(edges: Edge[], train: Train, day: Day): Segment {
     return train.capacity > 700 ? Segment.TopPlus : Segment.Top;
   }
   if (roma || milano) {
-    if (distance * 100 / highServiceDistance > 30.0) {
+    if ((distance * 100) / highServiceDistance > 30.0) {
       return train.capacity > 700 ? Segment.PBasePlus : Segment.PBase;
     }
     return train.capacity > 700 ? Segment.PLightPlus : Segment.PBase;
