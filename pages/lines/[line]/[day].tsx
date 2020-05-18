@@ -1,4 +1,3 @@
-
 import { useRouter } from 'next/router';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import React from 'react';
@@ -13,7 +12,9 @@ export const getStaticProps: GetStaticProps = importAirtable;
 export const getStaticPaths: GetStaticPaths = async () => {
   const lines = Object.keys(Routes);
   const days = Object.values(Day);
-  const vals = [].concat(...lines.map((line) => [].concat(...days.map((day) => ({ line, day })))));
+  const vals = [].concat(
+    ...lines.map((line) => [].concat(...days.map((day) => ({ line, day }))))
+  );
   return {
     paths: vals.map((route) => ({ params: route })),
     fallback: false,

@@ -97,16 +97,28 @@ function getPeriod(edge: Edge, day: Day): Period {
   return Period.OFF_PEAK;
 }
 
-function rules(edge: Edge, train: Train, edges: Edge[], index: number, day: Day): Rule[] {
-  const density = train.highSpeed ? LineDensity.HIGH_SPEED_TRAIN : edge.line.class;
+function rules(
+  edge: Edge,
+  train: Train,
+  edges: Edge[],
+  index: number,
+  day: Day
+): Rule[] {
+  const density = train.highSpeed
+    ? LineDensity.HIGH_SPEED_TRAIN
+    : edge.line.class;
   const period = getPeriod(edge, day);
   const coeff = coeffs[period][density];
 
   return [
-    Rule.perKm(coeff * coutDirectUnitaire, `Rails : ${density}, ${period}`, RuleCategory.Tracks),
+    Rule.perKm(
+      coeff * coutDirectUnitaire,
+      `Rails : ${density}, ${period}`,
+      RuleCategory.Tracks
+    ),
     Rule.perkWh(0.06, 'Fourniture électricité'),
     Rule.perkWh(0.017, 'Utilisation caténaire'),
-    Rule.perkWh(0.020, 'Distribution et pertes électriques'),
+    Rule.perkWh(0.02, 'Distribution et pertes électriques'),
   ].concat(stationRules(edge, index === edges.length - 1));
 }
 

@@ -23,7 +23,9 @@ export default class VehicleJourney {
   train: Train;
 
   constructor(route: Route, train: Train, day: Day) {
-    this.edges = route.segments.map((s, i) => new TrainEdge(s, train, route.segments, i, day));
+    this.edges = route.segments.map(
+      (s, i) => new TrainEdge(s, train, route.segments, i, day)
+    );
     this.label = route.label;
     this.price = _(this.edges).map('price').sum();
     this.distance = _(this.edges).map('edge.distance').sum();

@@ -30,9 +30,5 @@ interface StopTime {
   adifClass: number;
 }
 
-export type {
-  Train, Line, StopTime,
-};
-export {
-  ccCurent,
-};
+export type { Train, Line, StopTime };
+export { ccCurent };

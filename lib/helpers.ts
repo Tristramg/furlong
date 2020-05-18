@@ -2,9 +2,10 @@ import _ from 'lodash';
 import Edge from './edge';
 import { Day } from './types.d';
 
-const edgeId = (from: string, to: string): string => (from < to ? `${from}-${to}` : `${to}-${from}`);
+const edgeId = (from: string, to: string): string =>
+  from < to ? `${from}-${to}` : `${to}-${from}`;
 
-function gen(list, infra) : Edge[] {
+function gen(list, infra): Edge[] {
   return _.zipWith(_.dropRight(list), _.drop(list), (start, end) => {
     const edge = edgeId(start[0], end[0]);
     const infraEdge = infra.edges[edge];
@@ -37,7 +38,8 @@ function gen(list, infra) : Edge[] {
   });
 }
 
-const fmt = (val: number): string => (val === 0.0 ? '—' : String(Number(val.toPrecision(3))));
+const fmt = (val: number): string =>
+  val === 0.0 ? '—' : String(Number(val.toPrecision(3)));
 const grey = (val: number): string => (val === 0.0 ? 'text-gray-500' : '');
 
 const h = (hours: number, minutes: number): number => {
@@ -54,12 +56,16 @@ const fh = (time: number): string => {
 };
 
 function inPeriod(time: number, start: number, end: number): boolean {
-  return time % (24 * 60) > start % (24 * 60)
-       && time % (24 * 60) < end % (24 * 60);
+  return (
+    time % (24 * 60) > start % (24 * 60) && time % (24 * 60) < end % (24 * 60)
+  );
 }
 
 function included(edge: Edge, start: number, end: number): boolean {
-  return inPeriod(edge.arrival.time, start, end) || inPeriod(edge.departure.time, start, end);
+  return (
+    inPeriod(edge.arrival.time, start, end) ||
+    inPeriod(edge.departure.time, start, end)
+  );
 }
 
 function nextDay(edge: Edge, day: Day): Day {
@@ -85,6 +91,4 @@ function weekEnd(edge: Edge, departureDay: Day): boolean {
   return _.includes([Day.Saturday, Day.Sunday], consideredDay);
 }
 
-export {
-  fmt, grey, h, fh, edgeId, gen, included, weekEnd,
-};
+export { fmt, grey, h, fh, edgeId, gen, included, weekEnd };

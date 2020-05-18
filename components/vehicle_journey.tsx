@@ -8,7 +8,9 @@ type Props = {
   vj: VehicleJourney;
 };
 
-const VehicleJourneyComponent: React.FunctionComponent<Props> = ({ vj }: Props) => (
+const VehicleJourneyComponent: React.FunctionComponent<Props> = ({
+  vj,
+}: Props) => (
   <div className="p-12">
     <h1>{vj.label}</h1>
     <h2>Synthèse</h2>
@@ -31,7 +33,9 @@ const VehicleJourneyComponent: React.FunctionComponent<Props> = ({ vj }: Props) 
       <div className="w-1/12 text-right">Total</div>
     </div>
     <div>
-      {vj.edges.map((edge) => <Segment key={edge.edge.arrival.label} edge={edge} />)}
+      {vj.edges.map((edge) => (
+        <Segment key={edge.edge.arrival.label} edge={edge} />
+      ))}
     </div>
     <div className="flex gap font-bold border border-gray-400 rounded m-1 px-1">
       <div className="w-2/12">Totaux</div>
@@ -40,9 +44,7 @@ const VehicleJourneyComponent: React.FunctionComponent<Props> = ({ vj }: Props) 
         <span className="w-1/2">{vj.energy}</span>
       </div>
       <div className="w-8/12 mx-6" />
-      <div className="w-1/12 text-right">
-        {`${fmt(vj.price)} €`}
-      </div>
+      <div className="w-1/12 text-right">{`${fmt(vj.price)} €`}</div>
     </div>
   </div>
 );

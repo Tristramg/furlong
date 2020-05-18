@@ -1,4 +1,3 @@
-
 import { useRouter } from 'next/router';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import React from 'react';

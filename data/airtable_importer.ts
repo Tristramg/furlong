@@ -7,9 +7,14 @@ import { edgeId } from '../lib/helpers';
 
 async function get(offset: string, table: string) {
   const base = 'app79tCh1zYIM8CT9';
-  const res = await fetch(`https://api.airtable.com/v0/${base}/${table}?maxRecords=1000&api_key=${process.env.AIRTABLE_KEY}&offset=${offset}`);
+  const res = await fetch(
+    `https://api.airtable.com/v0/${base}/${table}?maxRecords=1000&api_key=${process.env.AIRTABLE_KEY}&offset=${offset}`
+  );
   const json = await res.json();
-  const current = _(json.records).map((r) => [r.id, r.fields]).fromPairs().value();
+  const current = _(json.records)
+    .map((r) => [r.id, r.fields])
+    .fromPairs()
+    .value();
 
   if (json.offset) {
     return get(json.offset, table).then((moar) => Object.assign(current, moar));
@@ -33,18 +38,19 @@ interface RawEdge {
 
 interface Infra {
   infra: {
-    nodes: {[name: string]: object};
-    edges: {[id: string]: RawEdge[]};
-  }
+    nodes: { [name: string]: object };
+    edges: { [id: string]: RawEdge[] };
+  };
 }
 
-export default async function importAirtable(): Promise<{props: Infra}> {
+export default async function importAirtable(): Promise<{ props: Infra }> {
   const rawNodes = await get('', 'Nodes');
   const rawLines = await get('', 'Lines');
   const rawEdges = await get('', 'Edges');
-  const id = (n: RawEdge): string => edgeId(rawNodes[n.from[0]].Name, rawNodes[n.to[0]].Name);
+  const id = (n: RawEdge): string =>
+    edgeId(rawNodes[n.from[0]].Name, rawNodes[n.to[0]].Name);
 
-  const lines: {[name: string]: Line} = _.mapValues(rawLines, (l) => {
+  const lines: { [name: string]: Line } = _.mapValues(rawLines, (l) => {
     const defaults = data[countriesMap[l.country]];
     return {
       label: l.Name,
@@ -72,14 +78,22 @@ export default async function importAirtable(): Promise<{props: Infra}> {
     props: {
       infra: {
         nodes: _.keyBy(rawNodes, 'Name'),
-        edges: _(rawEdges).values().map((v) => [id(v), {
-          departure: rawNodes[v.from[0]],
-          arrival: rawNodes[v.to[0]],
-          country: countriesMap[v.Country],
-          label: v.Line ? lines[v.Line[0]].label : '',
-          distance: v.length,
-          line: v.Line ? lines[v.Line[0]] : defaultLine(countriesMap[v.Country]),
-        }]).fromPairs()
+        edges: _(rawEdges)
+          .values()
+          .map((v) => [
+            id(v),
+            {
+              departure: rawNodes[v.from[0]],
+              arrival: rawNodes[v.to[0]],
+              country: countriesMap[v.Country],
+              label: v.Line ? lines[v.Line[0]].label : '',
+              distance: v.length,
+              line: v.Line
+                ? lines[v.Line[0]]
+                : defaultLine(countriesMap[v.Country]),
+            },
+          ])
+          .fromPairs()
           .value(),
       },
     },

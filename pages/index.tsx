@@ -41,9 +41,15 @@ const Home = ({ infra }: Infra) => {
           <tbody>
             {_.map(vjs, (vj, id) => (
               <tr>
-                <td><Link href={`/lines/${id}`}><a>{vj[Day.Monday].label}</a></Link></td>
+                <td>
+                  <Link href={`/lines/${id}`}>
+                    <a>{vj[Day.Monday].label}</a>
+                  </Link>
+                </td>
                 <td className="text-center">
-                  <FontAwesomeIcon icon={vj[Day.Monday].highspeed() ? 'check' : 'times'} />
+                  <FontAwesomeIcon
+                    icon={vj[Day.Monday].highspeed() ? 'check' : 'times'}
+                  />
                 </td>
                 <td className="text-right">
                   <Link href={`/lines/${id}/Lundi`}>
@@ -78,9 +84,24 @@ const Home = ({ infra }: Infra) => {
                 <td className="text-right">{fmt(vj[Day.Monday].distance)}</td>
                 <td>{_.head(vj[Day.Monday].edges).edge.departure.label}</td>
                 <td>{_.last(vj[Day.Monday].edges).edge.arrival.label}</td>
-                <td>{_(vj[Day.Monday].edges).map('edge.line.current').uniq().join(', ')}</td>
-                <td>{_(vj[Day.Monday].edges).map('edge.line.signaling').uniq().join(', ')}</td>
-                <td>{_(vj[Day.Monday].edges).map('edge.line.gauge').uniq().join(', ')}</td>
+                <td>
+                  {_(vj[Day.Monday].edges)
+                    .map('edge.line.current')
+                    .uniq()
+                    .join(', ')}
+                </td>
+                <td>
+                  {_(vj[Day.Monday].edges)
+                    .map('edge.line.signaling')
+                    .uniq()
+                    .join(', ')}
+                </td>
+                <td>
+                  {_(vj[Day.Monday].edges)
+                    .map('edge.line.gauge')
+                    .uniq()
+                    .join(', ')}
+                </td>
               </tr>
             ))}
           </tbody>
