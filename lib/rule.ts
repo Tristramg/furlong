@@ -1,5 +1,5 @@
 import { RuleCategory } from './types.d';
-import { StopTime } from './types';
+import StopTime from './stop_time';
 import Edge from './edge';
 
 export default class Rule {

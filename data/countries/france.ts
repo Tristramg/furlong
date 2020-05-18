@@ -1,9 +1,10 @@
 import _ from 'lodash';
 import lfp from './figueras_perpignan';
-import { Train, StopTime } from '../../lib/types';
+import { Train } from '../../lib/types';
 import { Countries, RuleCategory } from '../../lib/types.d';
 import { Rule } from '../../lib/rule';
 import Edge from '../../lib/edge';
+import StopTime from '../../lib/stop_time';
 
 const classicTrain: Rule[] = [
   {

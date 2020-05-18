@@ -21,7 +21,7 @@ export default function VJ(
   const l = typeof line === 'string' ? line : line[0];
   const d = typeof day === 'string' ? day : day[0];
   const route = Routes[l];
-  const edges = gen(route.steps, infra);
+  const edges = gen(route.steps, infra, true);
   return new VehicleJourney(
     { label: route.label, segments: edges },
     route.train,

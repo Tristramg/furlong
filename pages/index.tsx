@@ -13,7 +13,7 @@ export const getStaticProps: GetStaticProps = importAirtable;
 
 const Home = ({ infra }: Infra) => {
   const vjs = _.mapValues(Routes, (r) => {
-    const params = { label: r.label, segments: gen(r.steps, infra) };
+    const params = { label: r.label, segments: gen(r.steps, infra, true) };
     return {
       [Day.Monday]: new VehicleJourney(params, r.train, Day.Monday),
       [Day.Friday]: new VehicleJourney(params, r.train, Day.Friday),

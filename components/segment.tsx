@@ -5,7 +5,7 @@ import { Rule } from '../lib/rule';
 import Edge from '../lib/edge';
 import { grey, fmt, fh } from '../lib/helpers';
 import { RuleCategory } from '../lib/types.d';
-import { StopTime } from '../lib/types';
+import StopTime from '../lib/stop_time';
 
 type Props = {
   edge: TrainEdge;
