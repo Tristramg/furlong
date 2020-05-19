@@ -6,7 +6,7 @@ import { Day } from './types.d';
 const reverse = {
   Lundi: Day.Monday,
   Mardi: Day.Tuesday,
-  Mercred: Day.Wednesday,
+  Mercredi: Day.Wednesday,
   Jeudi: Day.Thursday,
   Samedi: Day.Saturday,
   Vendredi: Day.Friday,
@@ -16,12 +16,13 @@ const reverse = {
 export default function VJ(
   line: string | string[],
   day: string | string[],
-  infra
+  infra,
+  forward: boolean
 ): VehicleJourney {
   const l = typeof line === 'string' ? line : line[0];
   const d = typeof day === 'string' ? day : day[0];
   const route = Routes[l];
-  const edges = gen(route.steps, infra);
+  const edges = gen(route.steps, infra, forward);
   return new VehicleJourney(
     { label: route.label, segments: edges },
     route.train,

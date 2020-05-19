@@ -1,11 +1,12 @@
 import _ from 'lodash';
 import Edge from './edge';
 import { Day } from './types.d';
+import StopTime from './stop_time';
 
 const edgeId = (from: string, to: string): string =>
   from < to ? `${from}-${to}` : `${to}-${from}`;
 
-function gen(list, infra): Edge[] {
+function helper(list, infra, forward): Edge[] {
   return _.zipWith(_.dropRight(list), _.drop(list), (start, end) => {
     const edge = edgeId(start[0], end[0]);
     const infraEdge = infra.edges[edge];
@@ -18,24 +19,16 @@ function gen(list, infra): Edge[] {
       distance: infraEdge.distance,
       country: infraEdge.country,
       line: infraEdge.line,
-      departure: {
-        label: departure.Name,
-        time: start[1],
-        commercial: start[2],
-        station: departure['Price station'],
-        track: departure['Price track (FR)'],
-        adifClass: departure['ADIF Class (ES)'],
-      },
-      arrival: {
-        label: arrival.Name,
-        time: end[1],
-        commercial: end[2],
-        station: arrival['Price station'],
-        track: arrival['Price track (FR)'],
-        adifClass: arrival['ADIF Class (ES)'],
-      },
+      departure: new StopTime(departure, start[forward ? 1 : 2], start[3]),
+      arrival: new StopTime(arrival, end[forward ? 1 : 2], end[3]),
     };
   });
+}
+
+function gen(list, infra, forward: boolean): Edge[] {
+  return forward
+    ? helper(list, infra, forward)
+    : helper([...list].reverse(), infra, forward);
 }
 
 const fmt = (val: number): string =>

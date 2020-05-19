@@ -1,4 +1,5 @@
-import { StopTime, Line } from './types';
+import { Line } from './types';
+import StopTime from './stop_time';
 
 export default class Edge {
   departure: StopTime;

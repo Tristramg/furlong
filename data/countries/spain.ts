@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { Train, ccCurent, StopTime } from '../../lib/types';
+import { Train, ccCurent } from '../../lib/types';
 import { RuleCategory } from '../../lib/types.d';
 import Edge from '../../lib/edge';
 import { Rule } from '../../lib/rule';
+import StopTime from '../../lib/stop_time';
 
 const prices = {
   VL1: {

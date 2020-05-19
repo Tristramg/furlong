@@ -13,13 +13,8 @@ export const getStaticProps: GetStaticProps = importAirtable;
 
 const Home = ({ infra }: Infra) => {
   const vjs = _.mapValues(Routes, (r) => {
-    const params = { label: r.label, segments: gen(r.steps, infra) };
-    return {
-      [Day.Monday]: new VehicleJourney(params, r.train, Day.Monday),
-      [Day.Friday]: new VehicleJourney(params, r.train, Day.Friday),
-      [Day.Saturday]: new VehicleJourney(params, r.train, Day.Saturday),
-      [Day.Sunday]: new VehicleJourney(params, r.train, Day.Sunday),
-    };
+    const params = { label: r.label, segments: gen(r.steps, infra, true) };
+    return new VehicleJourney(params, r.train, Day.Monday);
   });
 
   return (
@@ -43,65 +38,23 @@ const Home = ({ infra }: Infra) => {
               <tr>
                 <td>
                   <Link href={`/lines/${id}`}>
-                    <a>{vj[Day.Monday].label}</a>
+                    <a>{vj.label}</a>
                   </Link>
                 </td>
                 <td className="text-center">
-                  <FontAwesomeIcon
-                    icon={vj[Day.Monday].highspeed() ? 'check' : 'times'}
-                  />
+                  <FontAwesomeIcon icon={vj.highspeed() ? 'check' : 'times'} />
                 </td>
-                <td className="text-right">
-                  <Link href={`/lines/${id}/Lundi`}>
-                    <a>
-                      L:&nbsp;
-                      {fmt(vj[Day.Monday].price)}
-                    </a>
-                  </Link>
-                  <br />
-                  <Link href={`/lines/${id}/Vendredi`}>
-                    <a>
-                      V:&nbsp;
-                      {fmt(vj[Day.Friday].price)}
-                    </a>
-                  </Link>
-                  <br />
-                  <Link href={`/lines/${id}/Samedi`}>
-                    <a>
-                      S:&nbsp;
-                      {fmt(vj[Day.Saturday].price)}
-                    </a>
-                  </Link>
-                  <br />
-                  <Link href={`/lines/${id}/Dimanche`}>
-                    <a>
-                      D:&nbsp;
-                      {fmt(vj[Day.Sunday].price)}
-                    </a>
-                  </Link>
-                  <br />
-                </td>
-                <td className="text-right">{fmt(vj[Day.Monday].distance)}</td>
-                <td>{_.head(vj[Day.Monday].edges).edge.departure.label}</td>
-                <td>{_.last(vj[Day.Monday].edges).edge.arrival.label}</td>
+                <td className="text-right">{fmt(vj.price)}</td>
+                <td className="text-right">{fmt(vj.distance)}</td>
+                <td>{_.head(vj.edges).edge.departure.label}</td>
+                <td>{_.last(vj.edges).edge.arrival.label}</td>
                 <td>
-                  {_(vj[Day.Monday].edges)
-                    .map('edge.line.current')
-                    .uniq()
-                    .join(', ')}
+                  {_(vj.edges).map('edge.line.current').uniq().join(', ')}
                 </td>
                 <td>
-                  {_(vj[Day.Monday].edges)
-                    .map('edge.line.signaling')
-                    .uniq()
-                    .join(', ')}
+                  {_(vj.edges).map('edge.line.signaling').uniq().join(', ')}
                 </td>
-                <td>
-                  {_(vj[Day.Monday].edges)
-                    .map('edge.line.gauge')
-                    .uniq()
-                    .join(', ')}
-                </td>
+                <td>{_(vj.edges).map('edge.line.gauge').uniq().join(', ')}</td>
               </tr>
             ))}
           </tbody>

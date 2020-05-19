@@ -21,14 +21,5 @@ function ccCurent(line: Line): boolean {
   return /DC/.test(line.current);
 }
 
-interface StopTime {
-  label: string;
-  time: number;
-  commercial: boolean;
-  station: number;
-  track: number;
-  adifClass: number;
-}
-
-export type { Train, Line, StopTime };
+export type { Train, Line };
 export { ccCurent };
