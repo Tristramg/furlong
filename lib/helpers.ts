@@ -6,7 +6,7 @@ import StopTime from './stop_time';
 const edgeId = (from: string, to: string): string =>
   from < to ? `${from}-${to}` : `${to}-${from}`;
 
-function gen(list, infra, forward: boolean): Edge[] {
+function helper(list, infra, forward): Edge[] {
   return _.zipWith(_.dropRight(list), _.drop(list), (start, end) => {
     const edge = edgeId(start[0], end[0]);
     const infraEdge = infra.edges[edge];
@@ -23,6 +23,12 @@ function gen(list, infra, forward: boolean): Edge[] {
       arrival: new StopTime(arrival, end[forward ? 1 : 2], end[3]),
     };
   });
+}
+
+function gen(list, infra, forward: boolean): Edge[] {
+  return forward
+    ? helper(list, infra, forward)
+    : helper([...list].reverse(), infra, forward);
 }
 
 const fmt = (val: number): string =>

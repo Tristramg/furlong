@@ -41,7 +41,9 @@ const singleRule: React.FunctionComponent<SingleRuleProps> = ({
     <span className={`w-1/12 ${grey(rule.fixed)}`}>{fmt(rule.fixed)}</span>
     <span className={`w-1/12 ${grey(price)}`}>{fmt(price)}</span>
     <span className="text-xs w-5/12">
-      {`${icons[rule.category]} ${rule.label}`}
+      {icons[rule.category]}
+      &nbsp;
+      {rule.label}
     </span>
   </div>
 );

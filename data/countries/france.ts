@@ -171,7 +171,7 @@ function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
   if (edge.line.label === 'LN1') {
     result.push(parisLyonExtra);
   }
-  return result.concat(stationRules(edge, false));
+  return result.concat(stationRules(edge, edge === _.last(edges)));
 }
 
 export default rules;
