@@ -1,31 +1,31 @@
 import _ from 'lodash';
 import Edge from './edge';
 import { Day } from './types.d';
-import StopTime from './stop_time';
+import Step from './step';
 
 const edgeId = (from: string, to: string): string =>
   from < to ? `${from}-${to}` : `${to}-${from}`;
 
-function helper(list, infra, forward): Edge[] {
+function helper(list: Step[], infra, forward): Edge[] {
   return _.zipWith(_.dropRight(list), _.drop(list), (start, end) => {
-    const edge = edgeId(start[0], end[0]);
+    const edge = edgeId(start.station, end.station);
     const infraEdge = infra.edges[edge];
 
-    const departure = infra.nodes[start[0]];
-    const arrival = infra.nodes[end[0]];
+    const departure = infra.nodes[start.station];
+    const arrival = infra.nodes[end.station];
 
     return {
       label: infraEdge.label,
       distance: infraEdge.distance,
       country: infraEdge.country,
       line: infraEdge.line,
-      departure: new StopTime(departure, start[forward ? 1 : 2], start[3]),
-      arrival: new StopTime(arrival, end[forward ? 1 : 2], end[3]),
+      departure: start.stopTime(departure, forward),
+      arrival: end.stopTime(arrival, forward),
     };
   });
 }
 
-function gen(list, infra, forward: boolean): Edge[] {
+function gen(list: Step[], infra, forward: boolean): Edge[] {
   return forward
     ? helper(list, infra, forward)
     : helper([...list].reverse(), infra, forward);
