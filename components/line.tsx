@@ -1,8 +1,10 @@
 import * as React from 'react';
 import _ from 'lodash';
-import buildVJ from '../lib/line';
 import VJSummary from './vj_summary';
 import VJDetails from './vj_details';
+import Lines from '../data/lines';
+import VehicleJourney from '../lib/vehicle_journey';
+import { Day } from '../lib/types.d';
 
 type Props = {
   line: any;
@@ -12,15 +14,16 @@ type Props = {
 const Line: React.FunctionComponent<Props> = ({ line, infra }: Props) => {
   const [currentRoute, setCurrentRoute] = React.useState('Lundi (aller)');
 
-  const routes = _(['Lundi', 'Vendredi', 'Samedi', 'Dimanche'])
+  console.log('mooo', Lines[line]);
+  const routes = _([Day.Monday, Day.Friday, Day.Saturday, Day.Sunday])
     .flatMap((day) => [
-      [`${day} (aller)`, buildVJ(line, day, infra, true)],
-      [`${day} (retour)`, buildVJ(line, day, infra, false)],
+      [`${day} (aller)`, new VehicleJourney(Lines[line], day, true, infra)],
+      [`${day} (retour)`, new VehicleJourney(Lines[line], day, false, infra)],
     ])
     .fromPairs()
     .value();
 
-  const vj = buildVJ(line, 'Lundi', infra, true);
+  const vj = new VehicleJourney(Lines[line], Day.Monday, true, infra);
 
   return (
     <div className="p-12">

@@ -1,13 +1,9 @@
 import _ from 'lodash';
 import { Train } from './types';
+import Line from './line';
 import { Day } from './types.d';
 import TrainEdge from './train_edge';
-import Edge from './edge';
-
-interface Route {
-  label: string;
-  segments: Edge[];
-}
+import { gen } from './helpers';
 
 export default class VehicleJourney {
   label: string;
@@ -22,15 +18,17 @@ export default class VehicleJourney {
 
   train: Train;
 
-  constructor(route: Route, train: Train, day: Day) {
-    this.edges = route.segments.map(
-      (s, i) => new TrainEdge(s, train, route.segments, i, day)
+  constructor(line: Line, day: Day, forward: boolean, infra: any) {
+    const edges = gen(line.steps, infra, forward);
+
+    this.edges = edges.map(
+      (s, i) => new TrainEdge(s, line.train, edges, i, day)
     );
-    this.label = route.label;
+    this.label = line.label;
     this.price = _(this.edges).map('price').sum();
     this.distance = _(this.edges).map('edge.distance').sum();
     this.energy = _(this.edges).map('energy').sum();
-    this.train = train;
+    this.train = line.train;
   }
 
   highspeed(): boolean {

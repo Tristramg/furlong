@@ -5,17 +5,17 @@ import _ from 'lodash';
 import React from 'react';
 import Lines from '../data/lines';
 import { Infra, importAirtable } from '../data/airtable_importer';
-import { gen, fmt } from '../lib/helpers';
+import { fmt } from '../lib/helpers';
 import VehicleJourney from '../lib/vehicle_journey';
 import { Day } from '../lib/types.d';
 
 export const getStaticProps: GetStaticProps = importAirtable;
 
 const Home = ({ infra }: Infra) => {
-  const vjs = _.mapValues(Lines, (r) => {
-    const params = { label: r.label, segments: gen(r.steps, infra, true) };
-    return new VehicleJourney(params, r.train, Day.Monday);
-  });
+  const vjs = _.mapValues(
+    Lines,
+    (line) => new VehicleJourney(line, Day.Monday, true, infra)
+  );
 
   return (
     <div className="p-12">
@@ -35,7 +35,7 @@ const Home = ({ infra }: Infra) => {
           </thead>
           <tbody>
             {_.map(vjs, (vj, id) => (
-              <tr>
+              <tr key={id}>
                 <td>
                   <Link href={`/lines/${id}`}>
                     <a>{vj.label}</a>

@@ -1,4 +1,4 @@
-import { Line } from './types';
+import { RailLine } from './types';
 import StopTime from './stop_time';
 
 export default class Edge {
@@ -12,5 +12,5 @@ export default class Edge {
 
   country: string;
 
-  line: Line;
+  line: RailLine;
 }

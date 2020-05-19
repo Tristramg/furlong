@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import _ from 'lodash';
 import { data } from './countries';
-import { Line } from '../lib/types';
+import { RailLine } from '../lib/types';
 import { Countries } from '../lib/types.d';
 import { edgeId } from '../lib/helpers';
 
@@ -50,7 +50,7 @@ export default async function importAirtable(): Promise<{ props: Infra }> {
   const id = (n: RawEdge): string =>
     edgeId(rawNodes[n.from[0]].Name, rawNodes[n.to[0]].Name);
 
-  const lines: { [name: string]: Line } = _.mapValues(rawLines, (l) => {
+  const lines: { [name: string]: RailLine } = _.mapValues(rawLines, (l) => {
     const defaults = data[countriesMap[l.country]];
     return {
       label: l.Name,
@@ -62,7 +62,7 @@ export default async function importAirtable(): Promise<{ props: Infra }> {
     };
   });
 
-  const defaultLine = (country: Countries): Line => {
+  const defaultLine = (country: Countries): RailLine => {
     const defaults = data[country];
     return {
       label: null,

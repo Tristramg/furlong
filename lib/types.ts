@@ -8,7 +8,7 @@ interface Train {
   capacity: number;
 }
 
-interface Line {
+interface RailLine {
   class: string;
   highSpeed: boolean;
   label: string;
@@ -17,9 +17,9 @@ interface Line {
   current: string;
 }
 
-function ccCurent(line: Line): boolean {
+function ccCurent(line: RailLine): boolean {
   return /DC/.test(line.current);
 }
 
-export type { Train, Line };
+export type { Train, RailLine };
 export { ccCurent };

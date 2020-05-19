@@ -1,13 +1,7 @@
 import { h } from '../lib/helpers';
 import * as Trains from './trains';
-import { Train } from '../lib/types';
+import Line from '../lib/line';
 import Step from '../lib/step';
-
-interface Line {
-  label: string;
-  train: Train;
-  steps: Step[];
-}
 
 const lines: { [id: string]: Line } = {
   nordEst: {
