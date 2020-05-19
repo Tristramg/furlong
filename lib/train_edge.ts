@@ -48,4 +48,8 @@ export default class TrainEdge {
         .sum();
     return _(this.rules).groupBy('category').mapValues(sumPrices).value();
   }
+
+  duration(): number {
+    return this.edge.arrival.time - this.edge.departure.time;
+  }
 }

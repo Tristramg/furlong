@@ -21,13 +21,14 @@ const Line: React.FunctionComponent<Props> = ({ line, infra }: Props) => {
     .value();
 
   const vj = buildVJ(line, 'Lundi', infra, true);
+
   return (
     <div className="p-12">
       <h1>{vj.label}</h1>
       <h2>Circulations significatives</h2>
       <div className="grid grid-rows-2 grid-flow-col">
-        {_.map(routes, (route, day) => (
-          <span>
+        {Object.keys(routes).map((day) => (
+          <span key={day}>
             <input
               type="radio"
               id={day}

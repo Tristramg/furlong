@@ -27,7 +27,7 @@ function stats(edges: TrainEdge[]): Stats {
     distance: _(edges).map('edge.distance').sum() || 0,
     duration:
       _(edges)
-        .map((e) => e.edge.arrival.time - e.edge.departure.time)
+        .map((e) => e.duration())
         .sum() || 0,
   };
 }

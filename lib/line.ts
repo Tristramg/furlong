@@ -1,4 +1,4 @@
-import Routes from '../data/lines';
+import Lines from '../data/lines';
 import { gen } from './helpers';
 import VehicleJourney from './vehicle_journey';
 import { Day } from './types.d';
@@ -21,7 +21,7 @@ export default function VJ(
 ): VehicleJourney {
   const l = typeof line === 'string' ? line : line[0];
   const d = typeof day === 'string' ? day : day[0];
-  const route = Routes[l];
+  const route = Lines[l];
   const edges = gen(route.steps, infra, forward);
   return new VehicleJourney(
     { label: route.label, segments: edges },

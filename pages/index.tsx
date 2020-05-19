@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import React from 'react';
-import Routes from '../data/lines';
+import Lines from '../data/lines';
 import { Infra, importAirtable } from '../data/airtable_importer';
 import { gen, fmt } from '../lib/helpers';
 import VehicleJourney from '../lib/vehicle_journey';
@@ -12,7 +12,7 @@ import { Day } from '../lib/types.d';
 export const getStaticProps: GetStaticProps = importAirtable;
 
 const Home = ({ infra }: Infra) => {
-  const vjs = _.mapValues(Routes, (r) => {
+  const vjs = _.mapValues(Lines, (r) => {
     const params = { label: r.label, segments: gen(r.steps, infra, true) };
     return new VehicleJourney(params, r.train, Day.Monday);
   });

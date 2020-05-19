@@ -1,4 +1,6 @@
-const talgo230 = {
+import { Train } from '../lib/types';
+
+const talgo230: Train = {
   label: 'Talgo',
   highSpeed: false,
   gaugeChange: true,
@@ -8,7 +10,7 @@ const talgo230 = {
   capacity: 200,
 };
 
-const talgo250 = {
+const talgo250: Train = {
   label: 'Talgo 250',
   highSpeed: true,
   gaugeChange: true,
