@@ -5,44 +5,51 @@ import VJDetails from './vj_details';
 import Lines from '../data/lines';
 import VehicleJourney from '../lib/vehicle_journey';
 import { Day } from '../lib/types.d';
+import Timetable from './timetables';
 
 type Props = {
-  line: any;
+  lineId: string;
   infra: any;
 };
 
-const Line: React.FunctionComponent<Props> = ({ line, infra }: Props) => {
+const Line: React.FunctionComponent<Props> = ({ lineId, infra }: Props) => {
   const [currentRoute, setCurrentRoute] = React.useState('Lundi (aller)');
+  const line = Lines[lineId];
 
-  console.log('mooo', Lines[line]);
   const routes = _([Day.Monday, Day.Friday, Day.Saturday, Day.Sunday])
     .flatMap((day) => [
-      [`${day} (aller)`, new VehicleJourney(Lines[line], day, true, infra)],
-      [`${day} (retour)`, new VehicleJourney(Lines[line], day, false, infra)],
+      [`${day} (aller)`, new VehicleJourney(line, day, true, infra)],
+      [`${day} (retour)`, new VehicleJourney(line, day, false, infra)],
     ])
     .fromPairs()
     .value();
 
-  const vj = new VehicleJourney(Lines[line], Day.Monday, true, infra);
-
   return (
     <div className="p-12">
-      <h1>{vj.label}</h1>
-      <h2>Circulations significatives</h2>
-      <div className="grid grid-rows-2 grid-flow-col">
-        {Object.keys(routes).map((day) => (
-          <span key={day}>
-            <input
-              type="radio"
-              id={day}
-              value={day}
-              name="route"
-              onClick={() => setCurrentRoute(day)}
-              checked={currentRoute === day}
-            />
-            <label htmlFor={day}>{day}</label>
-          </span>
-        ))}
+      <h1>{line.label}</h1>
+      <div className="flex">
+        <div className="w-1/2">
+          <h2>Fiche horaire</h2>
+          <Timetable line={line} />
+        </div>
+        <div>
+          <h2>Circulations significatives</h2>
+          <div className="grid grid-cols-2 px-4 py-2 flex-1">
+            {Object.keys(routes).map((day) => (
+              <span key={day}>
+                <input
+                  type="radio"
+                  id={day}
+                  value={day}
+                  name="route"
+                  onClick={() => setCurrentRoute(day)}
+                  checked={currentRoute === day}
+                />
+                <label htmlFor={day}>{day}</label>
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
       <h2>Synthèse</h2>
       <VJSummary vj={routes[currentRoute]} />

@@ -11,12 +11,16 @@ h2 {
   @apply text-xl pt-2;
 }
 
+h3 {
+  @apply font-bold;
+}
+
 a {
   @apply text-blue-600 underline;
 }
 
 th {
-  @apply border
+  @apply border;
 }
 
 td {
