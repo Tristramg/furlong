@@ -15,6 +15,7 @@ export const getStaticPaths: GetStaticPaths = async () => ({
 export default ({ infra }: Infra) => {
   const router = useRouter();
   const { line } = router.query;
+  const lineId = typeof line === 'string' ? line : line[0];
 
-  return <Line line={line} infra={infra} />;
+  return <Line lineId={lineId} infra={infra} />;
 };
