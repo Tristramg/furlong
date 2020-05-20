@@ -31,7 +31,7 @@ const Line: React.FunctionComponent<Props> = ({ lineId, infra }: Props) => {
       <div className="flex">
         <div className="w-1/2">
           <h2>Couts annuels</h2>
-          <AnnualCosts vjs={routes} off={7} />
+          <AnnualCosts vjs={routes} defaultOff={10} />
         </div>
         <div>
           <h2>Fiche horaire</h2>
