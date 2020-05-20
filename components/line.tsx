@@ -6,6 +6,7 @@ import Lines from '../data/lines';
 import VehicleJourney from '../lib/vehicle_journey';
 import { Day } from '../lib/types.d';
 import Timetable from './timetables';
+import AnnualCosts from './annual_costs';
 
 type Props = {
   lineId: string;
@@ -29,11 +30,18 @@ const Line: React.FunctionComponent<Props> = ({ lineId, infra }: Props) => {
       <h1>{line.label}</h1>
       <div className="flex">
         <div className="w-1/2">
+          <h2>Couts annuels</h2>
+          <AnnualCosts vjs={routes} off={7} />
+        </div>
+        <div>
           <h2>Fiche horaire</h2>
           <Timetable line={line} />
         </div>
-        <div>
-          <h2>Circulations significatives</h2>
+      </div>
+      <h2 className="pt-6">Détails</h2>
+      <div className="flex">
+        <div className="w-1/4">
+          <h3>Circulations significatives</h3>
           <div className="grid grid-cols-2 px-4 py-2 flex-1">
             {Object.keys(routes).map((day) => (
               <span key={day}>
@@ -50,10 +58,11 @@ const Line: React.FunctionComponent<Props> = ({ lineId, infra }: Props) => {
             ))}
           </div>
         </div>
+        <div>
+          <VJSummary vj={routes[currentRoute]} />
+        </div>
       </div>
-      <h2>Synthèse</h2>
-      <VJSummary vj={routes[currentRoute]} />
-      <h2>Détails</h2>
+      <h2>Détails des segments</h2>
       <VJDetails vj={routes[currentRoute]} />
     </div>
   );
