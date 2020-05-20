@@ -65,7 +65,9 @@ const Country = ({
       <td>{fmt(total / countryStats.distance)}</td>
       <td>{fmt(countryStats.distance)}</td>
       <td>{fh(countryStats.duration)}</td>
-      <td>{fmt((countryStats.distance * 60) / countryStats.duration)}</td>
+      <td className={country === 'Total' ? 'font-bold' : ''}>
+        {fmt((countryStats.distance * 60) / countryStats.duration)}
+      </td>
     </tr>
   );
 };

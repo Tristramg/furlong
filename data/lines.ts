@@ -131,6 +131,23 @@ const lines: { [id: string]: Line } = {
       new Step('Lisboa Oriente', h(10, 0), h(19, 0), true),
     ],
   },
+  lisboaClassic: {
+    label: 'Lisboa Classic',
+    train: Trains.talgo230,
+    steps: [
+      new Step('Paris Austerlitz', h(19, 0), h(10, 0), true),
+      new Step('Orléans Les Aubrais', h(20, 0), h(9, 0), true),
+      new Step('Saint Pierre des Corps', h(20, 50), h(8, 10), true),
+      new Step('Poitiers', h(21, 40), h(7, 20), true),
+      new Step('Angoulême', h(23, 0), h(6, 0), false),
+      new Step('Bordeaux Saint-Jean', h(0, 0), h(5, 0), false),
+      new Step('Frontière FR-ES', h(1, 30), h(3, 30), false),
+      new Step('Valladolid Campo Grande', h(4, 0), h(1, 0), false),
+      new Step('Frontière ES-PT', h(6, 0), h(23, 0), false),
+      new Step('Coimbra-B', h(8, 0), h(21, 0), true),
+      new Step('Lisboa Oriente', h(10, 0), h(19, 0), true),
+    ],
+  },
   barça: {
     label: 'Paris Barcelone Madrid',
     train: Trains.talgo250,
