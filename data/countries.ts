@@ -49,7 +49,7 @@ const data = {
     label: 'Portugal',
     current: '25k AC',
     gauge: 'Ibérique 1668 mm',
-    signaling: '?',
+    signaling: 'EBICAB',
     rules: portugal,
   },
 };
