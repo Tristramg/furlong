@@ -41,9 +41,9 @@ const lines: { [id: string]: Line } = {
     label: 'Paris–Berlin–Hambourg',
     train: Trains.talgo230,
     steps: [
-      new Step('Paris Gare de l’est', h(19, 30), h(9, 30), true),
-      new Step('Frontière FR-DE', h(23, 30), h(5, 30), false),
-      new Step('Halle', h(4, 30), h(0, 30), false),
+      new Step('Paris Gare de l’est', h(19, 30), h(8, 30), true),
+      new Step('Frontière FR-DE', h(23, 30), h(4, 30), false),
+      new Step('Halle', h(4, 30), h(23, 30), false),
       new Step('Berlin Hbf', h(6, 0), h(22, 0), true),
       new Step('Hamburg Hbf', h(8, 0), h(20, 0), true),
     ],
