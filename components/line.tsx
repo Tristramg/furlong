@@ -62,7 +62,7 @@ const Line: React.FunctionComponent<Props> = ({
                   value={day}
                   name="route"
                   onClick={() => setCurrentRoute(day)}
-                  checked={currentRoute === day}
+                  defaultChecked={currentRoute === day}
                 />
                 <label htmlFor={day}>{day}</label>
               </span>
