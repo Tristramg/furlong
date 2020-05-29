@@ -9,9 +9,13 @@ import { fmt } from '../lib/helpers';
 import VehicleJourney from '../lib/vehicle_journey';
 import { Day } from '../lib/types.d';
 
-export const getStaticProps: GetStaticProps = importAirtable;
+export const getStaticProps: GetStaticProps = async () => ({
+  props: {
+    infra: await importAirtable(),
+  },
+});
 
-const Home = ({ infra }: Infra) => {
+const Home = ({ infra }: { infra: Infra }) => {
   const vjs = _.mapValues(
     Lines,
     (line) => new VehicleJourney(line, Day.Monday, true, infra)

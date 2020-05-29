@@ -37,13 +37,11 @@ interface RawEdge {
 }
 
 interface Infra {
-  infra: {
-    nodes: { [name: string]: object };
-    edges: { [id: string]: RawEdge[] };
-  };
+  nodes: { [name: string]: object };
+  edges: { [id: string]: RawEdge[] };
 }
 
-export default async function importAirtable(): Promise<{ props: Infra }> {
+export default async function importAirtable(): Promise<Infra> {
   const rawNodes = await get('', 'Nodes');
   const rawLines = await get('', 'Lines');
   const rawEdges = await get('', 'Edges');
@@ -75,28 +73,24 @@ export default async function importAirtable(): Promise<{ props: Infra }> {
   };
 
   return {
-    props: {
-      infra: {
-        nodes: _.keyBy(rawNodes, 'Name'),
-        edges: _(rawEdges)
-          .values()
-          .map((v) => [
-            id(v),
-            {
-              departure: rawNodes[v.from[0]],
-              arrival: rawNodes[v.to[0]],
-              country: countriesMap[v.Country],
-              label: v.Line ? lines[v.Line[0]].label : '',
-              distance: v.length,
-              line: v.Line
-                ? lines[v.Line[0]]
-                : defaultLine(countriesMap[v.Country]),
-            },
-          ])
-          .fromPairs()
-          .value(),
-      },
-    },
+    nodes: _.keyBy(rawNodes, 'Name'),
+    edges: _(rawEdges)
+      .values()
+      .map((v) => [
+        id(v),
+        {
+          departure: rawNodes[v.from[0]],
+          arrival: rawNodes[v.to[0]],
+          country: countriesMap[v.Country],
+          label: v.Line ? lines[v.Line[0]].label : '',
+          distance: v.length,
+          line: v.Line
+            ? lines[v.Line[0]]
+            : defaultLine(countriesMap[v.Country]),
+        },
+      ])
+      .fromPairs()
+      .value(),
   };
 }
 
