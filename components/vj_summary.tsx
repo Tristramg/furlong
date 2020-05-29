@@ -95,7 +95,7 @@ const VJSummary: React.FunctionComponent<Props> = ({ vj }: Props) => (
       <th className="w-1/12">V moyenne</th>
     </thead>
     {_.map(group(vj), (vjStats, country) => (
-      <Country country={country} stats={vjStats} />
+      <Country key={country} country={country} stats={vjStats} />
     ))}
   </table>
 );

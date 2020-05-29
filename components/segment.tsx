@@ -28,7 +28,7 @@ const icons = {
   ),
 };
 
-const singleRule: React.FunctionComponent<SingleRuleProps> = ({
+const SingleRule: React.FunctionComponent<SingleRuleProps> = ({
   rule,
   price,
 }: SingleRuleProps) => (
@@ -71,9 +71,9 @@ const Segment: React.FunctionComponent<Props> = ({ edge }: Props) => (
       <div className="w-1/2">{edge.energy}</div>
     </div>
     <div className="w-8/12 mx-6">
-      {edge.rules.map((rule) =>
-        singleRule({ rule, price: edge.singlePrice(rule) })
-      )}
+      {edge.rules.map((rule) => (
+        <SingleRule rule={rule} price={edge.singlePrice(rule)} />
+      ))}
     </div>
     <div className="w-1/12 align-middle m-auto text-right">
       {`${fmt(edge.price)} €`}
