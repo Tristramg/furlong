@@ -227,6 +227,23 @@ const lines: { [id: string]: Line } = {
       new Step('Madrid Atocha', h(11, 0), h(18, 30), true),
     ],
   },
+  londresBarcelone: {
+    label: 'Londres Barcelone',
+    train: Trains.talgo230,
+    steps: [
+      new Step('London St-Pancras', h(19, 0), h(9, 0), true),
+      new Step('Ashford', h(19, 45), h(8, 15), false),
+      new Step('Calais Fréthun', h(20, 15), h(7, 45), false),
+      new Step('Dijon', h(1, 0), h(3, 0), false),
+      new Step('Lyon Part-dieu', h(3, 0), h(1, 0), false),
+      new Step('Nîmes', h(5, 0), h(23, 0), false),
+      new Step('Montpellier Sud de France', h(5, 30), h(22, 30), false),
+      new Step('Perpignan', h(7, 0), h(21, 0), false),
+      new Step('Frontière FR-CAT', h(7, 15), h(20, 45), false),
+      new Step('Girona', h(8, 0), h(20, 0), true),
+      new Step('Barcelona Sants', h(9, 0), h(19, 0), true),
+    ],
+  },
 };
 
 export default lines;
