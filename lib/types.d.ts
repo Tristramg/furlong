@@ -11,6 +11,7 @@ export enum Countries {
   IT = 'Italie',
   FR = 'France',
   PT = 'Portugal',
+  UK = 'Royaume-Uni',
 }
 
 export enum Day {

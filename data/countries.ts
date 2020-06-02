@@ -4,6 +4,7 @@ import germany from './countries/germany';
 import spain from './countries/spain';
 import portugal from './countries/portugal';
 import italy from './countries/italy';
+import uk from './countries/uk';
 import { Train } from '../lib/types';
 import { Countries, Day } from '../lib/types.d';
 import { Rule } from '../lib/rule';
@@ -51,6 +52,13 @@ const data = {
     gauge: 'Ibérique 1668 mm',
     signaling: 'EBICAB',
     rules: portugal,
+  },
+  [Countries.UK]: {
+    label: 'Royaume-Uni',
+    current: '25kv AC',
+    gauge: 'Standard 1435mm',
+    signaling: 'ATB',
+    rules: uk,
   },
 };
 

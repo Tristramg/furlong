@@ -29,6 +29,7 @@ const countriesMap = {
   DE: Countries.DE,
   ES: Countries.ES,
   PT: Countries.PT,
+  UK: Countries.UK,
 };
 
 interface RawEdge {
