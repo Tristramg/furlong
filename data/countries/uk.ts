@@ -37,6 +37,8 @@ function highSpeed1(edge: Edge): Rule[] {
       label: `Operations, Maintenance and RenewalCharge (OMRC), ${omrcPerMinute} par minute`,
       category: RuleCategory.Tracks,
     },
+    Rule.perkWh(0.11 * eurosPerPound, 'Traction rates'),
+    Rule.perkWh(0.15 * eurosPerPound, 'Non tractio rates'),
   ];
 }
 
