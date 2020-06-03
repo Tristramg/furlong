@@ -26,7 +26,7 @@ const Market: React.FunctionComponent<Props> = ({
     stations.forEach((b) => {
       if (a < b) {
         const pax = market[nodes[a].EurostatName + nodes[b].EurostatName];
-        if (pax) {
+        if (pax && nodes[a].Country[0] !== nodes[b].Country[0]) {
           marketdata.push({
             from: a,
             to: b,
