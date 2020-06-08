@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { Train, ccCurent } from '../../lib/types';
-import { RuleCategory } from '../../lib/types.d';
+import { RuleCategory, Countries } from '../../lib/types.d';
 import Edge from '../../lib/edge';
 import { Rule } from '../../lib/rule';
 import StopTime from '../../lib/stop_time';
@@ -36,11 +36,11 @@ const prices = {
 
 function market(edges: Edge[]): string {
   const broadGauge = _(edges)
-    .filter((e) => e.country === 'ES' && e.line.gauge.includes('1668'))
+    .filter((e) => e.country === Countries.ES && e.line.gauge.includes('1668'))
     .sumBy('distance');
 
   const standardGauge = _(edges)
-    .filter((e) => e.country === 'ES' && e.line.gauge.includes('1435'))
+    .filter((e) => e.country === Countries.ES && e.line.gauge.includes('1435'))
     .sumBy('distance');
 
   const madrid = (label: string): boolean => label.includes('Madrid');
@@ -99,7 +99,7 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
   const result = [
     Rule.perKm(
       prices[cat].A,
-      `Modalidad A (réservaton sillon) ${cat}`,
+      `Modalidad A (réservation sillon) ${cat}`,
       RuleCategory.Tracks
     ),
     Rule.perKm(
