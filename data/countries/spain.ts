@@ -70,16 +70,29 @@ const stations = {
   },
 };
 
+const PER_PASSENGER = 0.4084;
+
 const stationRule = (station: StopTime, position: string): Rule =>
   Rule.station(
     stations[station.adifClass][position],
     `Gare classe ${station.adifClass} ${position}`
   );
 
-function stationRules(edge: Edge, len: number, index: number): Rule[] {
+function stationRules(
+  edge: Edge,
+  len: number,
+  index: number,
+  train: Train
+): Rule[] {
   const result = [];
   if (index === 0 && edge.departure.commercial) {
     result.push(stationRule(edge.departure, 'departure'));
+    result.push(
+      Rule.station(
+        train.capacity * PER_PASSENGER,
+        `Montée de ${train.capacity} passagers à ${PER_PASSENGER}€`
+      )
+    );
   }
 
   if (index > 0 && index < len - 1 && edge.departure.commercial) {
@@ -88,6 +101,12 @@ function stationRules(edge: Edge, len: number, index: number): Rule[] {
 
   if (index === len - 1 && edge.arrival.commercial) {
     result.push(stationRule(edge.arrival, 'destination'));
+    result.push(
+      Rule.station(
+        train.capacity * PER_PASSENGER,
+        `Descente de ${train.capacity} passagers à ${PER_PASSENGER}€`
+      )
+    );
   }
 
   return result;
@@ -149,7 +168,7 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
     );
   }
 
-  return result.concat(stationRules(edge, edges.length, index));
+  return result.concat(stationRules(edge, edges.length, index, train));
 }
 
 export default rules;
