@@ -34,7 +34,7 @@ function gen(list: Step[], infra, forward: boolean): Edge[] {
 const fmt = (val: number, digits?: number): string =>
   val === 0.0
     ? '—'
-    : val.toLocaleString('fr-FR', { maximumSignificantDigits: digits || 3 });
+    : val.toLocaleString('fr-FR', { maximumSignificantDigits: digits || 4 });
 const grey = (val: number): string => (val === 0.0 ? 'text-gray-500' : '');
 
 const h = (hours: number, minutes: number): number => {
