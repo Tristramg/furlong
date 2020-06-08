@@ -112,8 +112,8 @@ const lines: { [id: string]: Line } = {
       new Step('Angoulême', h(0, 0), h(4, 0), false),
       new Step('Bordeaux Saint-Jean', h(1, 0), h(3, 0), false),
       new Step('Frontière FR-ES', h(2, 30), h(2, 0), false),
-      new Step('Valladolid Campo Grande', h(6, 30), h(22, 0), false),
-      new Step('Madrid Chamartín', h(8, 30), h(20, 0), false),
+      new Step('Valladolid Campo Grande', h(6, 30), h(22, 0), true),
+      new Step('Madrid Chamartín', h(8, 30), h(20, 0), true),
     ],
   },
   lisboa: {
