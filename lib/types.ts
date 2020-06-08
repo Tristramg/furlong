@@ -1,13 +1,3 @@
-interface Train {
-  label: string;
-  highSpeed: boolean;
-  gaugeChange: boolean;
-  weight: number;
-  cars: number;
-  multipleUnit: boolean;
-  capacity: number;
-}
-
 interface RailLine {
   class: string;
   highSpeed: boolean;
@@ -21,5 +11,5 @@ function ccCurent(line: RailLine): boolean {
   return /DC/.test(line.current);
 }
 
-export type { Train, RailLine };
+export type { RailLine };
 export { ccCurent };

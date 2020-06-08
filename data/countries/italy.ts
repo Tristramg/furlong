@@ -1,22 +1,22 @@
 import _ from 'lodash';
-import { Train } from '../../lib/types';
+import Train from '../../lib/train';
 import { RuleCategory, Countries, Day } from '../../lib/types.d';
 import { Rule } from '../../lib/rule';
 import Edge from '../../lib/edge';
 import StopTime from '../../lib/stop_time';
 
 function ta1(train: Train): Rule {
-  if (train.weight < 500) {
+  if (train.weight() < 500) {
     return Rule.perKm(0.128, 'Ta1: Weight class < 500t', RuleCategory.Tracks);
   }
-  if (train.weight < 1000) {
+  if (train.weight() < 1000) {
     return Rule.perKm(
       0.372,
       'Ta1: Weight class 500—1000t',
       RuleCategory.Tracks
     );
   }
-  if (train.weight < 1500) {
+  if (train.weight() < 1500) {
     return Rule.perKm(
       0.616,
       'Ta1: Weight class 1000–1500t',
@@ -114,15 +114,15 @@ function segment(edges: Edge[], train: Train, day: Day): Segment {
   }
   if (roma && milano) {
     if (day === Day.Saturday) {
-      return train.capacity > 700 ? Segment.TopSPlus : Segment.TopS;
+      return train.capacity() > 700 ? Segment.TopSPlus : Segment.TopS;
     }
-    return train.capacity > 700 ? Segment.TopPlus : Segment.Top;
+    return train.capacity() > 700 ? Segment.TopPlus : Segment.Top;
   }
   if (roma || milano) {
     if ((distance * 100) / highServiceDistance > 30.0) {
-      return train.capacity > 700 ? Segment.PBasePlus : Segment.PBase;
+      return train.capacity() > 700 ? Segment.PBasePlus : Segment.PBase;
     }
-    return train.capacity > 700 ? Segment.PLightPlus : Segment.PBase;
+    return train.capacity() > 700 ? Segment.PLightPlus : Segment.PBase;
   }
   return Segment.Basic;
 }

@@ -1,5 +1,5 @@
 import { h, included } from '../../lib/helpers';
-import { Train } from '../../lib/types';
+import Train from '../../lib/train';
 import { Rule } from '../../lib/rule';
 import Edge from '../../lib/edge';
 import { RuleCategory } from '../../lib/types.d';
@@ -72,7 +72,7 @@ function period(edge: Edge): string {
 export default function rules(edge: Edge, train: Train): Rule[] {
   const p = period(edge);
   const s = train.highSpeed ? 'highSpeed' : 'lowSpeed';
-  const c = train.capacity > 300 ? 'highCapa' : 'smallCapa';
+  const c = train.capacity() > 300 ? 'highCapa' : 'smallCapa';
 
   const useRule: Rule = {
     perTonAndKm: 0,

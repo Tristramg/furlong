@@ -1,4 +1,4 @@
-import { Train } from '../../lib/types';
+import Train from '../../lib/train';
 import { RuleCategory, Day } from '../../lib/types.d';
 import { h, included, weekEnd } from '../../lib/helpers';
 import { Rule, stationRules } from '../../lib/rule';

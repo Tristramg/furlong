@@ -1,5 +1,5 @@
 import { h, included, weekEnd } from '../../lib/helpers';
-import { Train } from '../../lib/types';
+import Train from '../../lib/train';
 import { Rule } from '../../lib/rule';
 import Edge from '../../lib/edge';
 import { RuleCategory, Day } from '../../lib/types.d';
@@ -48,8 +48,8 @@ export default function rules(edge: Edge, train: Train, day: Day): Rule[] {
       perTonAndKm: 0,
       perKm: 0,
       perkWh: 0,
-      fixed: train.capacity * 0.8 * perPassenger,
-      label: `Accès ${perPassenger} € par passager,  train de ${train.capacity} passagers, facteur de charge ${loadFactor}`,
+      fixed: train.capacity() * 0.8 * perPassenger,
+      label: `Accès ${perPassenger} € par passager,  train de ${train.capacity()} passagers, facteur de charge ${loadFactor}`,
       category: RuleCategory.Tracks,
     },
   ];

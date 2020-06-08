@@ -23,3 +23,9 @@ export enum Day {
   Saturday = 'Samedi',
   Sunday = 'Dimanche',
 }
+
+export enum CarType {
+  Locomotive = 'Locomotive',
+  Passenger = 'Passagers',
+  Restaurant = 'Restaurant',
+}
