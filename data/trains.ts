@@ -4,21 +4,21 @@ import { CarType } from '../lib/types.d';
 const tracva: Car = {
   weight: 72,
   passengers: 0,
-  length: 19,
+  length: 19.4,
   type: CarType.Locomotive,
 };
 
 const talgo230Coach: Car = {
   weight: 17,
-  passengers: 20,
-  length: 13,
+  passengers: 16,
+  length: 13.14,
   type: CarType.Passenger,
 };
 
 const talgo230Restaurant: Car = {
   weight: 17,
   passengers: 0,
-  length: 13,
+  length: 13.14,
   type: CarType.Restaurant,
 };
 
@@ -46,4 +46,4 @@ const talgo250: Train = new Train({
   multipleUnit: false,
 });
 
-export { talgo230, talgo250 };
+export default { talgo230, talgo250 };

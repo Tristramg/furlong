@@ -39,12 +39,24 @@ export default class Train implements TrainInterface {
     return _(this.cars).sumBy(([car, count]) => car.passengers * count);
   }
 
+  fmtCapacity(): string {
+    return `${this.capacity()} pax`;
+  }
+
   weight(): number {
     return _(this.cars).sumBy(([car, count]) => car.weight * count);
   }
 
+  fmtWeight(): string {
+    return `${this.weight()} t`;
+  }
+
   length(): number {
-    return _(this.cars).sumBy(([car, count]) => car.weight * count);
+    return _(this.cars).sumBy(([car, count]) => car.length * count);
+  }
+
+  fmtLength(): string {
+    return `${this.length()} m`;
   }
 }
 

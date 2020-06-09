@@ -3,6 +3,7 @@ import _ from 'lodash';
 import VJSummary from './vj_summary';
 import VJDetails from './vj_details';
 import Market from './market';
+import Train from './train';
 import Lines from '../data/lines';
 import VehicleJourney from '../lib/vehicle_journey';
 import { Day } from '../lib/types.d';
@@ -36,6 +37,7 @@ const Line: React.FunctionComponent<Props> = ({
   return (
     <div className="p-12">
       <h1>{line.label}</h1>
+      <Train train={line.train} />
       <div className="flex">
         <div className="w-1/3">
           <h2>Couts annuels</h2>
