@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { Train, ccCurent } from '../../lib/types';
+import { ccCurent } from '../../lib/types';
+import Train from '../../lib/train';
 import { RuleCategory, Countries } from '../../lib/types.d';
 import Edge from '../../lib/edge';
 import { Rule } from '../../lib/rule';
@@ -89,8 +90,8 @@ function stationRules(
     result.push(stationRule(edge.departure, 'departure'));
     result.push(
       Rule.station(
-        train.capacity * PER_PASSENGER,
-        `Montée de ${train.capacity} passagers à ${PER_PASSENGER}€`
+        train.capacity() * PER_PASSENGER,
+        `Montée de ${train.capacity()} passagers à ${PER_PASSENGER}€`
       )
     );
   }
@@ -103,8 +104,8 @@ function stationRules(
     result.push(stationRule(edge.arrival, 'destination'));
     result.push(
       Rule.station(
-        train.capacity * PER_PASSENGER,
-        `Descente de ${train.capacity} passagers à ${PER_PASSENGER}€`
+        train.capacity() * PER_PASSENGER,
+        `Descente de ${train.capacity()} passagers à ${PER_PASSENGER}€`
       )
     );
   }
@@ -136,7 +137,7 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
 
   if (edge.line && prices[cat][edge.line.label]) {
     const line = edge.line.label;
-    const multiplier = Math.ceil(train.capacity / 100);
+    const multiplier = Math.ceil(train.capacity() / 100);
     result.push(
       Rule.perKm(
         prices[cat][line] * multiplier,

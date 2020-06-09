@@ -2,7 +2,7 @@ import { Rule } from '../../lib/rule';
 import Edge from '../../lib/edge';
 import { RuleCategory, Day } from '../../lib/types.d';
 import channel from './channel';
-import { Train } from '../../lib/types';
+import Train from '../../lib/train';
 
 function highSpeed1(edge: Edge): Rule[] {
   const duration = edge.arrival.time - edge.departure.time;

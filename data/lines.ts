@@ -1,5 +1,5 @@
 import { h } from '../lib/helpers';
-import * as Trains from './trains';
+import Trains from './trains';
 import Line from '../lib/line';
 import Step from '../lib/step';
 

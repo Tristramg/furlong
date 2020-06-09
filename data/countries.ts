@@ -5,7 +5,7 @@ import spain from './countries/spain';
 import portugal from './countries/portugal';
 import italy from './countries/italy';
 import uk from './countries/uk';
-import { Train } from '../lib/types';
+import Train from '../lib/train';
 import { Countries, Day } from '../lib/types.d';
 import { Rule } from '../lib/rule';
 import Edge from '../lib/edge';

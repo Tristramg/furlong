@@ -1,4 +1,4 @@
-import { Train } from './types';
+import Train from './train';
 import Step from './step';
 
 interface Line {

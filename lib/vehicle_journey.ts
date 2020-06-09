@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Train } from './types';
+import Train from './train';
 import Line from './line';
 import { Day } from './types.d';
 import TrainEdge from './train_edge';

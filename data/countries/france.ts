@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import lfp from './figueras_perpignan';
-import { Train } from '../../lib/types';
+import Train from '../../lib/train';
 import { Countries, RuleCategory } from '../../lib/types.d';
 import { Rule } from '../../lib/rule';
 import Edge from '../../lib/edge';
