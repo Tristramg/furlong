@@ -26,7 +26,7 @@ const vectron: Car = {
   weight: 92,
   passengers: 0,
   length: 18.96,
-  type: CarType.Restaurant,
+  type: CarType.Locomotive,
 };
 
 const viaggioClassic: Car = {
