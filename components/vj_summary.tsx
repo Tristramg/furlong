@@ -101,3 +101,4 @@ const VJSummary: React.FunctionComponent<Props> = ({ vj }: Props) => (
 );
 
 export default VJSummary;
+export { stats };
