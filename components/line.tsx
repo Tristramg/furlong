@@ -11,6 +11,7 @@ import Timetable from './timetables';
 import AnnualCosts from './annual_costs';
 import { MarketData } from '../data/market_importer';
 import { Infra } from '../data/airtable_importer';
+import Trains from '../data/trains';
 
 type Props = {
   lineId: string;
@@ -26,6 +27,9 @@ const Line: React.FunctionComponent<Props> = ({
   const [currentRoute, setCurrentRoute] = React.useState('Lundi (aller)');
   const line = Lines[lineId];
 
+  const [currentTrain, setCurrentTrain] = React.useState(line.train);
+  line.train = currentTrain;
+
   const routes = _([Day.Monday, Day.Friday, Day.Saturday, Day.Sunday])
     .flatMap((day) => [
       [`${day} (aller)`, new VehicleJourney(line, day, true, infra)],
@@ -37,7 +41,18 @@ const Line: React.FunctionComponent<Props> = ({
   return (
     <div className="p-12">
       <h1>{line.label}</h1>
-      <Train train={line.train} />
+      <Train train={currentTrain} />
+      <select onChange={(train) => setCurrentTrain(Trains[train.target.value])}>
+        {Object.keys(Trains).map((key) => (
+          <option
+            key={key}
+            value={key}
+            selected={Trains[key].label === currentTrain.label}
+          >
+            {key}
+          </option>
+        ))}
+      </select>
       <div className="flex">
         <div className="w-1/3">
           <h2>Couts annuels</h2>
