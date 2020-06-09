@@ -91,4 +91,12 @@ const fullViaggio: Train = new Train({
   multipleUnit: false,
 });
 
-export default { talgo230, talgo250, halfViaggio, fullViaggio };
+const empty: Train = new Train({
+  label: 'Train fantôme 👻',
+  highSpeed: false,
+  gaugeChange: false,
+  cars: [],
+  multipleUnit: false,
+});
+
+export default { talgo230, talgo250, halfViaggio, fullViaggio, empty };
