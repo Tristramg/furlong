@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { CarType } from './types.d';
+import { fmt } from './helpers';
 
 interface Car {
   weight: number;
@@ -40,7 +41,7 @@ export default class Train implements TrainInterface {
   }
 
   fmtCapacity(): string {
-    return `${this.capacity()} pax`;
+    return `${fmt(this.capacity(), 3)} pax`;
   }
 
   weight(): number {
@@ -48,7 +49,7 @@ export default class Train implements TrainInterface {
   }
 
   fmtWeight(): string {
-    return `${this.weight()} t`;
+    return `${fmt(this.weight(), 3)} t`;
   }
 
   length(): number {
@@ -56,7 +57,7 @@ export default class Train implements TrainInterface {
   }
 
   fmtLength(): string {
-    return `${this.length()} m`;
+    return `${fmt(this.length(), 3)} m`;
   }
 }
 

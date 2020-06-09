@@ -22,6 +22,27 @@ const talgo230Restaurant: Car = {
   type: CarType.Restaurant,
 };
 
+const vectron: Car = {
+  weight: 92,
+  passengers: 0,
+  length: 18.96,
+  type: CarType.Restaurant,
+};
+
+const viaggioClassic: Car = {
+  weight: 47,
+  passengers: 32,
+  length: 26.4,
+  type: CarType.Passenger,
+};
+
+const viaggioRestaurant: Car = {
+  weight: 47,
+  passengers: 0,
+  length: 26.4,
+  type: CarType.Restaurant,
+};
+
 const talgo230 = new Train({
   label: 'Talgo tracté',
   highSpeed: false,
@@ -46,4 +67,28 @@ const talgo250: Train = new Train({
   multipleUnit: false,
 });
 
-export default { talgo230, talgo250 };
+const halfViaggio: Train = new Train({
+  label: 'Viaggio 200m',
+  highSpeed: false,
+  gaugeChange: false,
+  cars: [
+    [vectron, 1],
+    [viaggioClassic, 6],
+    [viaggioRestaurant, 1],
+  ],
+  multipleUnit: false,
+});
+
+const fullViaggio: Train = new Train({
+  label: 'Viaggio 400m',
+  highSpeed: false,
+  gaugeChange: false,
+  cars: [
+    [vectron, 1],
+    [viaggioClassic, 12],
+    [viaggioRestaurant, 2],
+  ],
+  multipleUnit: false,
+});
+
+export default { talgo230, talgo250, halfViaggio, fullViaggio };
