@@ -4,6 +4,7 @@ import Line from './line';
 import { Day } from './types.d';
 import TrainEdge from './train_edge';
 import { gen } from './helpers';
+import { Infra } from '../data/airtable_importer';
 
 export default class VehicleJourney {
   label: string;
@@ -18,17 +19,23 @@ export default class VehicleJourney {
 
   train: Train;
 
-  constructor(line: Line, day: Day, forward: boolean, infra: any) {
+  constructor(
+    line: Line,
+    day: Day,
+    forward: boolean,
+    infra: Infra,
+    train?: Train
+  ) {
     const edges = gen(line.steps, infra, forward);
 
     this.edges = edges.map(
-      (s, i) => new TrainEdge(s, line.train, edges, i, day)
+      (s, i) => new TrainEdge(s, train || line.train, edges, i, day)
     );
     this.label = line.label;
     this.price = _(this.edges).map('price').sum();
     this.distance = _(this.edges).map('edge.distance').sum();
     this.energy = _(this.edges).map('energy').sum();
-    this.train = line.train;
+    this.train = train || line.train;
   }
 
   highspeed(): boolean {

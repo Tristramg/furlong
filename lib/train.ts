@@ -7,6 +7,7 @@ interface Car {
   passengers: number;
   length: number;
   type: CarType;
+  value: number;
 }
 
 interface TrainInterface {
@@ -58,6 +59,18 @@ export default class Train implements TrainInterface {
 
   fmtLength(): string {
     return `${fmt(this.length(), 3)} m`;
+  }
+
+  maintenance(): number {
+    return _(this.cars).sumBy(([car, count]) => car.value * 0.004 * count * 12);
+  }
+
+  heavyMaintenance(): number {
+    return _(this.cars).sumBy(([car, count]) => car.value * 0.002 * count * 12);
+  }
+
+  renting(): number {
+    return _(this.cars).sumBy(([car, count]) => car.value * 0.007 * count * 12);
   }
 }
 
