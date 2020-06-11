@@ -32,7 +32,7 @@ const SingleRule: React.FunctionComponent<SingleRuleProps> = ({
   rule,
   price,
 }: SingleRuleProps) => (
-  <div className="flex">
+  <div key={rule.label} className="flex">
     <span className={`w-1/12 ${grey(rule.perKm)}`}>{fmt(rule.perKm)}</span>
     <span className={`w-1/12 ${grey(rule.perTonAndKm)}`}>
       {fmt(rule.perTonAndKm)}

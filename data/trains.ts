@@ -6,6 +6,7 @@ const tracva: Car = {
   passengers: 0,
   length: 19.4,
   type: CarType.Locomotive,
+  value: 4_000_000,
 };
 
 const talgo230Coach: Car = {
@@ -13,6 +14,7 @@ const talgo230Coach: Car = {
   passengers: 16,
   length: 13.14,
   type: CarType.Passenger,
+  value: 1_500_000,
 };
 
 const talgo230Restaurant: Car = {
@@ -20,6 +22,7 @@ const talgo230Restaurant: Car = {
   passengers: 0,
   length: 13.14,
   type: CarType.Restaurant,
+  value: 1_500_000,
 };
 
 const vectron: Car = {
@@ -27,6 +30,7 @@ const vectron: Car = {
   passengers: 0,
   length: 18.96,
   type: CarType.Locomotive,
+  value: 4_500_000,
 };
 
 const viaggioClassic: Car = {
@@ -34,6 +38,7 @@ const viaggioClassic: Car = {
   passengers: 34,
   length: 26.4,
   type: CarType.Passenger,
+  value: 2_500_000,
 };
 
 const viaggioRestaurant: Car = {
@@ -41,6 +46,7 @@ const viaggioRestaurant: Car = {
   passengers: 0,
   length: 26.4,
   type: CarType.Restaurant,
+  value: 2_500_000,
 };
 
 const talgo230 = new Train({

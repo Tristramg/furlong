@@ -35,6 +35,20 @@ const fmt = (val: number, digits?: number): string =>
   val === 0.0
     ? '—'
     : val.toLocaleString('fr-FR', { maximumSignificantDigits: digits || 4 });
+
+const smartFmt = (val: number | string): string => {
+  if (typeof val === 'string') {
+    return val;
+  }
+  if (val > 10_000_000) {
+    return `${fmt(val / 1_000_000)} M`;
+  }
+  if (val > 10_000) {
+    return `${fmt(val / 1_000)} k`;
+  }
+  return fmt(val);
+};
+
 const grey = (val: number): string => (val === 0.0 ? 'text-gray-500' : '');
 
 const h = (hours: number, minutes: number): number => {
@@ -86,4 +100,4 @@ function weekEnd(edge: Edge, departureDay: Day): boolean {
   return _.includes([Day.Saturday, Day.Sunday], consideredDay);
 }
 
-export { fmt, grey, h, fh, edgeId, gen, included, weekEnd };
+export { fmt, grey, h, fh, edgeId, gen, included, weekEnd, smartFmt };

@@ -68,7 +68,7 @@ const Line: React.FunctionComponent<Props> = ({
         <table>
           <thead>
             <tr>
-              <th></th>
+              <th>—</th>
               <th>Total</th>
               <th>Voies</th>
               <th>Énergie</th>
