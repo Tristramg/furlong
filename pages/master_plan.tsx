@@ -48,15 +48,18 @@ const mondays = (off: number) => 4 * 52 + 1 - Math.floor((365 * off) / 100);
 const circulations = (off: number) => mondays(off) + 3 * 52;
 
 function computeCosts(lineId: string, year: string, infra: Infra, off: number) {
-  const { line, train } = data[lineId][year];
+  const { line, train, pax } = data[lineId][year];
 
   const aller = _([Day.Monday, Day.Friday, Day.Saturday, Day.Sunday])
-    .map((day) => [day, new VehicleJourney(line, day, true, infra, train)])
+    .map((day) => [day, new VehicleJourney(line, day, true, infra, train, pax)])
     .fromPairs()
     .value();
 
   const retour = _([Day.Monday, Day.Friday, Day.Saturday, Day.Sunday])
-    .map((day) => [day, new VehicleJourney(line, day, false, infra, train)])
+    .map((day) => [
+      day,
+      new VehicleJourney(line, day, false, infra, train, pax),
+    ])
     .fromPairs()
     .value();
 

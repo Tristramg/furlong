@@ -67,9 +67,10 @@ function rules(
   train: Train,
   edges: Edge[],
   index: number,
-  day: Day
+  day: Day,
+  pax: number
 ): Rule[] {
-  return data[edge.country].rules(edge, train, edges, index, day);
+  return data[edge.country].rules(edge, train, edges, index, day, pax);
 }
 
 export { rules, data };

@@ -83,15 +83,16 @@ function stationRules(
   edge: Edge,
   len: number,
   index: number,
-  train: Train
+  train: Train,
+  pax: number
 ): Rule[] {
   const result = [];
   if (index === 0 && edge.departure.commercial) {
     result.push(stationRule(edge.departure, 'departure'));
     result.push(
       Rule.station(
-        train.capacity() * PER_PASSENGER,
-        `Montée de ${train.capacity()} passagers à ${PER_PASSENGER}€`
+        pax * PER_PASSENGER,
+        `Montée de ${pax} passagers à ${PER_PASSENGER}€`
       )
     );
   }
@@ -104,8 +105,8 @@ function stationRules(
     result.push(stationRule(edge.arrival, 'destination'));
     result.push(
       Rule.station(
-        train.capacity() * PER_PASSENGER,
-        `Descente de ${train.capacity()} passagers à ${PER_PASSENGER}€`
+        pax * PER_PASSENGER,
+        `Descente de ${pax} passagers à ${PER_PASSENGER}€`
       )
     );
   }
@@ -113,7 +114,14 @@ function stationRules(
   return result;
 }
 
-function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
+function rules(
+  edge: Edge,
+  train: Train,
+  edges: Edge[],
+  index: number,
+  _day: any,
+  pax: number
+): Rule[] {
   const cat = edge.line && edge.line.class === 'A' ? market(edges) : 'other';
 
   const result = [
@@ -169,7 +177,7 @@ function rules(edge: Edge, train: Train, edges: Edge[], index: number): Rule[] {
     );
   }
 
-  return result.concat(stationRules(edge, edges.length, index, train));
+  return result.concat(stationRules(edge, edges.length, index, train, pax));
 }
 
 export default rules;
