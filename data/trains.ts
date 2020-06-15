@@ -1,53 +1,66 @@
-import Train, { Car } from '../lib/train';
+import Train from '../lib/train';
 import { CarType } from '../lib/types.d';
+import Car from '../lib/car';
 
-const tracva: Car = {
+const tracva = new Car({
   weight: 72,
   passengers: 0,
   length: 19.4,
   type: CarType.Locomotive,
   value: 4_000_000,
-};
+  maintenancePerKm: 0.4,
+  heavyMaintenancePerKm: 0.2,
+});
 
-const talgo230Coach: Car = {
+const talgo230Coach = new Car({
   weight: 17,
   passengers: 16,
   length: 13.14,
   type: CarType.Passenger,
   value: 1_500_000,
-};
+  maintenancePerKm: 0.1,
+  heavyMaintenancePerKm: 0.05,
+});
 
-const talgo230Restaurant: Car = {
+const talgo230Restaurant = new Car({
   weight: 17,
   passengers: 0,
   length: 13.14,
   type: CarType.Restaurant,
   value: 1_500_000,
-};
+  maintenancePerKm: 0.1,
+  heavyMaintenancePerKm: 0.05,
+});
 
-const vectron: Car = {
+const vectron = new Car({
   weight: 92,
   passengers: 0,
   length: 18.96,
   type: CarType.Locomotive,
   value: 4_500_000,
-};
+  maintenancePerKm: 0.4,
+  heavyMaintenancePerKm: 0.2,
+});
 
-const viaggioClassic: Car = {
+const viaggioClassic = new Car({
   weight: 47,
   passengers: 34,
   length: 26.4,
   type: CarType.Passenger,
   value: 2_500_000,
-};
+  maintenancePerKm: 0.2,
+  heavyMaintenancePerKm: 0.1,
+});
 
-const viaggioRestaurant: Car = {
+const viaggioRestaurant = new Car({
   weight: 47,
   passengers: 0,
   length: 26.4,
   type: CarType.Restaurant,
   value: 2_500_000,
-};
+  maintenancePerKm: 0.2,
+  heavyMaintenancePerKm: 0.1,
+});
 
 const talgo230 = new Train({
   label: 'Talgo tracté',
@@ -105,4 +118,12 @@ const empty: Train = new Train({
   multipleUnit: false,
 });
 
-export default { talgo230, talgo250, halfViaggio, fullViaggio, empty };
+export default {
+  talgo230,
+  talgo250,
+  halfViaggio,
+  fullViaggio,
+  empty,
+  vectron,
+  viaggioRestaurant,
+};

@@ -1,14 +1,6 @@
 import _ from 'lodash';
-import { CarType } from './types.d';
 import { fmt } from './helpers';
-
-interface Car {
-  weight: number;
-  passengers: number;
-  length: number;
-  type: CarType;
-  value: number;
-}
+import Car from './car';
 
 interface TrainInterface {
   label: string;
@@ -61,17 +53,19 @@ export default class Train implements TrainInterface {
     return `${fmt(this.length(), 3)} m`;
   }
 
-  maintenance(): number {
-    return _(this.cars).sumBy(([car, count]) => car.value * 0.004 * count * 12);
+  maintenance(distance: number): number {
+    return _(this.cars)
+      .map(([car, count]) => car.maintenance(distance) * count)
+      .sum();
   }
 
-  heavyMaintenance(): number {
-    return _(this.cars).sumBy(([car, count]) => car.value * 0.002 * count * 12);
+  heavyMaintenance(distance: number): number {
+    return _(this.cars).sumBy(
+      ([car, count]) => car.heavyMaintenance(distance) * count
+    );
   }
 
   renting(): number {
     return _(this.cars).sumBy(([car, count]) => car.value * 0.007 * count * 12);
   }
 }
-
-export type { Car };
