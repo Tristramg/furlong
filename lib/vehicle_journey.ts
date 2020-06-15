@@ -24,12 +24,13 @@ export default class VehicleJourney {
     day: Day,
     forward: boolean,
     infra: Infra,
-    train?: Train
+    train?: Train,
+    pax?: number
   ) {
     const edges = gen(line.steps, infra, forward);
 
     this.edges = edges.map(
-      (s, i) => new TrainEdge(s, train || line.train, edges, i, day)
+      (s, i) => new TrainEdge(s, train || line.train, edges, i, day, pax)
     );
     this.label = line.label;
     this.price = _(this.edges).map('price').sum();

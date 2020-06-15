@@ -48,15 +48,18 @@ const mondays = (off: number) => 4 * 52 + 1 - Math.floor((365 * off) / 100);
 const circulations = (off: number) => mondays(off) + 3 * 52;
 
 function computeCosts(lineId: string, year: string, infra: Infra, off: number) {
-  const { line, train } = data[lineId][year];
+  const { line, train, pax } = data[lineId][year];
 
   const aller = _([Day.Monday, Day.Friday, Day.Saturday, Day.Sunday])
-    .map((day) => [day, new VehicleJourney(line, day, true, infra, train)])
+    .map((day) => [day, new VehicleJourney(line, day, true, infra, train, pax)])
     .fromPairs()
     .value();
 
   const retour = _([Day.Monday, Day.Friday, Day.Saturday, Day.Sunday])
-    .map((day) => [day, new VehicleJourney(line, day, false, infra, train)])
+    .map((day) => [
+      day,
+      new VehicleJourney(line, day, false, infra, train, pax),
+    ])
     .fromPairs()
     .value();
 
@@ -83,9 +86,9 @@ function enrichData(infra: Infra) {
       cell.trainLabel = cell.train.label;
       cell.cost = computeCosts(lineId, year, infra, 10);
       cell.travellers = cell.pax * circulations(10) * 2;
-      cell.maintenance = cell.train.maintenance();
-      cell.heavyMaintenance = cell.train.heavyMaintenance();
-      cell.renting = cell.train.renting();
+      cell.maintenance = cell.train.maintenance() * 2;
+      cell.heavyMaintenance = cell.train.heavyMaintenance() * 2;
+      cell.renting = cell.train.renting() * 2;
       cell.circulations = circulations(10);
       cell.occupancy = occupancy(cell);
     });

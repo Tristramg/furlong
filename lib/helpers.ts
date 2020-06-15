@@ -34,7 +34,7 @@ function gen(list: Step[], infra, forward: boolean): Edge[] {
 const fmt = (val: number, digits?: number): string =>
   val === 0.0
     ? '—'
-    : val.toLocaleString('fr-FR', { maximumSignificantDigits: digits || 4 });
+    : val.toLocaleString('en-GB', { maximumSignificantDigits: digits || 4 });
 
 const smartFmt = (val: number | string): string => {
   if (typeof val === 'string') {
