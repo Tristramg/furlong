@@ -83,9 +83,9 @@ function enrichData(infra: Infra) {
       cell.trainLabel = cell.train.label;
       cell.cost = computeCosts(lineId, year, infra, 10);
       cell.travellers = cell.pax * circulations(10) * 2;
-      cell.maintenance = cell.train.maintenance();
-      cell.heavyMaintenance = cell.train.heavyMaintenance();
-      cell.renting = cell.train.renting();
+      cell.maintenance = cell.train.maintenance() * 2;
+      cell.heavyMaintenance = cell.train.heavyMaintenance() * 2;
+      cell.renting = cell.train.renting() * 2;
       cell.circulations = circulations(10);
       cell.occupancy = occupancy(cell);
     });
