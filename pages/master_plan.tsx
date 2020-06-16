@@ -78,7 +78,7 @@ const years = _(data).values().flatMap(Object.keys).uniq().sort().value();
 const mondays = (off: number) => 4 * 52 + 1 - Math.floor((365 * off) / 100);
 const circulations = (off: number) => mondays(off) + 3 * 52;
 
-function computeCosts(lineId: string, year: string, infra: Infra, off: number) {
+function generateVJ(lineId: string, year: string, infra: Infra) {
   const { line, train, pax } = data[lineId][year];
 
   const aller = _([Day.Monday, Day.Friday, Day.Saturday, Day.Sunday])
@@ -93,6 +93,12 @@ function computeCosts(lineId: string, year: string, infra: Infra, off: number) {
     ])
     .fromPairs()
     .value();
+
+  return { aller, retour };
+}
+
+function computeCosts(lineId: string, year: string, infra: Infra, off: number) {
+  const { aller, retour } = generateVJ(lineId, year, infra);
 
   const mondayPrices =
     (aller[Day.Monday].price + retour[Day.Monday].price) * mondays(off);
