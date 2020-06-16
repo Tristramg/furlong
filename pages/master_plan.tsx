@@ -108,9 +108,12 @@ function computeCosts(lineId: string, year: string, infra: Infra, off: number) {
 const occupancy = (year): string =>
   year ? `${smartFmt((100 * year.pax) / year.train.capacity(), 2)} %` : '—';
 
+const distances = {};
+
 function enrichData(infra: Infra) {
   Object.keys(data).forEach((lineId) => {
     const vj = new VehicleJourney(Lines[lineId], Day.Monday, true, infra);
+    distances[lineId] = vj.distance;
     const distance = vj.distance * circulations(10);
 
     Object.keys(data[lineId]).forEach((year) => {
@@ -125,6 +128,9 @@ function enrichData(infra: Infra) {
       cell.renting = cell.train.renting() * 2;
       cell.circulations = circulations(10);
       cell.occupancy = occupancy(cell);
+      cell.totalCost =
+        cell.cost + cell.maintenance + cell.heavyMaintenance + cell.renting;
+      cell.revenue = (cell.travellers * 150) / 1.1;
     });
   });
 }
@@ -159,6 +165,7 @@ const LineData = ({ lineId }: { lineId: string }) => (
         <Link href={`/lines/${lineId}`}>
           <a>{Lines[lineId].label}</a>
         </Link>
+        <p>{`${distances[lineId]} km`}</p>
       </td>
       <RowData lineId={lineId} title="Voyageurs moyens" entry="pax" />
     </tr>
@@ -194,10 +201,10 @@ const Total = ({ title, entry }: { title: string; entry: string }) => (
 const Totals = () => (
   <>
     <tr className="border-t-4">
-      <td rowSpan={6}>Totaux</td>
-      <TotalRow title="Couts d’exploitation" entry="cost" />
+      <td rowSpan={8}>Totaux</td>
+      <TotalRow title="Voyageurs" entry="travellers" />
     </tr>
-    <Total title="Voyageurs" entry="travellers" />
+    <Total title="Couts de circulation" entry="cost" />
     <Total title="Matériel (location)" entry="renting" />
     <Total title="Maintenance courante" entry="maintenance" />
     <Total title="Provision maintenance lourde" entry="heavyMaintenance" />
@@ -209,6 +216,11 @@ const Totals = () => (
         )}
       </td>
     ))}
+    <Total title="Cout total production" entry="totalCost" />
+    <Total
+      title="Chiffre d’affaires HT (150€ TTC/pax, 10%TVA)"
+      entry="revenue"
+    />
   </>
 );
 
