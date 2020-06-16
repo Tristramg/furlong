@@ -152,7 +152,7 @@ const RowData = ({ title, entry, lineId }: RowDataI) => (
     <td>{title}</td>
     {years.map((year) => (
       <td key={year} className="text-right">
-        {smartFmt(_(data).get(`${lineId}.${year}.${entry}`, '—'))}
+        {smartFmt(_(data).get([lineId, year, entry], '—'))}
       </td>
     ))}
   </>
@@ -190,7 +190,7 @@ const TotalRow = ({ title, entry }: { title: string; entry: string }) => (
       <td key={year} className="text-right">
         {smartFmt(
           _(data)
-            .map((line) => _(line).get(`${year}.${entry}`, 0))
+            .map((line) => _(line).get([year, entry], 0))
             .sum()
         )}
       </td>
