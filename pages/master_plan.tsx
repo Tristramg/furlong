@@ -162,7 +162,7 @@ function enrichData(infra: Infra) {
       cell.occupancy = occupancy(cell);
       cell.totalCost =
         cell.cost + cell.maintenance + cell.heavyMaintenance + cell.renting;
-      cell.revenue = (cell.travellers * 150) / 1.1;
+      cell.revenue = cell.travellers * 150;
       cell.startReduction = reduction;
     });
   });
@@ -252,10 +252,7 @@ const Totals = () => (
     ))}
     <Total title="Cout total production" entry="totalCost" />
     <Total title="Aide lancement" entry="startReduction" />
-    <Total
-      title="Chiffre d’affaires HT (150€ TTC/pax, 10%TVA)"
-      entry="revenue"
-    />
+    <Total title="Chiffre d’affaires (150€/pax)" entry="revenue" />
   </>
 );
 
