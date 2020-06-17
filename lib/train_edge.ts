@@ -27,7 +27,14 @@ export default class TrainEdge {
     this.edge = edge;
     this.weight = train.weight();
     this.energy = edge.distance * (3 + 0.02 * train.weight());
-    this.rules = rules(edge, train, edges, index, day, pax || train.capacity());
+    this.rules = rules({
+      edge,
+      train,
+      edges,
+      index,
+      day,
+      pax: pax || train.capacity(),
+    });
     this.price = _(this.rules)
       .map((r) => this.singlePrice(r))
       .sum();

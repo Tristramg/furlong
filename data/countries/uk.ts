@@ -1,8 +1,7 @@
 import { Rule } from '../../lib/rule';
 import Edge from '../../lib/edge';
-import { RuleCategory, Day } from '../../lib/types.d';
+import { RuleCategory } from '../../lib/types.d';
 import channel from './channel';
-import Train from '../../lib/train';
 
 function highSpeed1(edge: Edge): Rule[] {
   const duration = edge.arrival.time - edge.departure.time;
@@ -42,12 +41,12 @@ function highSpeed1(edge: Edge): Rule[] {
   ];
 }
 
-export default function rules(edge: Edge, train: Train, day: Day): Rule[] {
+export default function rules({ edge, train, day }): Rule[] {
   if (edge.line.label === 'HS1') {
     return highSpeed1(edge);
   }
   if (edge.line.label === 'Channel Fixed Link') {
-    return channel(edge, train, day);
+    return channel({ edge, train, day });
   }
 
   return [];

@@ -62,15 +62,17 @@ const data = {
   },
 };
 
-function rules(
-  edge: Edge,
-  train: Train,
-  edges: Edge[],
-  index: number,
-  day: Day,
-  pax: number
-): Rule[] {
-  return data[edge.country].rules(edge, train, edges, index, day, pax);
+interface RulesParams {
+  edge: Edge;
+  train: Train;
+  edges: Edge[];
+  index: number;
+  day: Day;
+  pax: number;
+}
+
+function rules(params: RulesParams): Rule[] {
+  return data[params.edge.country].rules(params);
 }
 
 export { rules, data };
