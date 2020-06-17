@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Edge from './edge';
 import Train from './train';
-import { Day } from './types.d';
+import { Day, Countries, RuleCategory } from './types.d';
 import { Rule } from './rule';
 import { rules } from '../data/countries';
 
@@ -59,5 +59,16 @@ export default class TrainEdge {
 
   duration(): number {
     return this.edge.arrival.time - this.edge.departure.time;
+  }
+
+  startReduction(year: number, highspeed: boolean): number {
+    if (this.edge.country === Countries.FR && year <= 1) {
+      const value = highspeed ? 0.1 : 0.2;
+      return this.pricesByCategory()[RuleCategory.Tracks] * value;
+    }
+    if (this.edge.country === Countries.DE && year === 0) {
+      return this.pricesByCategory()[RuleCategory.Tracks] * 0.2;
+    }
+    return 0;
   }
 }

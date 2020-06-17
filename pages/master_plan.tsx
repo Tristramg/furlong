@@ -31,7 +31,7 @@ const data = {
     2027: { train: 'halfViaggio', count: 2, pax: 170 },
     2028: { train: 'fullViaggio', count: 2, pax: 210 },
     2029: { train: 'fullViaggio', count: 2, pax: 250 },
-    2030: { train: 'fullViaggio', count: 3, pax: 290 },
+    2030: { train: 'fullViaggio', count: 2, pax: 290 },
   },
   castillaClassic: {
     2026: { train: 'halfViaggio', count: 2, pax: 100 },
@@ -79,7 +79,9 @@ const mondays = (off: number) => 4 * 52 + 1 - Math.floor((365 * off) / 100);
 const circulations = (off: number) => mondays(off) + 3 * 52;
 
 function generateVJ(lineId: string, year: string, infra: Infra) {
-  const { line, train, pax } = data[lineId][year];
+  const { trainId, pax } = data[lineId][year];
+  const line = Lines[lineId];
+  const train = Trains[trainId];
 
   const aller = _([Day.Monday, Day.Friday, Day.Saturday, Day.Sunday])
     .map((day) => [day, new VehicleJourney(line, day, true, infra, train, pax)])
@@ -97,7 +99,13 @@ function generateVJ(lineId: string, year: string, infra: Infra) {
   return { aller, retour };
 }
 
-function computeCosts(lineId: string, year: string, infra: Infra, off: number) {
+function computeCosts(
+  lineId: string,
+  year: string,
+  infra: Infra,
+  off: number,
+  yearIndex: number
+) {
   const { aller, retour } = generateVJ(lineId, year, infra);
 
   const mondayPrices =
@@ -108,7 +116,24 @@ function computeCosts(lineId: string, year: string, infra: Infra, off: number) {
       .map((day) => aller[day].price + retour[day].price)
       .sum() * 52;
 
-  return mondayPrices + otherPrice;
+  const mondayReduction =
+    (aller[Day.Monday].startReduction(yearIndex) +
+      retour[Day.Monday].startReduction(yearIndex)) *
+    mondays(off);
+
+  const otherReduction =
+    _([Day.Friday, Day.Saturday, Day.Sunday])
+      .map(
+        (day) =>
+          aller[day].startReduction(yearIndex) +
+          retour[day].startReduction(yearIndex)
+      )
+      .sum() * 52;
+
+  return {
+    cost: mondayPrices + otherPrice,
+    reduction: mondayReduction + otherReduction,
+  };
 }
 
 const occupancy = (year): string =>
@@ -122,12 +147,13 @@ function enrichData(infra: Infra) {
     distances[lineId] = vj.distance;
     const distance = vj.distance * circulations(10);
 
-    Object.keys(data[lineId]).forEach((year) => {
+    Object.keys(data[lineId]).forEach((year, index) => {
+      const { cost, reduction } = computeCosts(lineId, year, infra, 10, index);
       const cell = data[lineId][year];
       cell.line = Lines[lineId];
       cell.train = Trains[cell.train];
       cell.trainLabel = cell.train.label;
-      cell.cost = computeCosts(lineId, year, infra, 10);
+      cell.cost = cost;
       cell.travellers = cell.pax * circulations(10) * 2;
       cell.maintenance = cell.train.maintenance(distance) * 2;
       cell.heavyMaintenance = cell.train.heavyMaintenance(distance) * 2;
@@ -137,6 +163,7 @@ function enrichData(infra: Infra) {
       cell.totalCost =
         cell.cost + cell.maintenance + cell.heavyMaintenance + cell.renting;
       cell.revenue = (cell.travellers * 150) / 1.1;
+      cell.startReduction = reduction;
     });
   });
 }
@@ -167,7 +194,7 @@ const LineRow = ({ title, entry, lineId }: RowDataI) => (
 const LineData = ({ lineId }: { lineId: string }) => (
   <>
     <tr className="border-t-4">
-      <td rowSpan={6}>
+      <td rowSpan={7}>
         <Link href={`/lines/${lineId}`}>
           <a>{Lines[lineId].label}</a>
         </Link>
@@ -179,7 +206,8 @@ const LineData = ({ lineId }: { lineId: string }) => (
     <LineRow lineId={lineId} title="Voyageurs annuels" entry="travellers" />
     <LineRow lineId={lineId} title="Train" entry="trainLabel" />
     <LineRow lineId={lineId} title="% occupation" entry="occupancy" />
-    <LineRow lineId={lineId} title="Couts d’exploitation" entry="cost" />
+    <LineRow lineId={lineId} title="Couts de circulation" entry="cost" />
+    <LineRow lineId={lineId} title="Aide au lancement" entry="startReduction" />
   </>
 );
 
@@ -207,7 +235,7 @@ const Total = ({ title, entry }: { title: string; entry: string }) => (
 const Totals = () => (
   <>
     <tr className="border-t-4">
-      <td rowSpan={8}>Totaux</td>
+      <td rowSpan={9}>Totaux</td>
       <TotalRow title="Voyageurs" entry="travellers" />
     </tr>
     <Total title="Couts de circulation" entry="cost" />
@@ -223,6 +251,7 @@ const Totals = () => (
       </td>
     ))}
     <Total title="Cout total production" entry="totalCost" />
+    <Total title="Aide lancement" entry="startReduction" />
     <Total
       title="Chiffre d’affaires HT (150€ TTC/pax, 10%TVA)"
       entry="revenue"
