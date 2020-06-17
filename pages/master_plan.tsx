@@ -164,6 +164,7 @@ function enrichData(infra: Infra) {
         cell.cost + cell.maintenance + cell.heavyMaintenance + cell.renting;
       cell.revenue = cell.travellers * 150;
       cell.startReduction = reduction;
+      cell.total = cell.revenue + cell.startReduction - cell.totalCost;
     });
   });
 }
@@ -235,7 +236,7 @@ const Total = ({ title, entry }: { title: string; entry: string }) => (
 const Totals = () => (
   <>
     <tr className="border-t-4">
-      <td rowSpan={9}>Totaux</td>
+      <td rowSpan={10}>Totaux</td>
       <TotalRow title="Voyageurs" entry="travellers" />
     </tr>
     <Total title="Couts de circulation" entry="cost" />
@@ -253,6 +254,7 @@ const Totals = () => (
     <Total title="Cout total production" entry="totalCost" />
     <Total title="Aide lancement" entry="startReduction" />
     <Total title="Chiffre d’affaires (150€/pax)" entry="revenue" />
+    <Total title="Resultat" entry="total" />
   </>
 );
 
