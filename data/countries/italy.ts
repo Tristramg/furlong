@@ -132,7 +132,7 @@ function tb(edges: Edge[], train: Train, day: Day): Rule {
   return Rule.perKm(prices[seg], seg, RuleCategory.Tracks);
 }
 
-function rules(edge: Edge, train: Train, edges: Edge[], day: Day): Rule[] {
+function rules({ train, edges, day }): Rule[] {
   return [
     ta1(train),
     ta2(edges),

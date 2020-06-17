@@ -1,4 +1,3 @@
-import Train from '../../lib/train';
 import Edge from '../../lib/edge';
 import { RuleCategory, Day } from '../../lib/types.d';
 import { h, weekEnd } from '../../lib/helpers';
@@ -40,13 +39,7 @@ function metro(edge: Edge, day: Day): number {
   );
 }
 
-function rules(
-  edge: Edge,
-  train: Train,
-  edges: Edge[],
-  index: number,
-  day: Day
-): Rule[] {
+function rules({ edge, edges, index, day }): Rule[] {
   const totalDuration = edge.arrival.time - edge.departure.time;
   const nightDuration = duration(edge, h(23, 0), h(6, 0));
   const basicDuration = basic(edge, day);

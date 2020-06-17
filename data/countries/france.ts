@@ -161,9 +161,9 @@ function stationRules(edge: Edge, last: boolean): Rule[] {
   return stationRule(edge.departure);
 }
 
-function rules(edge: Edge, train: Train, edges: Edge[]): Rule[] {
+function rules({ edge, train, edges }): Rule[] {
   if (edge.line.label === 'LFP') {
-    return lfp(edge, train);
+    return lfp({ edge, train });
   }
   const market = marketClass(edges);
   const marketRules = market === 'classic' ? classicTrain : highSpeedTrain;

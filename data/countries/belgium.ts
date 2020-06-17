@@ -1,4 +1,3 @@
-import Train from '../../lib/train';
 import { RuleCategory, Day } from '../../lib/types.d';
 import { h, included, weekEnd } from '../../lib/helpers';
 import { Rule, stationRules } from '../../lib/rule';
@@ -97,13 +96,7 @@ function getPeriod(edge: Edge, day: Day): Period {
   return Period.OFF_PEAK;
 }
 
-function rules(
-  edge: Edge,
-  train: Train,
-  edges: Edge[],
-  index: number,
-  day: Day
-): Rule[] {
+function rules({ edge, train, edges, index, day }): Rule[] {
   const density = train.highSpeed
     ? LineDensity.HIGH_SPEED_TRAIN
     : edge.line.class;

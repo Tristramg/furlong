@@ -114,14 +114,7 @@ function stationRules(
   return result;
 }
 
-function rules(
-  edge: Edge,
-  train: Train,
-  edges: Edge[],
-  index: number,
-  _day: any,
-  pax: number
-): Rule[] {
+function rules({ edge, train, edges, index, pax }): Rule[] {
   const cat = edge.line && edge.line.class === 'A' ? market(edges) : 'other';
 
   const result = [

@@ -1,4 +1,5 @@
 import { RailLine } from './types';
+import { Countries } from './types.d';
 import StopTime from './stop_time';
 
 export default class Edge {
@@ -10,7 +11,7 @@ export default class Edge {
 
   distance: number;
 
-  country: string;
+  country: Countries;
 
   line: RailLine;
 }

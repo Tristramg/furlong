@@ -42,4 +42,8 @@ export default class VehicleJourney {
   highspeed(): boolean {
     return this.train.highSpeed && _.some(this.edges, 'edge.line.highSpeed');
   }
+
+  startReduction(year: number): number {
+    return _(this.edges).sumBy((e) => e.startReduction(year, this.highspeed()));
+  }
 }

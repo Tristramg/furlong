@@ -1,5 +1,4 @@
 import { h, included, weekEnd } from '../../lib/helpers';
-import Train from '../../lib/train';
 import { Rule } from '../../lib/rule';
 import Edge from '../../lib/edge';
 import { RuleCategory, Day } from '../../lib/types.d';
@@ -30,7 +29,7 @@ function period(edge: Edge, day: Day): Period {
   return Period.Intermediate;
 }
 
-export default function rules(edge: Edge, train: Train, day: Day): Rule[] {
+export default function rules({ edge, train, day }): Rule[] {
   const p = period(edge, day);
   const perPassenger = 17.68;
   const loadFactor = 0.8;

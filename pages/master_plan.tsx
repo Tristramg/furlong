@@ -31,7 +31,7 @@ const data = {
     2027: { train: 'halfViaggio', count: 2, pax: 170 },
     2028: { train: 'fullViaggio', count: 2, pax: 210 },
     2029: { train: 'fullViaggio', count: 2, pax: 250 },
-    2030: { train: 'fullViaggio', count: 3, pax: 290 },
+    2030: { train: 'fullViaggio', count: 2, pax: 290 },
   },
   castillaClassic: {
     2026: { train: 'halfViaggio', count: 2, pax: 100 },
@@ -78,8 +78,10 @@ const years = _(data).values().flatMap(Object.keys).uniq().sort().value();
 const mondays = (off: number) => 4 * 52 + 1 - Math.floor((365 * off) / 100);
 const circulations = (off: number) => mondays(off) + 3 * 52;
 
-function computeCosts(lineId: string, year: string, infra: Infra, off: number) {
-  const { line, train, pax } = data[lineId][year];
+function generateVJ(lineId: string, year: string, infra: Infra) {
+  const { trainId, pax } = data[lineId][year];
+  const line = Lines[lineId];
+  const train = Trains[trainId];
 
   const aller = _([Day.Monday, Day.Friday, Day.Saturday, Day.Sunday])
     .map((day) => [day, new VehicleJourney(line, day, true, infra, train, pax)])
@@ -94,6 +96,18 @@ function computeCosts(lineId: string, year: string, infra: Infra, off: number) {
     .fromPairs()
     .value();
 
+  return { aller, retour };
+}
+
+function computeCosts(
+  lineId: string,
+  year: string,
+  infra: Infra,
+  off: number,
+  yearIndex: number
+) {
+  const { aller, retour } = generateVJ(lineId, year, infra);
+
   const mondayPrices =
     (aller[Day.Monday].price + retour[Day.Monday].price) * mondays(off);
 
@@ -102,7 +116,24 @@ function computeCosts(lineId: string, year: string, infra: Infra, off: number) {
       .map((day) => aller[day].price + retour[day].price)
       .sum() * 52;
 
-  return mondayPrices + otherPrice;
+  const mondayReduction =
+    (aller[Day.Monday].startReduction(yearIndex) +
+      retour[Day.Monday].startReduction(yearIndex)) *
+    mondays(off);
+
+  const otherReduction =
+    _([Day.Friday, Day.Saturday, Day.Sunday])
+      .map(
+        (day) =>
+          aller[day].startReduction(yearIndex) +
+          retour[day].startReduction(yearIndex)
+      )
+      .sum() * 52;
+
+  return {
+    cost: mondayPrices + otherPrice,
+    reduction: mondayReduction + otherReduction,
+  };
 }
 
 const occupancy = (year): string =>
@@ -116,12 +147,13 @@ function enrichData(infra: Infra) {
     distances[lineId] = vj.distance;
     const distance = vj.distance * circulations(10);
 
-    Object.keys(data[lineId]).forEach((year) => {
+    Object.keys(data[lineId]).forEach((year, index) => {
+      const { cost, reduction } = computeCosts(lineId, year, infra, 10, index);
       const cell = data[lineId][year];
       cell.line = Lines[lineId];
       cell.train = Trains[cell.train];
       cell.trainLabel = cell.train.label;
-      cell.cost = computeCosts(lineId, year, infra, 10);
+      cell.cost = cost;
       cell.travellers = cell.pax * circulations(10) * 2;
       cell.maintenance = cell.train.maintenance(distance) * 2;
       cell.heavyMaintenance = cell.train.heavyMaintenance(distance) * 2;
@@ -130,7 +162,9 @@ function enrichData(infra: Infra) {
       cell.occupancy = occupancy(cell);
       cell.totalCost =
         cell.cost + cell.maintenance + cell.heavyMaintenance + cell.renting;
-      cell.revenue = (cell.travellers * 150) / 1.1;
+      cell.revenue = cell.travellers * 150;
+      cell.startReduction = reduction;
+      cell.total = cell.revenue + cell.startReduction - cell.totalCost;
     });
   });
 }
@@ -146,7 +180,7 @@ const RowData = ({ title, entry, lineId }: RowDataI) => (
     <td>{title}</td>
     {years.map((year) => (
       <td key={year} className="text-right">
-        {smartFmt(_(data).get(`${lineId}.${year}.${entry}`, '—'))}
+        {smartFmt(_(data).get([lineId, year, entry], '—'))}
       </td>
     ))}
   </>
@@ -161,7 +195,7 @@ const LineRow = ({ title, entry, lineId }: RowDataI) => (
 const LineData = ({ lineId }: { lineId: string }) => (
   <>
     <tr className="border-t-4">
-      <td rowSpan={6}>
+      <td rowSpan={7}>
         <Link href={`/lines/${lineId}`}>
           <a>{Lines[lineId].label}</a>
         </Link>
@@ -173,7 +207,8 @@ const LineData = ({ lineId }: { lineId: string }) => (
     <LineRow lineId={lineId} title="Voyageurs annuels" entry="travellers" />
     <LineRow lineId={lineId} title="Train" entry="trainLabel" />
     <LineRow lineId={lineId} title="% occupation" entry="occupancy" />
-    <LineRow lineId={lineId} title="Couts d’exploitation" entry="cost" />
+    <LineRow lineId={lineId} title="Couts de circulation" entry="cost" />
+    <LineRow lineId={lineId} title="Aide au lancement" entry="startReduction" />
   </>
 );
 
@@ -184,7 +219,7 @@ const TotalRow = ({ title, entry }: { title: string; entry: string }) => (
       <td key={year} className="text-right">
         {smartFmt(
           _(data)
-            .map((line) => _(line).get(`${year}.${entry}`, 0))
+            .map((line) => _(line).get([year, entry], 0))
             .sum()
         )}
       </td>
@@ -201,7 +236,7 @@ const Total = ({ title, entry }: { title: string; entry: string }) => (
 const Totals = () => (
   <>
     <tr className="border-t-4">
-      <td rowSpan={8}>Totaux</td>
+      <td rowSpan={10}>Totaux</td>
       <TotalRow title="Voyageurs" entry="travellers" />
     </tr>
     <Total title="Couts de circulation" entry="cost" />
@@ -217,10 +252,9 @@ const Totals = () => (
       </td>
     ))}
     <Total title="Cout total production" entry="totalCost" />
-    <Total
-      title="Chiffre d’affaires HT (150€ TTC/pax, 10%TVA)"
-      entry="revenue"
-    />
+    <Total title="Aide lancement" entry="startReduction" />
+    <Total title="Chiffre d’affaires (150€/pax)" entry="revenue" />
+    <Total title="Resultat" entry="total" />
   </>
 );
 
