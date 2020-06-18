@@ -8,6 +8,7 @@ import { fmt as smartFmt } from '../lib/helpers';
 import VehicleJourney from '../lib/vehicle_journey';
 import { Day } from '../lib/types.d';
 import Trains from '../data/trains';
+import Plans from '../data/master_plans';
 
 export const getStaticProps: GetStaticProps = async () => ({
   props: {
@@ -15,64 +16,7 @@ export const getStaticProps: GetStaticProps = async () => ({
   },
 });
 
-const data = {
-  nordEst: {
-    2024: { trainId: 'halfViaggio', count: 2, pax: 100 },
-    2025: { trainId: 'halfViaggio', count: 2, pax: 130 },
-    2026: { trainId: 'halfViaggio', count: 2, pax: 170 },
-    2027: { trainId: 'fullViaggio', count: 2, pax: 210 },
-    2028: { trainId: 'fullViaggio', count: 2, pax: 250 },
-    2029: { trainId: 'fullViaggio', count: 2, pax: 290 },
-    2030: { trainId: 'fullViaggio', count: 2, pax: 330 },
-  },
-  roma: {
-    2025: { trainId: 'halfViaggio', count: 2, pax: 100 },
-    2026: { trainId: 'halfViaggio', count: 2, pax: 130 },
-    2027: { trainId: 'halfViaggio', count: 2, pax: 170 },
-    2028: { trainId: 'fullViaggio', count: 2, pax: 210 },
-    2029: { trainId: 'fullViaggio', count: 2, pax: 250 },
-    2030: { trainId: 'fullViaggio', count: 2, pax: 290 },
-  },
-  castillaClassic: {
-    2026: { trainId: 'halfViaggio', count: 2, pax: 100 },
-    2027: { trainId: 'halfViaggio', count: 2, pax: 130 },
-    2028: { trainId: 'halfViaggio', count: 2, pax: 170 },
-    2029: { trainId: 'fullViaggio', count: 2, pax: 210 },
-    2030: { trainId: 'fullViaggio', count: 2, pax: 250 },
-  },
-};
-
-const spare = {
-  2024: [
-    [Trains.vectron, 1],
-    [Trains.viaggioRestaurant, 1],
-  ],
-  2025: [
-    [Trains.vectron, 2],
-    [Trains.viaggioRestaurant, 1],
-  ],
-  2026: [
-    [Trains.vectron, 3],
-    [Trains.viaggioRestaurant, 1],
-  ],
-  2027: [
-    [Trains.vectron, 3],
-    [Trains.viaggioRestaurant, 1],
-  ],
-  2028: [
-    [Trains.vectron, 3],
-    [Trains.viaggioRestaurant, 1],
-  ],
-  2029: [
-    [Trains.vectron, 3],
-    [Trains.viaggioRestaurant, 1],
-  ],
-  2030: [
-    [Trains.vectron, 3],
-    [Trains.viaggioRestaurant, 1],
-  ],
-};
-
+const { data, spare } = Plans.standard;
 const years = _(data).values().flatMap(Object.keys).uniq().sort().value();
 
 const mondays = (off: number) => 4 * 52 + 1 - Math.floor((365 * off) / 100);
