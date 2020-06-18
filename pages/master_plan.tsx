@@ -17,28 +17,28 @@ export const getStaticProps: GetStaticProps = async () => ({
 
 const data = {
   nordEst: {
-    2024: { train: 'halfViaggio', count: 2, pax: 100 },
-    2025: { train: 'halfViaggio', count: 2, pax: 130 },
-    2026: { train: 'halfViaggio', count: 2, pax: 170 },
-    2027: { train: 'fullViaggio', count: 2, pax: 210 },
-    2028: { train: 'fullViaggio', count: 2, pax: 250 },
-    2029: { train: 'fullViaggio', count: 2, pax: 290 },
-    2030: { train: 'fullViaggio', count: 2, pax: 330 },
+    2024: { trainId: 'halfViaggio', count: 2, pax: 100 },
+    2025: { trainId: 'halfViaggio', count: 2, pax: 130 },
+    2026: { trainId: 'halfViaggio', count: 2, pax: 170 },
+    2027: { trainId: 'fullViaggio', count: 2, pax: 210 },
+    2028: { trainId: 'fullViaggio', count: 2, pax: 250 },
+    2029: { trainId: 'fullViaggio', count: 2, pax: 290 },
+    2030: { trainId: 'fullViaggio', count: 2, pax: 330 },
   },
   roma: {
-    2025: { train: 'halfViaggio', count: 2, pax: 100 },
-    2026: { train: 'halfViaggio', count: 2, pax: 130 },
-    2027: { train: 'halfViaggio', count: 2, pax: 170 },
-    2028: { train: 'fullViaggio', count: 2, pax: 210 },
-    2029: { train: 'fullViaggio', count: 2, pax: 250 },
-    2030: { train: 'fullViaggio', count: 2, pax: 290 },
+    2025: { trainId: 'halfViaggio', count: 2, pax: 100 },
+    2026: { trainId: 'halfViaggio', count: 2, pax: 130 },
+    2027: { trainId: 'halfViaggio', count: 2, pax: 170 },
+    2028: { trainId: 'fullViaggio', count: 2, pax: 210 },
+    2029: { trainId: 'fullViaggio', count: 2, pax: 250 },
+    2030: { trainId: 'fullViaggio', count: 2, pax: 290 },
   },
   castillaClassic: {
-    2026: { train: 'halfViaggio', count: 2, pax: 100 },
-    2027: { train: 'halfViaggio', count: 2, pax: 130 },
-    2028: { train: 'halfViaggio', count: 2, pax: 170 },
-    2029: { train: 'fullViaggio', count: 2, pax: 210 },
-    2030: { train: 'fullViaggio', count: 2, pax: 250 },
+    2026: { trainId: 'halfViaggio', count: 2, pax: 100 },
+    2027: { trainId: 'halfViaggio', count: 2, pax: 130 },
+    2028: { trainId: 'halfViaggio', count: 2, pax: 170 },
+    2029: { trainId: 'fullViaggio', count: 2, pax: 210 },
+    2030: { trainId: 'fullViaggio', count: 2, pax: 250 },
   },
 };
 
@@ -151,7 +151,7 @@ function enrichData(infra: Infra) {
       const { cost, reduction } = computeCosts(lineId, year, infra, 10, index);
       const cell = data[lineId][year];
       cell.line = Lines[lineId];
-      cell.train = Trains[cell.train];
+      cell.train = Trains[cell.trainId];
       cell.trainLabel = cell.train.label;
       cell.cost = cost;
       cell.travellers = cell.pax * circulations(10) * 2;
