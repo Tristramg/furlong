@@ -36,17 +36,11 @@ const fmt = (val: number, digits?: number): string =>
     ? '—'
     : val.toLocaleString('en-GB', { maximumSignificantDigits: digits || 4 });
 
-const smartFmt = (val: number | string): string => {
+const smartFmt = (val: number | string, digits?: number): string => {
   if (typeof val === 'string') {
     return val;
   }
-  if (val > 10_000_000) {
-    return `${fmt(val / 1_000_000)} M`;
-  }
-  if (val > 10_000) {
-    return `${fmt(val / 1_000)} k`;
-  }
-  return fmt(val);
+  return fmt(val, digits);
 };
 
 const grey = (val: number): string => (val === 0.0 ? 'text-gray-500' : '');
