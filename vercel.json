@@ -1,0 +1,12 @@
+{
+  "env": {
+    "AIRTABLE_KEY": "@airtable_key",
+    "PGHOST": "@pghost",
+    "PGUSER": "@pguser",
+    "PGPASSWORD": "@pgpassword",
+    "PGDATABASE": "@pgdatabase"
+  },
+  "redirects": [
+    { "source": "/master_plan", "destination": "/master_plans/standard" }
+  ]
+}
