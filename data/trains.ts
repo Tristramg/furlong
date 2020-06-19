@@ -52,6 +52,16 @@ const viaggioClassic = new Car({
   heavyMaintenancePerKm: 0.1,
 });
 
+const viaggioOnlyDouble = new Car({
+  weight: 47,
+  passengers: 30,
+  length: 26.4,
+  type: CarType.Passenger,
+  value: 2_500_000,
+  maintenancePerKm: 0.2,
+  heavyMaintenancePerKm: 0.1,
+});
+
 const viaggioRestaurant = new Car({
   weight: 47,
   passengers: 0,
@@ -110,6 +120,18 @@ const fullViaggio: Train = new Train({
   multipleUnit: false,
 });
 
+const double: Train = new Train({
+  label: 'Doubles uniquement',
+  highSpeed: false,
+  gaugeChange: false,
+  cars: [
+    [vectron, 1],
+    [viaggioOnlyDouble, 11],
+    [viaggioRestaurant, 1],
+  ],
+  multipleUnit: false,
+});
+
 const empty: Train = new Train({
   label: 'Train fantôme 👻',
   highSpeed: false,
@@ -126,4 +148,5 @@ export default {
   empty,
   vectron,
   viaggioRestaurant,
+  double,
 };
