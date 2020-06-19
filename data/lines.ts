@@ -210,8 +210,8 @@ const lines: { [id: string]: Line } = {
       new Step('Napoli Centrale', h(9, 15), h(20, 0), true),
     ],
   },
-  parisBcn: {
-    label: 'Paris Barcelone (Joan Miró)',
+  parisBcnMadrid: {
+    label: 'Paris Barcelone Madrid',
     train: Trains.talgo230,
     steps: [
       new Step('Paris Austerlitz', h(20, 0), h(9, 30), true),
@@ -225,6 +225,30 @@ const lines: { [id: string]: Line } = {
       new Step('Camp de Tarragona', h(7, 45), h(21, 45), true),
       new Step('Zaragoza Delicias', h(9, 0), h(20, 30), true),
       new Step('Madrid Atocha', h(11, 0), h(18, 30), true),
+    ],
+  },
+  parisBcn: {
+    label: 'Paris Barcelone (Joan Miró)',
+    train: Trains.talgo230,
+    steps: [
+      new Step('Paris Austerlitz', h(20, 0), h(8, 0), true),
+      new Step('Orléans Les Aubrais', h(21, 0), h(7, 0), true),
+      new Step('Limoges', h(23, 30), h(4, 30), false),
+      new Step('Toulouse', h(3, 30), h(0, 30), false),
+      new Step('Perpignan', h(6, 0), h(21, 30), true),
+      new Step('Frontière FR-CAT', h(6, 15), h(21, 15), false),
+      new Step('Girona', h(7, 0), h(20, 30), true),
+      new Step('Barcelona Sants', h(7, 30), h(20, 0), true),
+    ],
+  },
+  parisMunich: {
+    label: 'Paris Munich',
+    train: Trains.talgo230,
+    steps: [
+      new Step('Paris Gare de l’est', h(20, 30), h(6, 30), true),
+      new Step('Strasbourg', h(0, 45), h(2, 15), false),
+      new Step('Kehl', h(1, 0), h(2, 0), false),
+      new Step('München', h(6, 0), h(21, 0), true),
     ],
   },
   londresBarcelone: {
