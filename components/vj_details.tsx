@@ -35,8 +35,8 @@ const VehicleJourneyDetails: React.FunctionComponent<Props> = ({
     <div className="flex gap font-bold border border-gray-400 rounded m-1 px-1">
       <div className="w-2/12">Totaux</div>
       <div className="w-1/12 flex text-right">
-        <span className="w-1/2">{vj.distance}</span>
-        <span className="w-1/2">{vj.energy}</span>
+        <span className="w-1/2">{fmt(vj.distance)}</span>
+        <span className="w-1/2">{fmt(vj.energy)}</span>
       </div>
       <div className="w-8/12 mx-6" />
       <div className="w-1/12 text-right">{`${fmt(vj.price)} €`}</div>
