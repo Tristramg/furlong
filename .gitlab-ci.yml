@@ -10,3 +10,4 @@ test_lint:
   script:
     - npm install
     - npm run eslint
+    - npm run test
