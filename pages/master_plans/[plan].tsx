@@ -10,6 +10,7 @@ import VehicleJourney from '../../lib/vehicle_journey';
 import { Day } from '../../lib/types.d';
 import Plans from '../../data/master_plans';
 import YearData from '../../lib/year_data';
+import Worker from '../../lib/worker';
 
 export const getStaticProps: GetStaticProps = async () => ({
   props: {
@@ -29,10 +30,23 @@ const years = (data) =>
 const distances = {};
 
 function enrichData(infra: Infra, planId: string) {
+  const manager = new Worker('Train Manager', 53_320, 6);
+  const hospitality = new Worker('Train Hospitality', 42_408, 6);
+  const driver = new Worker('Train Driver', 70_000, 12);
   const { data } = Plans[planId];
   const result = {};
   Object.keys(data).forEach((lineId) => {
     const vj = new VehicleJourney(Lines[lineId], Day.Monday, true, infra);
+    const minYear = parseInt(_(data[lineId]).keys().min(), 10);
+    const maxYear = parseInt(_(data[lineId]).keys().max(), 10);
+    const managerSalaries = manager.generate(minYear, maxYear, vj.duration());
+    const driverSalaries = driver.generate(minYear, maxYear, vj.duration());
+    const hospitalitySalaries = hospitality.generate(
+      minYear,
+      maxYear,
+      vj.duration()
+    );
+
     distances[lineId] = vj.distance;
 
     result[lineId] = {};
@@ -45,7 +59,11 @@ function enrichData(infra: Infra, planId: string) {
         10,
         index,
         data,
-        vj.distance
+        vj.distance,
+        vj.duration(),
+        managerSalaries[year],
+        driverSalaries[year],
+        hospitalitySalaries[year]
       );
     });
   });
@@ -81,7 +99,7 @@ const LineData = ({ lineId, data }: { lineId: string; data: any }) => {
   return (
     <>
       <tr className="border-t-4">
-        <td rowSpan={7}>
+        <td rowSpan={8}>
           <Link href={`/lines/${lineId}`}>
             <a>{Lines[lineId].label}</a>
           </Link>
@@ -115,6 +133,7 @@ const LineData = ({ lineId, data }: { lineId: string; data: any }) => {
         title="Aide au lancement"
         entry="startReduction"
       />
+      <LineRow data={data} line={line} title="Salaires" entry="salary" />
     </>
   );
 };
@@ -159,7 +178,7 @@ const Total = ({
 const Totals = ({ data }: { data: any }) => (
   <>
     <tr className="border-t-4">
-      <td rowSpan={10}>Totaux</td>
+      <td rowSpan={11}>Totaux</td>
       <TotalRow data={data} title="Voyageurs" entry="travellers" />
     </tr>
     <Total data={data} title="Couts de circulation" entry="cost" />
@@ -179,6 +198,7 @@ const Totals = ({ data }: { data: any }) => (
       </td>
     ))}
     <Total data={data} title="Cout total production" entry="totalCost" />
+    <Total data={data} title="Salaires roulants" entry="salary" />
     <Total data={data} title="Aide lancement" entry="startReduction" />
     <Total data={data} title="Chiffre d’affaires (150€/pax)" entry="revenue" />
     <Total data={data} title="Resultat" entry="total" />

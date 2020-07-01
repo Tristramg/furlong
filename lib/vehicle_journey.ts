@@ -46,4 +46,12 @@ export default class VehicleJourney {
   startReduction(year: number): number {
     return _(this.edges).sumBy((e) => e.startReduction(year, this.highspeed()));
   }
+
+  duration(): number {
+    return (
+      (_.last(this.edges).edge.arrival.time -
+        _.first(this.edges).edge.departure.time) /
+      60
+    );
+  }
 }
