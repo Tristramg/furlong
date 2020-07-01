@@ -6,6 +6,7 @@ import Line from './line';
 import { smartFmt } from './helpers';
 import Lines from '../data/lines';
 import Trains from '../data/trains';
+import { workersNeeded } from './worker';
 
 const mondays = (off: number) => 4 * 52 + 1 - Math.floor((365 * off) / 100);
 const circulations = (off: number) => mondays(off) + 3 * 52;
@@ -98,7 +99,21 @@ class YearData {
 
   occupancy: string;
 
-  constructor(lineId, year, infra, off, index, data, vjDistance) {
+  salary: number;
+
+  constructor(
+    lineId,
+    year,
+    infra,
+    off,
+    index,
+    data,
+    vjDistance,
+    duration,
+    managerSalary,
+    driverSalary,
+    hospitalitySalary
+  ) {
     const cell = data[lineId][year];
     const train = Trains[cell.trainId];
     const distance = vjDistance * circulations(10);
@@ -110,7 +125,6 @@ class YearData {
       index,
       data
     );
-
     this.pax = cell.pax;
     this.line = Lines[lineId];
     this.trainLabel = train.label;
@@ -122,10 +136,20 @@ class YearData {
     this.circulations = circulations(10);
     this.startReduction = reduction;
     this.revenue = this.travellers * 150;
-    this.totalCost =
-      this.cost + this.maintenance + this.heavyMaintenance + this.renting;
-    this.total = this.revenue + this.startReduction - this.totalCost;
+
     this.occupancy = `${smartFmt((100 * this.pax) / train.capacity(), 2)} %`;
+    this.salary =
+      managerSalary * workersNeeded(1, duration, this.circulations) +
+      driverSalary * workersNeeded(1, duration, this.circulations) +
+      hospitalitySalary * workersNeeded(6, duration, this.circulations);
+
+    this.totalCost =
+      this.cost +
+      this.maintenance +
+      this.heavyMaintenance +
+      this.renting +
+      this.salary;
+    this.total = this.revenue + this.startReduction - this.totalCost;
   }
 }
 
