@@ -6,11 +6,11 @@ import * as Actions from '../../lib/actions';
 import * as t from '../../database/types.d';
 import Car from './car';
 
-interface Props extends PropsFromRedux {
+interface Props {
   cars: t.Car[];
 }
 
-function CarList({ cars, createCar }: Props) {
+function CarList({ cars, createCar }: Props & PropsFromRedux) {
   return (
     <div>
       <button

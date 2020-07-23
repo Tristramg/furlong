@@ -5,11 +5,11 @@ import { useDrop } from 'react-dnd';
 import * as Actions from '../../lib/actions';
 import * as t from '../../database/types.d';
 
-interface Props extends PropsFromRedux {
+interface Props {
   car: t.Car;
 }
 
-function Car(props: Props) {
+function Car(props: Props & PropsFromRedux) {
   const { car, units, appendUnit, updateCarName } = props;
   const [, drop] = useDrop<{ type: string; id: string }, void, any>({
     accept: 'Unit',
