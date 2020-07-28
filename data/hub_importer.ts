@@ -1,11 +1,13 @@
 import { Client } from 'pg';
 import _ from 'lodash';
+import { toGeoJSON } from '@mapbox/polyline';
+import { Feature } from 'geojson';
 
 interface HubData {
   passengers: number;
   rail_distance: number;
   crow_distance: number;
-  geom: string;
+  geom: Feature;
 }
 
 interface AllHubs {
@@ -27,7 +29,7 @@ export default async function importHubData(): Promise<AllHubs> {
       FROM potential_routes
       GROUP BY from_name
       ORDER BY passengers DESC
-      LIMIT 20),
+      LIMIT 10),
 
   ranked AS (
       SELECT
@@ -37,7 +39,7 @@ export default async function importHubData(): Promise<AllHubs> {
         hubs.passengers as total_passengers,
         rail_distance,
         crow_distance,
-        st_asencodedpolyline(geom) as geom
+        st_asencodedpolyline(st_simplify(geom, 0.05)) as geom
         ,rank() over (partition by hubs.from_name order by potential_routes.passengers desc) as rank
       FROM hubs, potential_routes
       WHERE hubs.from_name = potential_routes.from_name
@@ -50,13 +52,19 @@ export default async function importHubData(): Promise<AllHubs> {
   WHERE rank <= 10
   `);
 
+  client.end();
+
   const mapRow = (row): [string, HubData] => [
     row.to_name,
     {
       passengers: row.passengers,
       rail_distance: row.rail_distance,
       crow_distance: row.crow_distance,
-      geom: row.geom,
+      geom: {
+        type: 'Feature',
+        properties: {},
+        geometry: toGeoJSON(row.geom),
+      },
     },
   ];
 
