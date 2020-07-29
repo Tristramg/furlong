@@ -4,6 +4,7 @@ import { toGeoJSON } from '@mapbox/polyline';
 import { Feature } from 'geojson';
 
 interface HubData {
+  destination: string;
   passengers: number;
   rail_distance: number;
   crow_distance: number;
@@ -11,9 +12,7 @@ interface HubData {
 }
 
 interface AllHubs {
-  [from: string]: {
-    [to: string]: HubData;
-  };
+  [from: string]: HubData[];
 }
 
 export default async function importHubData(): Promise<AllHubs> {
@@ -29,7 +28,7 @@ export default async function importHubData(): Promise<AllHubs> {
       FROM potential_routes
       GROUP BY from_name
       ORDER BY passengers DESC
-      LIMIT 10),
+      LIMIT 20),
 
   ranked AS (
       SELECT
@@ -49,28 +48,26 @@ export default async function importHubData(): Promise<AllHubs> {
 
   SELECT *
   FROM ranked
-  WHERE rank <= 10
+  WHERE rank <= 20
   `);
 
   client.end();
 
-  const mapRow = (row): [string, HubData] => [
-    row.to_name,
-    {
-      passengers: row.passengers,
-      rail_distance: row.rail_distance,
-      crow_distance: row.crow_distance,
-      geom: {
-        type: 'Feature',
-        properties: {},
-        geometry: toGeoJSON(row.geom),
-      },
+  const mapRow = (row): HubData => ({
+    destination: row.to_name,
+    passengers: row.passengers,
+    rail_distance: row.rail_distance,
+    crow_distance: row.crow_distance,
+    geom: {
+      type: 'Feature',
+      properties: {},
+      geometry: toGeoJSON(row.geom),
     },
-  ];
+  });
 
   return _(res.rows)
     .groupBy((row) => row.from_name)
-    .mapValues((rows) => _(rows).map(mapRow).fromPairs().value())
+    .mapValues((rows) => _.map(rows, mapRow))
     .value();
 }
 

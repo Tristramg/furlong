@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetStaticProps } from 'next';
 import _ from 'lodash';
 import { FeatureCollection } from 'geojson';
@@ -24,6 +24,7 @@ const Map = ({ geoms, id }: { id: string; geoms: FeatureCollection }) => {
       center: [2, 48],
       zoom: 3,
     });
+
     map.on('load', () => {
       map.addSource(container, { type: 'geojson', data: geoms });
       map.addLayer({
@@ -32,18 +33,20 @@ const Map = ({ geoms, id }: { id: string; geoms: FeatureCollection }) => {
         source: container,
       });
 
-      const bounds = bbox(geoms);
-      map.fitBounds([bounds[0], bounds[1], bounds[2], bounds[3]]);
+      if (geoms.features.length > 0) {
+        const bounds = bbox(geoms);
+        map.fitBounds([bounds[0], bounds[1], bounds[2], bounds[3]]);
+      }
     });
-  });
+  }, []);
 
   return <div id={container} className="w-1/2 min-h-full" />;
 };
 
-const Hub = ({ city, hub }: { city: string; hub: HubData }) => {
+const HubDestination = ({ hub }: { hub: HubData }) => {
   return (
     <tr>
-      <td>{city}</td>
+      <td>{hub.destination}</td>
       <td className="text-right">{hub.passengers}</td>
       <td className="text-right">{Math.round(hub.rail_distance)}</td>
       <td className="text-right">{hub.crow_distance}</td>
@@ -51,41 +54,108 @@ const Hub = ({ city, hub }: { city: string; hub: HubData }) => {
   );
 };
 
-function geometries(hubs: { [to: string]: HubData }): FeatureCollection {
+function geometries(hubs: HubData[]): FeatureCollection {
   return {
     type: 'FeatureCollection',
     features: _.map(hubs, 'geom'),
   };
 }
 
+function filter(
+  minPax: number,
+  maxDistance: number
+): (hub: HubData) => boolean {
+  return (hub: HubData) =>
+    hub.rail_distance <= maxDistance && hub.passengers >= minPax;
+}
+
+interface HubProps {
+  from: string;
+  destinations: HubData[];
+  minPax: number;
+  maxDistance: number;
+}
+
+const Hub = ({ from, destinations, minPax, maxDistance }: HubProps) => {
+  const filtered = _.filter(destinations, filter(minPax, maxDistance));
+  const filteredCount = destinations.length - filtered.length;
+  return (
+    <div>
+      <h2>{from}</h2>
+      <div className="flex">
+        <div className="w-1/2">
+          <table>
+            <thead>
+              <tr>
+                <th className="p-1">Destination</th>
+                <th className="p-1">Passengers/year</th>
+                <th className="p-1">Distance by rail</th>
+                <th className="p-1">Crow distance</th>
+              </tr>
+            </thead>
+            <tbody>
+              {_.map(filtered, (hub) => (
+                <HubDestination key={hub.destination} hub={hub} />
+              ))}
+            </tbody>
+          </table>
+          <span className="text-gray-700 text-sm">{`${filteredCount} destinations filtered`}</span>
+        </div>
+        <Map geoms={geometries(destinations)} id={from} />
+      </div>
+    </div>
+  );
+};
+
 const Hubs = ({ hubs }: { hubs: AllHubs }) => {
+  const [minPax, setMinPax] = useState(1_000_000);
+  const [maxDistance, setMaxDistance] = useState(1_500);
   return (
     <div className="p-12">
       <h1>Potential hubs</h1>
-      {_.map(hubs, (tos, from) => (
-        <div>
-          <h2>{from}</h2>
-          <div key={from} className="flex">
-            <div className="w-1/2">
-              <table>
-                <thead>
-                  <tr>
-                    <th className="p-1">Destination</th>
-                    <th className="p-1">Passengers/year</th>
-                    <th className="p-1">Distance by rail</th>
-                    <th className="p-1">Crow distance</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {_.map(tos, (hub, to) => (
-                    <Hub key={to} hub={hub} city={to} />
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <Map geoms={geometries(tos)} id={from} />
-          </div>
-        </div>
+      <h2>Filter results</h2>
+      <div>
+        <label
+          htmlFor="minPax"
+          className="block text-gray-700 text-sm font-bold mb-2"
+        >
+          {`Minimum passenger per year (${minPax.toLocaleString('en-GB')})`}
+        </label>
+        <input
+          type="range"
+          id="minPax"
+          name="minPax"
+          min="100000"
+          max="2500000"
+          step="100000"
+          value={minPax}
+          onChange={(event) => setMinPax(event.target.valueAsNumber)}
+        />
+      </div>
+      <label
+        htmlFor="maxDistance"
+        className="block text-gray-700 text-sm font-bold mb-2"
+      >
+        {`Maximum distance (${maxDistance.toLocaleString('en-GB')})`}
+      </label>
+      <input
+        type="range"
+        id="maxDistance"
+        name="maxDistance"
+        min="500"
+        max="3000"
+        step="100"
+        value={maxDistance}
+        onChange={(event) => setMaxDistance(event.target.valueAsNumber)}
+      />
+      {_.map(hubs, (destinations, from) => (
+        <Hub
+          destinations={destinations}
+          from={from}
+          key={from}
+          minPax={minPax}
+          maxDistance={maxDistance}
+        />
       ))}
     </div>
   );
