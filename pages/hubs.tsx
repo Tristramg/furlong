@@ -112,42 +112,48 @@ const Hubs = ({ hubs }: { hubs: AllHubs }) => {
   const [maxDistance, setMaxDistance] = useState(1_500);
   return (
     <div className="p-12">
-      <h1>Potential hubs</h1>
-      <h2>Filter results</h2>
-      <div>
-        <label
-          htmlFor="minPax"
-          className="block text-gray-700 text-sm font-bold mb-2"
-        >
-          {`Minimum passenger per year (${minPax.toLocaleString('en-GB')})`}
-        </label>
-        <input
-          type="range"
-          id="minPax"
-          name="minPax"
-          min="100000"
-          max="2500000"
-          step="100000"
-          value={minPax}
-          onChange={(event) => setMinPax(event.target.valueAsNumber)}
-        />
+      <div className="sticky top-0 bg-white">
+        <h1>Potential hubs</h1>
+        <h2>Filter results</h2>
+        <div className="flex">
+          <div className="px-2">
+            <label
+              htmlFor="minPax"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              {`Minimum passenger per year (${minPax.toLocaleString('en-GB')})`}
+            </label>
+            <input
+              type="range"
+              id="minPax"
+              name="minPax"
+              min="100000"
+              max="2500000"
+              step="100000"
+              value={minPax}
+              onChange={(event) => setMinPax(event.target.valueAsNumber)}
+            />
+          </div>
+          <div className="px-2">
+            <label
+              htmlFor="maxDistance"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              {`Maximum distance (${maxDistance.toLocaleString('en-GB')})`}
+            </label>
+            <input
+              type="range"
+              id="maxDistance"
+              name="maxDistance"
+              min="500"
+              max="3000"
+              step="100"
+              value={maxDistance}
+              onChange={(event) => setMaxDistance(event.target.valueAsNumber)}
+            />
+          </div>
+        </div>
       </div>
-      <label
-        htmlFor="maxDistance"
-        className="block text-gray-700 text-sm font-bold mb-2"
-      >
-        {`Maximum distance (${maxDistance.toLocaleString('en-GB')})`}
-      </label>
-      <input
-        type="range"
-        id="maxDistance"
-        name="maxDistance"
-        min="500"
-        max="3000"
-        step="100"
-        value={maxDistance}
-        onChange={(event) => setMaxDistance(event.target.valueAsNumber)}
-      />
       {_.map(hubs, (destinations, from) => (
         <Hub
           destinations={destinations}
