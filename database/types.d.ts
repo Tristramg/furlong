@@ -7,6 +7,7 @@ export type Unit = {
 export type Car = {
   id: string;
   name: string;
+  weight: number;
   units: {
     id: string;
     count: number;

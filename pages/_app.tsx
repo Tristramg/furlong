@@ -15,6 +15,8 @@ import {
   faUtensils,
   faUser,
   faPlusSquare,
+  faPen,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -29,7 +31,9 @@ library.add(
   faArrowsAltH,
   faUtensils,
   faUser,
-  faPlusSquare
+  faPlusSquare,
+  faPen,
+  faTrash
 );
 
 function MyApp({ Component, pageProps }: AppProps) {
