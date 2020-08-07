@@ -33,7 +33,6 @@ function Train({
     units.find((u: t.Unit) => u.id === unitId).pax;
 
   const carPax = (carId: string): number => {
-    console.log(carId);
     const carUnits = cars.find((c: t.Car) => c.id === carId).units;
     return _.sumBy(carUnits, ({ id, count }) => unitPax(id) * count);
   };

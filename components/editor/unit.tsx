@@ -6,6 +6,7 @@ import * as t from '../../database/types.d';
 import TextInput from './text_input';
 import NumberInput from './number_input';
 import * as Actions from '../../lib/actions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface Props {
   unit: t.Unit;
@@ -22,11 +23,20 @@ function Unit({ unit, updateUnitName, updateUnitPax }: Props & PropsFromRedux) {
   const onChange = (value: number) => updateUnitPax({ id: unit.id, value });
 
   return (
-    <div className="border rounded p-2 my-2" ref={dragRef} style={{ opacity }}>
-      <TextInput id={unit.id} value={unit.name} action={updateUnitName} />
-      <div className="inline">
-        <span className="text-gray-700 font-bold pr-1">Passagers&nbsp;:</span>
-        <NumberInput onChange={onChange} value={unit.pax} />
+    <div
+      className="border rounded p-2 my-2 flex"
+      ref={dragRef}
+      style={{ opacity }}
+    >
+      <div className="cursor-move">
+        <FontAwesomeIcon icon="grip-vertical" className="text-gray-400 mr-2" />
+      </div>
+      <div>
+        <TextInput id={unit.id} value={unit.name} action={updateUnitName} />
+        <div className="inline">
+          <span className="text-gray-700 font-bold pr-1">Passagers&nbsp;:</span>
+          <NumberInput onChange={onChange} value={unit.pax} />
+        </div>
       </div>
     </div>
   );
