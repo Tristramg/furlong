@@ -23,11 +23,19 @@ function Car({
   deleteCarUnit,
   updateCarWeight,
 }: Props & PropsFromRedux) {
-  const [, drop] = useDrop<{ type: string; id: string }, void, any>({
+  const [{ display, collectOpacity }, drop] = useDrop<
+    { type: string; id: string },
+    void,
+    any
+  >({
     accept: 'Unit',
     drop: ({ id }) => {
       appendUnit({ carId: car.id, unitId: id });
     },
+    collect: (monitor) => ({
+      display: monitor.canDrop() ? 'block' : 'none',
+      collectOpacity: monitor.canDrop() ? 0.5 : 1,
+    }),
   });
 
   const [{ opacity }, dragRef] = useDrag({
@@ -47,14 +55,24 @@ function Car({
 
   return (
     <div
-      className="border border-gray-600 p-2 my-2 shadow rounded flex"
+      className="border border-gray-600 p-2 my-2 shadow rounded flex relative"
       ref={dragRef}
       style={{ opacity }}
     >
+      <div
+        className="absolute border-4 border-dotted m-auto p-0 left-0 right-0 w-24 h-24 top-0 bottom-0 border-gray-600 center align-middle"
+        style={{ display }}
+      >
+        <FontAwesomeIcon
+          className="absolute m-auto left-0 right-0 top-0 bottom-0 text-gray-600"
+          icon="plus"
+          size="4x"
+        />
+      </div>
       <div className="cursor-move">
         <FontAwesomeIcon icon="grip-vertical" className="text-gray-400 mr-2" />
       </div>
-      <div className="flex-grow">
+      <div className="flex-grow" ref={drop} style={{ opacity: collectOpacity }}>
         <TextInput id={car.id} value={car.name} action={updateCarName} />
         <div className="inline">
           <span className="text-gray-700 font-bold pr-1">Masse&nbsp;:</span>
@@ -81,7 +99,7 @@ function Car({
         </div>
 
         <h4 className="font-medium pt-3">Unités</h4>
-        <ul className="border rounded p-2" ref={drop}>
+        <ul className="border rounded p-2">
           {car.units.map(({ id, count, price }) => (
             <li key={id}>
               <div className="inline flex w-full py-2">
