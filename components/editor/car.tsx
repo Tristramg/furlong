@@ -54,7 +54,7 @@ function Car({
       <div className="cursor-move">
         <FontAwesomeIcon icon="grip-vertical" className="text-gray-400 mr-2" />
       </div>
-      <div>
+      <div className="flex-grow">
         <TextInput id={car.id} value={car.name} action={updateCarName} />
         <div className="inline">
           <span className="text-gray-700 font-bold pr-1">Masse&nbsp;:</span>
@@ -66,7 +66,7 @@ function Car({
         </div>
 
         <div className="pt-3">
-          <dl className="inline m-1">
+          <dl className="grid grid-cols-2 m-1">
             <dt className="text-gray-700 font-bold">Capacité max</dt>
             <dd>
               {_.sumBy(
@@ -85,20 +85,20 @@ function Car({
           {car.units.map(({ id, count, price }) => (
             <li key={id}>
               <div className="inline flex w-full py-2">
-                <span className="w-1/4">
+                <span className="w-3/12">
                   {units.find((u) => u.id === id).name}
                 </span>
-                <div className="w-1/4">
+                <div className="w-3/12">
                   <span className="text-gray-700 font-bold pr-1">&nbsp;×</span>
                   <NumberInput onChange={onChangeCount(id)} value={count} />
                 </div>
-                <div className="w-1/4">
+                <div className="w-5/12">
                   <NumberInput onChange={onChangePrice(id)} value={price} />
                   <span className="text-gray-700 font-bold pr-1">
                     &nbsp;€/unité
                   </span>
                 </div>
-                <div className="w-1/4 text-right">
+                <div className="w-1/12 text-right">
                   <button
                     type="button"
                     onClick={() => deleteCarUnit({ carId: car.id, unitId: id })}

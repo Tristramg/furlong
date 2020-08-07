@@ -31,7 +31,7 @@ function Unit({ unit, updateUnitName, updateUnitPax }: Props & PropsFromRedux) {
       <div className="cursor-move">
         <FontAwesomeIcon icon="grip-vertical" className="text-gray-400 mr-2" />
       </div>
-      <div>
+      <div className="flex-grow">
         <TextInput id={unit.id} value={unit.name} action={updateUnitName} />
         <div className="inline">
           <span className="text-gray-700 font-bold pr-1">Passagers&nbsp;:</span>

@@ -50,7 +50,7 @@ function Train({
       <TextInput id={train.id} value={train.name} action={updateTrainName} />
 
       <div className="pt-3">
-        <dl className="inline m-1">
+        <dl className="grid grid-cols-2 m-1">
           <dt className="text-gray-700 font-bold">Capacité max</dt>
           <dd>{_.sumBy(train.cars, ({ id, count }) => carPax(id) * count)}</dd>
 
