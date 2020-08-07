@@ -24,7 +24,7 @@ function Unit({ unit, updateUnitName, updateUnitPax }: Props & PropsFromRedux) {
 
   return (
     <div
-      className="border rounded p-2 my-2 flex"
+      className="border border-gray-600 rounded shadow p-2 my-2 flex"
       ref={dragRef}
       style={{ opacity }}
     >

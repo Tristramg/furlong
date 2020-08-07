@@ -47,7 +47,7 @@ function Car({
 
   return (
     <div
-      className="border p-2 my-2 rounded flex"
+      className="border border-gray-600 p-2 my-2 shadow rounded flex"
       ref={dragRef}
       style={{ opacity }}
     >

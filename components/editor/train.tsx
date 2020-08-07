@@ -46,7 +46,7 @@ function Train({
     cars.find((c: t.Car) => c.id === carId).weight;
 
   return (
-    <div className="border rounded  p-2 my-2">
+    <div className="border rounded border-gray-600 shadow p-2 my-2">
       <TextInput id={train.id} value={train.name} action={updateTrainName} />
 
       <div className="pt-3">
