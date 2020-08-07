@@ -28,6 +28,22 @@ export const updateCarUnitPrice = createAction<{
 export const deleteCarUnit = createAction<{
   carId: string;
   unitId: string;
-}>('car/delete');
+}>('car/delete/unit');
 export const createCar = createAction('car/create');
 export const createUnit = createAction('unit/create');
+export const createTrain = createAction('train/create');
+export const updateTrainName = createAction<{ id: string; name: string }>(
+  'train/update/name'
+);
+export const appendCar = createAction<{ trainId: string; carId: string }>(
+  'train/append/car'
+);
+export const updateTrainCarCount = createAction<{
+  trainId: string;
+  carId: string;
+  value: number;
+}>('train/update/carCount');
+export const deleteTrainCar = createAction<{
+  trainId: string;
+  carId: string;
+}>('train/delete/car');

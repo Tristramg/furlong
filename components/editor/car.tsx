@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { connect, ConnectedProps } from 'react-redux';
-import { useDrop } from 'react-dnd';
+import { useDrop, useDrag } from 'react-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 import * as Actions from '../../lib/actions';
@@ -30,6 +30,13 @@ function Car({
     },
   });
 
+  const [{ opacity }, dragRef] = useDrag({
+    item: { type: 'Car', id: car.id },
+    collect: (monitor) => ({
+      opacity: monitor.isDragging() ? 0.5 : 1,
+    }),
+  });
+
   const onChangeCount = (unitId: string) => (value: number) => {
     updateCarUnitCount({ value, id: car.id, unitId });
   };
@@ -39,7 +46,7 @@ function Car({
   };
 
   return (
-    <div className="border p-2 my-2 rounded">
+    <div className="border p-2 my-2 rounded" ref={dragRef} style={{ opacity }}>
       <TextInput id={car.id} value={car.name} action={updateCarName} />
       <div className="inline">
         <span className="text-gray-700 font-bold pr-1">Masse&nbsp;:</span>
@@ -54,24 +61,19 @@ function Car({
         <dl className="inline m-1">
           <dt className="text-gray-700 font-bold">Capacité max</dt>
           <dd>
-            {_(car.units)
-              .map(
-                (unit) => unit.count * units.find((u) => u.id === unit.id).pax
-              )
-              .sum()}
+            {_.sumBy(
+              car.units,
+              (unit) => unit.count * units.find((u) => u.id === unit.id).pax
+            )}
           </dd>
 
           <dt className="text-gray-700 font-bold">Chiffre d’affaires max</dt>
-          <dd>
-            {_(car.units)
-              .map((unit) => unit.count * unit.price)
-              .sum()}
-          </dd>
+          <dd>{_.sumBy(car.units, (unit) => unit.count * unit.price)}</dd>
         </dl>
       </div>
 
       <h4 className="font-medium pt-3">Unités</h4>
-      <ul className="border p-2" ref={drop}>
+      <ul className="border rounded p-2" ref={drop}>
         {car.units.map(({ id, count, price }) => (
           <li key={id}>
             <div className="inline flex w-full py-2">
@@ -93,7 +95,7 @@ function Car({
                   type="button"
                   onClick={() => deleteCarUnit({ carId: car.id, unitId: id })}
                 >
-                  <FontAwesomeIcon icon="trash" className="text-gray-700" />
+                  <FontAwesomeIcon icon="trash" className="text-gray-400" />
                 </button>
               </div>
             </div>

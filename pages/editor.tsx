@@ -7,7 +7,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import reducer from '../database/store';
 import UnitList from '../components/editor/unit_list';
 import CarList from '../components/editor/car_list';
-import Trains from '../components/editor/trains';
+import TrainList from '../components/editor/train_list';
 
 const store = configureStore({
   reducer,
@@ -29,7 +29,7 @@ const Home = () => {
             </div>
             <div className="w-1/3 p-2">
               <h3>Trains</h3>
-              <Trains />
+              <TrainList />
             </div>
           </div>
         </DndProvider>

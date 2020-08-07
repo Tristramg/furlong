@@ -1,40 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import _ from 'lodash';
 import * as actions from '../lib/actions';
-import * as t from './types.d';
-
-const initialState: t.State = {
-  units: [
-    {
-      name: 'Siège',
-      pax: 1,
-      id: '0',
-    },
-    {
-      name: 'Cabine',
-      pax: 2,
-      id: '1',
-    },
-  ],
-  cars: [
-    {
-      name: 'Passager',
-      id: _.uniqueId(),
-      weight: 45,
-      units: [
-        { id: '0', count: 10, price: 100 },
-        { id: '1', count: 5, price: 150 },
-      ],
-    },
-  ],
-  trains: [
-    {
-      name: 'Super train',
-      cars: [],
-      id: _.uniqueId(),
-    },
-  ],
-};
+import initialState from './initial_state';
 
 function update(set: any[], id: string, prop: string, value: string) {
   const index = set.findIndex((unit) => unit.id === id);
@@ -101,7 +68,44 @@ const reducer = createReducer(initialState, {
     const index = state.cars.findIndex((car) => car.id === payload.carId);
     if (index !== -1) {
       const car = state.cars[index];
-      car.units = car.units.filter((unit) => unit.id === payload.unitId);
+      car.units = car.units.filter((unit) => unit.id !== payload.unitId);
+    }
+  },
+  [actions.createTrain.type]: (state) => {
+    state.trains.push({
+      name: '',
+      cars: [],
+      id: _.uniqueId(),
+    });
+  },
+  [actions.updateTrainName.type]: (state, { payload }) => {
+    update(state.trains, payload.id, 'name', payload.name);
+  },
+  [actions.appendCar.type]: (state, { payload }) => {
+    const { trainId, carId } = payload;
+    const trainIndex = state.trains.findIndex((train) => train.id === trainId);
+    const { cars } = state.trains[trainIndex];
+    const index = cars.findIndex((c) => c.id === carId);
+    if (index === -1) {
+      cars.push({ id: carId, count: 1 });
+    } else {
+      cars[index].count += 1;
+    }
+  },
+  [actions.updateTrainCarCount.type]: (state, { payload }) => {
+    const index = state.trains.findIndex(
+      (train) => train.id === payload.trainId
+    );
+    if (index !== -1) {
+      const train = state.trains[index];
+      update(train.cars, payload.carId, 'count', payload.value);
+    }
+  },
+  [actions.deleteTrainCar.type]: (state, { payload }) => {
+    const idx = state.trains.findIndex((train) => train.id === payload.trainId);
+    if (idx !== -1) {
+      const train = state.trains[idx];
+      train.cars = train.cars.filter((car) => car.id !== payload.carId);
     }
   },
 });
