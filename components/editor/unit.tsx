@@ -22,7 +22,7 @@ function Unit({ unit, updateUnitName, updateUnitPax }: Props & PropsFromRedux) {
   const onChange = (value: number) => updateUnitPax({ id: unit.id, value });
 
   return (
-    <div className="border p-2 my-2" ref={dragRef} style={{ opacity }}>
+    <div className="border rounded p-2 my-2" ref={dragRef} style={{ opacity }}>
       <TextInput id={unit.id} value={unit.name} action={updateUnitName} />
       <div className="inline">
         <span className="text-gray-700 font-bold pr-1">Passagers&nbsp;:</span>
