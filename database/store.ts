@@ -1,40 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import _ from 'lodash';
 import * as actions from '../lib/actions';
-import * as t from './types.d';
-
-const initialState: t.State = {
-  units: [
-    {
-      name: 'Siège',
-      pax: 1,
-      id: '0',
-    },
-    {
-      name: 'Cabine',
-      pax: 2,
-      id: '1',
-    },
-  ],
-  cars: [
-    {
-      name: 'Passager',
-      id: _.uniqueId(),
-      weight: 45,
-      units: [
-        { id: '0', count: 10, price: 100 },
-        { id: '1', count: 5, price: 150 },
-      ],
-    },
-  ],
-  trains: [
-    {
-      name: 'Super train',
-      cars: [],
-      id: _.uniqueId(),
-    },
-  ],
-};
+import initialState from './initial_state';
 
 function update(set: any[], id: string, prop: string, value: string) {
   const index = set.findIndex((unit) => unit.id === id);
