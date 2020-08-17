@@ -13,6 +13,8 @@ interface Props {
   car: t.Car;
 }
 
+type DropType = { type: string; id: string };
+
 function Car({
   car,
   units,
@@ -23,11 +25,7 @@ function Car({
   deleteCarUnit,
   updateCarWeight,
 }: Props & PropsFromRedux) {
-  const [{ display, collectOpacity }, drop] = useDrop<
-    { type: string; id: string },
-    void,
-    any
-  >({
+  const [{ display, collectOpacity }, drop] = useDrop<DropType, void, any>({
     accept: 'Unit',
     drop: ({ id }) => {
       appendUnit({ carId: car.id, unitId: id });

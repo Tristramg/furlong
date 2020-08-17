@@ -2,11 +2,11 @@ import React from 'react';
 
 import { useDrag } from 'react-dnd';
 import { connect, ConnectedProps } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as t from '../../database/types.d';
 import TextInput from './text_input';
 import NumberInput from './number_input';
 import * as Actions from '../../lib/actions';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface Props {
   unit: t.Unit;

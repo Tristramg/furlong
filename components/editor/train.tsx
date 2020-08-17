@@ -9,6 +9,8 @@ import * as Actions from '../../lib/actions';
 import TextInput from './text_input';
 import NumberInput from './number_input';
 
+type DropType = { type: string; id: string };
+
 function Train({
   units,
   train,
@@ -18,11 +20,7 @@ function Train({
   updateTrainCarCount,
   deleteTrainCar,
 }: { train: t.Train } & PropsFromRedux) {
-  const [{ display, opacity }, drop] = useDrop<
-    { type: string; id: string },
-    void,
-    any
-  >({
+  const [{ display, opacity }, drop] = useDrop<DropType, void, any>({
     accept: 'Car',
     drop: ({ id }) => {
       appendCar({ trainId: train.id, carId: id });
