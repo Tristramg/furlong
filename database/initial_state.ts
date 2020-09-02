@@ -98,6 +98,10 @@ const initialState: t.State = {
       id: '0',
     },
   ],
+  line: {
+    stations: [],
+    segments: [],
+  },
 };
 
 export default initialState;

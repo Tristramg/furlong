@@ -24,8 +24,26 @@ export type Train = {
   }[];
 };
 
+export type Station = {
+  name: string;
+  node: number;
+};
+
+export type Segment = {
+  country: string;
+  duration: number;
+  distance: number;
+  geojson: GeoJSON.LineString;
+};
+
+export type Line = {
+  stations: Station[];
+  segments: Segment[];
+};
+
 export type State = {
   units: Unit[];
   cars: Car[];
   trains: Train[];
+  line: Line;
 };

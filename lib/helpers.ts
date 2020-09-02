@@ -54,7 +54,7 @@ const h = (hours: number, minutes: number): number => {
 
 const fh = (time: number): string => {
   const hours = String(Math.floor(time / 60) % 24).padStart(2, '0');
-  const min = String(time % 60).padStart(2, '0');
+  const min = String(Math.floor(time) % 60).padStart(2, '0');
   return `${hours}:${min}`;
 };
 

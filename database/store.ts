@@ -10,7 +10,7 @@ function update(set: any[], id: string, prop: string, value: string) {
     element[prop] = value;
   }
 }
-
+/* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["state"] }] */
 const reducer = createReducer(initialState, {
   [actions.appendUnit.type]: (state, { payload }) => {
     const { carId, unitId } = payload;
@@ -107,6 +107,18 @@ const reducer = createReducer(initialState, {
       const train = state.trains[idx];
       train.cars = train.cars.filter((car) => car.id !== payload.carId);
     }
+  },
+  [actions.addStation.type]: ({ line }, { payload }) => {
+    line.stations.push(payload);
+  },
+  [actions.deleteStation.type]: (state, { payload }) => {
+    state.line.stations = state.line.stations.filter(
+      (s) => s.node !== payload.node
+    );
+  },
+  [actions.addRoute.fulfilled.type]: (state, { payload }) => {
+    // Add user to the state array
+    state.line.segments = state.line.segments.concat(payload);
   },
 });
 

@@ -1,4 +1,6 @@
-import { createAction } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
+import computeRoute from './compute_route';
+import { Station } from '../pages/api/stations';
 
 export const appendUnit = createAction<{ carId: string; unitId: string }>(
   'car/append/unit'
@@ -47,3 +49,24 @@ export const deleteTrainCar = createAction<{
   trainId: string;
   carId: string;
 }>('train/delete/car');
+
+export const addStation = createAction<Station>('line/add/station');
+
+export const deleteStation = createAction<{
+  node: number;
+}>('line/delete/station');
+
+type RouteParams = {
+  from: number;
+  to: number;
+};
+
+export const addRoute = createAsyncThunk(
+  'route/add',
+  async ({ from, to }: RouteParams) => {
+    console.log('start computing', from, to);
+    const response = await computeRoute(from, to);
+    console.log('gotit ', response);
+    return response;
+  }
+);
