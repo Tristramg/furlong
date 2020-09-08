@@ -3,12 +3,7 @@ import { Client } from 'pg';
 
 async function search(q: string): Promise<Station[]> {
   // Parameters are set by environment variables;
-  const client = new Client({
-    user: 'tristram',
-    password: 'tristram',
-    host: 'localhost',
-    database: 'furlong',
-  });
+  const client = new Client();
   await client.connect();
 
   const res = await client.query(
