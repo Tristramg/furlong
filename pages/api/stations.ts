@@ -49,8 +49,13 @@ export default async (
   if (req.query.q) {
     res.statusCode = 200;
     const q = typeof req.query.q === 'string' ? req.query.q : req.query.q[0];
-    const stations = await search(q);
-    res.end(JSON.stringify(stations));
+    try {
+      const stations = await search(q);
+      res.end(JSON.stringify(stations));
+    } catch (_error) {
+      res.statusCode = 500;
+      res.end(JSON.stringify({ error: 'Internal error during searc' }));
+    }
   } else {
     res.statusCode = 400;
     res.end(JSON.stringify({ error: 'Missing parameter q' }));
