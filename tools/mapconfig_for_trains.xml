@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <tag_name name="railway" id="1">
+    <tag_value name="rail"          id="101" priority="1.0" maxspeed="100" />
+  </tag_name>
+</configuration>
