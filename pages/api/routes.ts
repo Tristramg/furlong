@@ -4,12 +4,7 @@ import { Segment } from '../../database/types.d';
 
 async function route(from: number, to: number): Promise<Segment[]> {
   // Parameters are set by environment variables;
-  const client = new Client({
-    user: 'tristram',
-    password: 'tristram',
-    host: 'localhost',
-    database: 'furlong',
-  });
+  const client = new Client();
   await client.connect();
 
   const edges = `
