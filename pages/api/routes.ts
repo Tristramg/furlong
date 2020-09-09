@@ -26,7 +26,7 @@ SELECT
   country,
   sum(route.cost) as duration,
   sum(length_m) / 1000 as distance,
-  st_AsGeoJson(st_makeline(st_point(x1, y1))) AS geom
+  st_AsGeoJson(st_makeline(st_point(x1, y1) ORDER BY seq)) AS geom
 FROM pgr_dijkstra(${edges}, $1::integer, $2::integer, false) as route
 JOIN ways ON route.edge = ways.id
 GROUP BY country
