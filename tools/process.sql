@@ -53,6 +53,7 @@ DELETE FROM ways
     WHERE id IN (SELECT * from edges_to_delete);
 
 -- Set a country to each edge
+-- The countries shapefiles come from https://www.naturalearthdata.com/
 -- shp2pgsql -D -I -d -s 4326 ne_10m_admin_0_countries.shp | psql furlong
 -- attention, long. Environ 1h
 update ways set country=iso_a2 from ne_10m_admin_0_countries where st_within(ways.the_geom, ne_10m_admin_0_countries.geom) and iso_a2 <> '-99';
