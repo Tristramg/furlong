@@ -27,7 +27,6 @@ const SelectStation = ({ stations, addStation, addRoute }: PropsFromRedux) => {
           to: station.node,
         });
       }
-      console.log(station);
       addStation(station);
     }
   }

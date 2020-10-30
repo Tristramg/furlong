@@ -6,7 +6,7 @@ import { MarketData, importMarketData } from '../../data/market_importer';
 import Routes from '../../data/lines';
 import Line from '../../components/line';
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       infra: await importAirtable(),

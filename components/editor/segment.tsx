@@ -10,7 +10,6 @@ type Props = {
 };
 
 function Segment({ segment }: Props & PropsFromRedux) {
-  console.log('segment', segment);
   return (
     <div className="flex w-full">
       <div className="w-1/12">{segment.country}</div>

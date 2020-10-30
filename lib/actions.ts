@@ -64,9 +64,7 @@ type RouteParams = {
 export const addRoute = createAsyncThunk(
   'route/add',
   async ({ from, to }: RouteParams) => {
-    console.log('start computing', from, to);
     const response = await computeRoute(from, to);
-    console.log('gotit ', response);
     return response;
   }
 );
