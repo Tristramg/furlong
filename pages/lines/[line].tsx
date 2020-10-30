@@ -20,10 +20,18 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: false,
 });
 
-export default ({ infra, market }: { infra: Infra; market: MarketData }) => {
+const lineComponent = ({
+  infra,
+  market,
+}: {
+  infra: Infra;
+  market: MarketData;
+}) => {
   const router = useRouter();
   const { line } = router.query;
   const lineId = typeof line === 'string' ? line : line[0];
 
   return <Line lineId={lineId} infra={infra} market={market} />;
 };
+
+export default lineComponent;

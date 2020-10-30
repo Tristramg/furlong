@@ -72,7 +72,11 @@ const Segment: React.FunctionComponent<Props> = ({ edge }: Props) => (
     </div>
     <div className="w-8/12 mx-6">
       {edge.rules.map((rule) => (
-        <SingleRule rule={rule} price={edge.singlePrice(rule)} />
+        <SingleRule
+          key={rule.label}
+          rule={rule}
+          price={edge.singlePrice(rule)}
+        />
       ))}
     </div>
     <div className="w-1/12 align-middle m-auto text-right">

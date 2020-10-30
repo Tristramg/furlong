@@ -1,8 +1,5 @@
 module.exports = {
-  purge: [
-    './pages/**/*.tsx',
-    './components/**/*.tsx',
-  ],
+  purge: ['./pages/**/*.tsx', './components/**/*.tsx'],
   theme: {
     extend: {},
   },
@@ -10,4 +7,8 @@ module.exports = {
     backgroundColor: ['odd'],
   },
   plugins: [],
-}
+  future: {
+    removeDeprecatedGapUtilities: true,
+    purgeLayersByDefault: true,
+  },
+};

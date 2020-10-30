@@ -37,7 +37,7 @@ const TrainComponent: React.FunctionComponent<Props> = ({ train }: Props) => {
       <span>
         (
         {train.cars.map(([car, count]) => (
-          <span className="m-1">
+          <span className="m-1" key={car.type}>
             {carType[car.type]}
             {`×${count}`}
           </span>
