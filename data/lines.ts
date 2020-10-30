@@ -268,6 +268,99 @@ const lines: { [id: string]: Line } = {
       new Step('Barcelona Sants', h(9, 0), h(19, 0), true),
     ],
   },
+  parisToulouse: {
+    label: 'Paris Toulouse',
+    train: Trains.talgo230,
+    steps: [
+      new Step('Paris Austerlitz', h(23, 0), h(7, 0), true),
+      new Step('Orléans Les Aubrais', h(0, 30), h(5, 30), true),
+      new Step('Limoges', h(4, 0), h(2, 0), false),
+      new Step('Toulouse', h(7, 0), h(23, 0), true),
+    ],
+  },
+  parisNice: {
+    label: 'Paris Nice',
+    train: Trains.talgo230,
+    steps: [
+      new Step('Paris Austerlitz', h(21, 30), h(8, 30), true),
+      new Step('Dijon', h(0, 30), h(5, 30), false),
+      new Step('Lyon Part-dieu', h(2, 30), h(3, 30), false),
+      new Step('Marseille St-Charles', h(6, 0), h(0, 0), false),
+      new Step('Nice Ville', h(8, 30), h(21, 30), true),
+    ],
+  },
+  parisMarseille: {
+    label: 'Paris Marseille',
+    train: Trains.talgo230,
+    steps: [
+      new Step('Paris Austerlitz', h(23, 0), h(7, 0), true),
+      new Step('Dijon', h(2, 0), h(4, 0), false),
+      new Step('Lyon Part-dieu', h(4, 0), h(2, 0), false),
+      new Step('Marseille St-Charles', h(7, 0), h(23, 0), true),
+    ],
+  },
+  parisHendaye: {
+    label: 'Paris Hendaye',
+    train: Trains.talgo230,
+    steps: [
+      new Step('Paris Austerlitz', h(22, 0), h(7, 0), true),
+      new Step('Orléans Les Aubrais', h(23, 30), h(5, 30), true),
+      new Step('Saint Pierre des Corps', h(0, 30), h(4, 30), false),
+      new Step('Poitiers', h(1, 30), h(3, 30), false),
+      new Step('Angoulême', h(3, 30), h(1, 30), false),
+      new Step('Bordeaux Saint-Jean', h(5, 0), h(0, 0), false),
+      new Step('Hendaye', h(7, 0), h(22, 0), true),
+    ],
+  },
+  parisBSM: {
+    label: 'Paris Bourg-St-Maurice',
+    train: Trains.talgo230,
+    steps: [
+      new Step('Paris Austerlitz', h(22, 0), h(6, 0), true),
+      new Step('Dijon', h(1, 0), h(3, 0), false),
+      new Step('Lyon Part-dieu', h(3, 0), h(1, 0), false),
+      new Step('Bourg-Saint-Maurice', h(6, 0), h(22, 0), true),
+    ],
+  },
+  parisMilan: {
+    label: 'Paris Milan',
+    train: Trains.talgo230,
+    steps: [
+      new Step('Paris Austerlitz', h(22, 0), h(7, 0), true),
+      new Step('Dijon', h(1, 0), h(4, 0), false),
+      new Step('Lyon Part-dieu', h(3, 30), h(1, 30), false),
+      new Step('Frontière FR-IT', h(4, 0), h(1, 0), false),
+      new Step('Torino Lingotto', h(5, 0), h(0, 0), false),
+      new Step('Milano Porta Garibaldi', h(7, 0), h(22, 0), false),
+    ],
+  },
+  parisVenise: {
+    label: 'Paris Venise',
+    train: Trains.talgo230,
+    steps: [
+      new Step('Paris Austerlitz', h(20, 0), h(8, 0), true),
+      new Step('Dijon', h(23, 0), h(5, 0), false),
+      new Step('Lyon Part-dieu', h(1, 30), h(2, 30), false),
+      new Step('Frontière FR-IT', h(2, 0), h(2, 0), false),
+      new Step('Torino Lingotto', h(3, 0), h(1, 0), false),
+      new Step('Milano Porta Garibaldi', h(5, 0), h(23, 0), false),
+      new Step('Venise', h(8, 0), h(20, 0), true),
+    ],
+  },
+
+  parisMilanVenise: {
+    label: 'Paris Venise Milan',
+    train: Trains.talgo230,
+    steps: [
+      new Step('Paris Austerlitz', h(21, 0), h(8, 0), true),
+      new Step('Dijon', h(23, 50), h(5, 0), false),
+      new Step('Lyon Part-dieu', h(2, 30), h(2, 30), false),
+      new Step('Frontière FR-IT', h(3, 0), h(2, 0), false),
+      new Step('Torino Lingotto', h(4, 0), h(1, 0), false),
+      new Step('Milano Porta Garibaldi', h(6, 0), h(23, 0), true),
+      new Step('Venise', h(9, 0), h(20, 0), true),
+    ],
+  },
 };
 
 export default lines;
