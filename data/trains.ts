@@ -72,6 +72,76 @@ const viaggioRestaurant = new Car({
   heavyMaintenancePerKm: 0.1,
 });
 
+const talgoGranClasse = new Car({
+  weight: 17,
+  passengers: 10,
+  length: 13.14,
+  type: CarType.Passenger,
+  value: 1_000_000,
+  maintenancePerKm: 0.1,
+  heavyMaintenancePerKm: 0.05,
+});
+
+const talgoPreferente = new Car({
+  weight: 17,
+  passengers: 12,
+  length: 13.14,
+  type: CarType.Passenger,
+  value: 1_000_000,
+  maintenancePerKm: 0.1,
+  heavyMaintenancePerKm: 0.05,
+});
+
+const talgoTurista = new Car({
+  weight: 17,
+  passengers: 20,
+  length: 13.14,
+  type: CarType.Passenger,
+  value: 1_000_000,
+  maintenancePerKm: 0.1,
+  heavyMaintenancePerKm: 0.05,
+});
+
+const talgoSeats = new Car({
+  weight: 17,
+  passengers: 20,
+  length: 13.14,
+  type: CarType.Passenger,
+  value: 1_000_000,
+  maintenancePerKm: 0.1,
+  heavyMaintenancePerKm: 0.05,
+});
+
+const talgoBar = new Car({
+  weight: 17,
+  passengers: 0,
+  length: 13.14,
+  type: CarType.Restaurant,
+  value: 1_000_000,
+  maintenancePerKm: 0.1,
+  heavyMaintenancePerKm: 0.05,
+});
+
+const talgoRestaurant = new Car({
+  weight: 17,
+  passengers: 0,
+  length: 13.14,
+  type: CarType.Restaurant,
+  value: 1_000_000,
+  maintenancePerKm: 0.1,
+  heavyMaintenancePerKm: 0.05,
+});
+
+const talgoEndCar = new Car({
+  weight: 17,
+  passengers: 0,
+  length: 13.14,
+  type: CarType.Locomotive,
+  value: 1_000_000,
+  maintenancePerKm: 0.1,
+  heavyMaintenancePerKm: 0.05,
+});
+
 const talgo230 = new Train({
   label: 'Talgo tracté',
   highSpeed: false,
@@ -140,7 +210,25 @@ const empty: Train = new Train({
   multipleUnit: false,
 });
 
+const trenHotel: Train = new Train({
+  label: 'Talgo trenhotel',
+  highSpeed: false,
+  gaugeChange: true,
+  cars: [
+    [vectron, 1],
+    [talgoEndCar, 2],
+    [talgoRestaurant, 1],
+    [talgoBar, 1],
+    [talgoGranClasse, 4],
+    [talgoPreferente, 14],
+    [talgoTurista, 4],
+    [talgoSeats, 2],
+  ],
+  multipleUnit: false,
+});
+
 export default {
+  trenHotel,
   talgo230,
   talgo250,
   halfViaggio,
