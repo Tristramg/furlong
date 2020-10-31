@@ -361,6 +361,23 @@ const lines: { [id: string]: Line } = {
       new Step('Venise', h(9, 0), h(20, 0), true),
     ],
   },
+
+  castillaClassicBis: {
+    label: 'Castilla Classique Bis (Francisco de Goya)',
+    train: Trains.talgo230,
+    steps: [
+      new Step('Paris Austerlitz', h(20, 0), h(8, 30), true),
+      new Step('Orléans Les Aubrais', h(21, 0), h(7, 30), false),
+      new Step('Saint Pierre des Corps', h(21, 50), h(6, 40), false),
+      new Step('Poitiers', h(22, 40), h(6, 0), false),
+      new Step('Angoulême', h(0, 0), h(4, 0), false),
+      new Step('Bordeaux Saint-Jean', h(1, 0), h(3, 0), false),
+      new Step('Frontière FR-ES', h(2, 30), h(2, 0), false),
+      new Step('Burgos', h(5, 30), h(23, 0), false),
+      new Step('Valladolid Campo Grande', h(6, 30), h(22, 0), false),
+      new Step('Madrid Chamartín', h(8, 30), h(20, 0), true),
+    ],
+  },
 };
 
 export default lines;
