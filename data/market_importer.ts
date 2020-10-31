@@ -34,7 +34,7 @@ CASE
     WHEN dep.destination ilike '%milano%' THEN 'MILANO'
     ELSE dep.destination
 END as toCity,
-sum(dep.value + arr.value) as passengers
+sum(dep.value) as passengers
 FROM od as dep, od as arr
 WHERE dep.origin_airport = arr.destination_airport and dep.destination_airport = arr.origin_airport and dep.year = arr.year and dep.month = arr.month
 AND dep.year = '2018'
