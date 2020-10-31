@@ -13,14 +13,14 @@ import Edge from '../lib/edge';
 const data = {
   [Countries.ES]: {
     label: 'Belgique',
-    current: '3000 CC',
+    current: '3000 DC',
     gauge: 'Ibérique 1668 mm',
     signaling: 'ASFA',
     rules: spain,
   },
   [Countries.FR]: {
     label: 'France',
-    current: '1500 CC',
+    current: '1500 DC',
     gauge: 'Standard 1435 mm',
     signaling: 'KVB',
     rules: france,
