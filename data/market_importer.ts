@@ -13,34 +13,33 @@ export default async function importMarketData(): Promise<MarketData> {
   const res = await client.query(`
 select
 CASE
-    WHEN dep.origin ilike '%paris%' THEN 'PARIS'
-    WHEN dep.origin ilike '%beauvais%' THEN 'PARIS'
-    WHEN dep.origin ilike '%girona%' THEN 'BARCELONA/EL PRAT'
-    WHEN dep.origin ilike '%london%' THEN 'LONDON'
-    WHEN dep.origin ilike '%berlin%' THEN 'BERLIN'
-    WHEN dep.origin ilike '%roma%' THEN 'ROMA'
-    WHEN dep.origin ilike '%brussels%' THEN 'BRUSSELS'
-    WHEN dep.origin ilike '%milano%' THEN 'MILANO'
-    ELSE dep.origin
+    WHEN origin ilike '%paris%' THEN 'PARIS'
+    WHEN origin ilike '%beauvais%' THEN 'PARIS'
+    WHEN origin ilike '%girona%' THEN 'BARCELONA/EL PRAT'
+    WHEN origin ilike '%london%' THEN 'LONDON'
+    WHEN origin ilike '%berlin%' THEN 'BERLIN'
+    WHEN origin ilike '%roma%' THEN 'ROMA'
+    WHEN origin ilike '%brussels%' THEN 'BRUSSELS'
+    WHEN origin ilike '%milano%' THEN 'MILANO'
+    ELSE origin
 END as fromCity,
 CASE
-    WHEN dep.destination ilike '%paris%' THEN 'PARIS'
-    WHEN dep.origin ilike '%beauvais%' THEN 'PARIS'
-    WHEN dep.origin ilike '%girona%' THEN 'BARCELONA/EL PRAT'
-    WHEN dep.destination ilike '%london%' THEN 'LONDON'
-    WHEN dep.destination ilike '%berlin%' THEN 'BERLIN'
-    WHEN dep.destination ilike '%roma%' THEN 'ROMA'
-    WHEN dep.destination ilike '%brussels%' THEN 'BRUSSELS'
-    WHEN dep.destination ilike '%milano%' THEN 'MILANO'
-    ELSE dep.destination
+    WHEN destination ilike '%paris%' THEN 'PARIS'
+    WHEN origin ilike '%beauvais%' THEN 'PARIS'
+    WHEN origin ilike '%girona%' THEN 'BARCELONA/EL PRAT'
+    WHEN destination ilike '%london%' THEN 'LONDON'
+    WHEN destination ilike '%berlin%' THEN 'BERLIN'
+    WHEN destination ilike '%roma%' THEN 'ROMA'
+    WHEN destination ilike '%brussels%' THEN 'BRUSSELS'
+    WHEN destination ilike '%milano%' THEN 'MILANO'
+    ELSE destination
 END as toCity,
-sum(dep.value) as passengers
-FROM od as dep, od as arr
-WHERE dep.origin_airport = arr.destination_airport and dep.destination_airport = arr.origin_airport and dep.year = arr.year and dep.month = arr.month
-AND dep.year = '2018'
-AND dep.origin < dep.destination
-group by fromCity, toCity
-order by passengers desc
+sum(value) as passengers
+FROM od
+WHERE year = '2018'
+AND origin < destination
+GROUP BY fromCity, toCity
+ORDER BY passengers desc
   `);
   const pairs = res.rows.map((row) => [
     `${row.fromcity}${row.tocity}`,
