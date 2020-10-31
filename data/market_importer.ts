@@ -14,6 +14,8 @@ export default async function importMarketData(): Promise<MarketData> {
 select
 CASE
     WHEN dep.origin ilike '%paris%' THEN 'PARIS'
+    WHEN dep.origin ilike '%beauvais%' THEN 'PARIS'
+    WHEN dep.origin ilike '%girona%' THEN 'BARCELONA/EL PRAT'
     WHEN dep.origin ilike '%london%' THEN 'LONDON'
     WHEN dep.origin ilike '%berlin%' THEN 'BERLIN'
     WHEN dep.origin ilike '%roma%' THEN 'ROMA'
@@ -23,6 +25,8 @@ CASE
 END as fromCity,
 CASE
     WHEN dep.destination ilike '%paris%' THEN 'PARIS'
+    WHEN dep.origin ilike '%beauvais%' THEN 'PARIS'
+    WHEN dep.origin ilike '%girona%' THEN 'BARCELONA/EL PRAT'
     WHEN dep.destination ilike '%london%' THEN 'LONDON'
     WHEN dep.destination ilike '%berlin%' THEN 'BERLIN'
     WHEN dep.destination ilike '%roma%' THEN 'ROMA'
