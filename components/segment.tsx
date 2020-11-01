@@ -67,8 +67,8 @@ const Segment: React.FunctionComponent<Props> = ({ edge }: Props) => (
   <div className="flex gap text-sm border border-gray-400 rounded m-1 px-1 odd:bg-gray-100">
     <Times edge={edge.edge} />
     <div className="w-1/12 flex align-middle m-auto text-right">
-      <div className="w-1/2">{edge.edge.distance}</div>
-      <div className="w-1/2">{edge.energy}</div>
+      <div className="w-1/2">{fmt(edge.edge.distance)}</div>
+      <div className="w-1/2">{fmt(edge.energy)}</div>
     </div>
     <div className="w-8/12 mx-6">
       {edge.rules.map((rule) => (
