@@ -25,8 +25,8 @@ CASE
 END as fromCity,
 CASE
     WHEN destination ilike '%paris%' THEN 'PARIS'
-    WHEN origin ilike '%beauvais%' THEN 'PARIS'
-    WHEN origin ilike '%girona%' THEN 'BARCELONA/EL PRAT'
+    WHEN destination ilike '%beauvais%' THEN 'PARIS'
+    WHEN destination ilike '%girona%' THEN 'BARCELONA/EL PRAT'
     WHEN destination ilike '%london%' THEN 'LONDON'
     WHEN destination ilike '%berlin%' THEN 'BERLIN'
     WHEN destination ilike '%roma%' THEN 'ROMA'
